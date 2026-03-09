@@ -314,43 +314,33 @@
       }
 
       function sendData(data) {
-        console.log("Попытка отправки данных:", data); // Проверка в консоли
+        console.log("Отправка данных через URLSearchParams:", data);
 
-        // ТВОЙ АКТУАЛЬНЫЙ URL (проверь его еще раз!)
-        var API_URL = 'https://script.google.com/macros/s/AKfycbzo2DsEjyMxIkcW6DEUBP8yvFuPh5dU0dcvV6xvAIecdcaB0Q43R7m2Ux6tl6qlHj4-lg/exec';
+        // ТВОЙ_ПОСЛЕДНИЙ_URL_ИЗ_ДЕПЛОЯ
+        var API_URL = 'https://script.google.com/macros/s/AKfycbw0DYE6OvFXa83qARhnUYZXaBtB2EH3ADQWKDXsM6IwVjyJPU3Iyk6XxQeEwplsmWBP/exec';
 
+        // Отправляем как простой текст — самый надежный способ для Google Apps Script
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
-          cache: 'no-cache',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain' // простой текст для обхода CORS
           },
           body: JSON.stringify(data)
         })
-        .then(function (response) {
-          console.log("Запрос ушел (no-cors mode)");
+        .then(function () {
           if (tg && tg.showPopup) {
             tg.showPopup({
               title: 'Успех',
-              message: 'Заявка принята! Мы скоро свяжемся с вами.',
+              message: 'Заявка отправлена! Проверьте таблицу.',
               buttons: [{ type: 'ok' }]
             });
           } else {
-            showAlert('Заявка принята! Мы скоро свяжемся с вами.');
+            showAlert('Заявка отправлена! Проверьте таблицу.');
           }
         })
         .catch(function (error) {
-          console.error("Ошибка при отправке:", error);
-          if (tg && tg.showPopup) {
-            tg.showPopup({
-              title: 'Ошибка',
-              message: 'Не удалось отправить данные: ' + error.message,
-              buttons: [{ type: 'close' }]
-            });
-          } else {
-            showAlert('Не удалось отправить данные: ' + (error && error.message) + '.');
-          }
+          console.error("Ошибка:", error);
           throw error;
         });
       }
