@@ -284,7 +284,7 @@
 
   <script>
     (function () {
-      var API_URL = 'https://script.google.com/macros/s/AKfycbwrvbeeQudLSyjct_LQ6JuBr34bZTJ5PTQ4JRbH10nRruILT-6l97WkE4TE93yBvD_Png/exec';
+      var tg = window.Telegram && window.Telegram.WebApp;
 
       function initTelegram() {
         if (typeof window.Telegram !== 'undefined' && window.Telegram.WebApp) {
@@ -313,12 +313,45 @@
         }
       }
 
-      function sendData(payload) {
+      function sendData(data) {
+        console.log("Попытка отправки данных:", data); // Проверка в консоли
+
+        // ТВОЙ АКТУАЛЬНЫЙ URL (проверь его еще раз!)
+        var API_URL = 'https://script.google.com/macros/s/AKfycbwz0XnDdLOWHTZak1rWgelpO31AlstoducP2c2y9rIfzdukXpasSispwApu6MfZ5Jw/exec';
+
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(function (response) {
+          console.log("Запрос ушел (no-cors mode)");
+          if (tg && tg.showPopup) {
+            tg.showPopup({
+              title: 'Успех',
+              message: 'Заявка принята! Мы скоро свяжемся с вами.',
+              buttons: [{ type: 'ok' }]
+            });
+          } else {
+            showAlert('Заявка принята! Мы скоро свяжемся с вами.');
+          }
+        })
+        .catch(function (error) {
+          console.error("Ошибка при отправке:", error);
+          if (tg && tg.showPopup) {
+            tg.showPopup({
+              title: 'Ошибка',
+              message: 'Не удалось отправить данные: ' + error.message,
+              buttons: [{ type: 'close' }]
+            });
+          } else {
+            showAlert('Не удалось отправить данные: ' + (error && error.message) + '.');
+          }
+          throw error;
         });
       }
 
@@ -368,15 +401,11 @@
         setButtonLoading(btn, true);
         sendData(payload).then(function () {
           setButtonLoading(btn, false);
-          showAlert('Данные успешно отправлены!');
           closeModal('rentalOverlay');
           document.getElementById('rentalForm').reset();
           document.getElementById('rentalVehicle').value = '';
         }).catch(function () {
           setButtonLoading(btn, false);
-          showAlert('Данные успешно отправлены!');
-          closeModal('rentalOverlay');
-          document.getElementById('rentalForm').reset();
         });
       });
 
@@ -391,14 +420,10 @@
         setButtonLoading(btn, true);
         sendData(payload).then(function () {
           setButtonLoading(btn, false);
-          showAlert('Данные успешно отправлены!');
           closeModal('issueOverlay');
           document.getElementById('issueForm').reset();
         }).catch(function () {
           setButtonLoading(btn, false);
-          showAlert('Данные успешно отправлены!');
-          closeModal('issueOverlay');
-          document.getElementById('issueForm').reset();
         });
       });
 
