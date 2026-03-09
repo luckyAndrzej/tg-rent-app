@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Аренда транспорта</title>
+  <title>Wynajem transportu</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +39,46 @@
       letter-spacing: -0.02em;
       line-height: 1.2;
     }
-    .header h1 span { color: var(--accent); }
+    .header h1 .accent { color: var(--accent); }
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .lang-btn {
+      padding: 6px 12px;
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--card-bg);
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lang-btn:hover, .lang-btn:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .rental-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin: -8px 0 16px 0;
+      padding: 12px 14px;
+      background: var(--accent-light);
+      border-radius: 12px;
+    }
     .cards {
       display: grid;
       grid-template-columns: 1fr;
@@ -205,79 +244,90 @@
 </head>
 <body>
   <header class="header">
-    <h1>Аренда <span>транспорта</span></h1>
+    <div class="lang-switcher" id="langSwitcher">
+      <button type="button" class="lang-btn active" data-lang="pl" aria-pressed="true">PL</button>
+      <button type="button" class="lang-btn" data-lang="ua" aria-pressed="false">UA</button>
+      <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+    <h1 id="mainTitle"><span id="mainTitleRent"></span> <span id="mainTitleTransport" class="accent"></span></h1>
   </header>
   <main class="cards">
-    <button type="button" class="card" data-type="car" data-label="Машина">
+    <button type="button" class="card" data-type="car">
       <span class="card-icon">🚗</span>
       <div>
-        <div class="card-title">Машина</div>
-        <div class="card-sub">Аренда автомобиля</div>
+        <div class="card-title" data-i18n="vehicleCar"></div>
+        <div class="card-sub" data-i18n="vehicleCarSub"></div>
       </div>
     </button>
-    <button type="button" class="card" data-type="scooter" data-label="Скутер">
+    <button type="button" class="card" data-type="scooter">
       <span class="card-icon">🛵</span>
       <div>
-        <div class="card-title">Скутер</div>
-        <div class="card-sub">Аренда скутера</div>
+        <div class="card-title" data-i18n="vehicleScooter"></div>
+        <div class="card-sub" data-i18n="vehicleScooterSub"></div>
       </div>
     </button>
-    <button type="button" class="card" data-type="bicycle" data-label="Велосипед">
+    <button type="button" class="card" data-type="bicycle">
       <span class="card-icon">🚲</span>
       <div>
-        <div class="card-title">Велосипед</div>
-        <div class="card-sub">Аренда велосипеда</div>
+        <div class="card-title" data-i18n="vehicleBicycle"></div>
+        <div class="card-sub" data-i18n="vehicleBicycleSub"></div>
       </div>
     </button>
   </main>
   <section class="problem-section">
-    <button type="button" class="btn-problem" id="btnProblem">Сообщить о проблеме / аварии</button>
+    <button type="button" class="btn-problem" id="btnProblem" data-i18n="btnProblem"></button>
   </section>
 
   <div class="overlay" id="rentalOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-labelledby="rentalTitle">
-      <h2 id="rentalTitle">Забронировать</h2>
+      <h2 id="rentalTitle"></h2>
+      <p class="rental-description" id="rentalDescription" aria-live="polite"></p>
       <form id="rentalForm">
         <input type="hidden" name="vehicle" id="rentalVehicle" value="">
         <div class="form-group">
-          <label for="rentalName">Имя и фамилия *</label>
-          <input type="text" id="rentalName" name="name" required placeholder="Иван Иванов">
+          <label for="rentalName" id="labelRentalName"></label>
+          <input type="text" id="rentalName" name="name" required>
         </div>
         <div class="form-group">
-          <label for="rentalPhone">Номер телефона *</label>
-          <input type="tel" id="rentalPhone" name="phone" required placeholder="+7 999 123-45-67">
+          <label for="rentalPhone" id="labelRentalPhone"></label>
+          <input type="tel" id="rentalPhone" name="phone" required>
         </div>
         <div class="form-group">
-          <label for="rentalEmail">Email *</label>
-          <input type="email" id="rentalEmail" name="email" required placeholder="email@example.com">
+          <label for="rentalEmail" id="labelRentalEmail"></label>
+          <input type="email" id="rentalEmail" name="email" required>
         </div>
         <div class="form-group">
-          <label for="rentalPeriod">Срок аренды *</label>
-          <input type="text" id="rentalPeriod" name="period" required placeholder="Например: 2 дня, с 10.03 по 12.03">
+          <label for="rentalPeriod" id="labelRentalPeriod"></label>
+          <select id="rentalPeriod" name="period" required>
+            <option value="" data-i18n="periodChoose"></option>
+            <option value="less_month" data-i18n="periodLessMonth"></option>
+            <option value="1_3_months" data-i18n="period1_3"></option>
+            <option value="3_plus_months" data-i18n="period3Plus"></option>
+          </select>
         </div>
-        <button type="submit" class="btn-submit" id="rentalSubmit">Забронировать</button>
+        <button type="submit" class="btn-submit" id="rentalSubmit"></button>
       </form>
     </div>
   </div>
 
   <div class="overlay" id="issueOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-labelledby="issueTitle">
-      <h2 id="issueTitle">Сообщить о проблеме</h2>
+      <h2 id="issueTitle"></h2>
       <form id="issueForm">
         <div class="form-group">
-          <label for="issueVehicle">Транспорт *</label>
+          <label for="issueVehicle" id="labelIssueVehicle"></label>
           <select id="issueVehicle" name="vehicle" required>
-            <option value="">Выберите тип</option>
-            <option value="Машина">Машина</option>
-            <option value="Скутер">Скутер</option>
-            <option value="Велосипед">Велосипед</option>
+            <option value="" data-i18n="issueChooseType"></option>
+            <option value="car" data-i18n="vehicleCar"></option>
+            <option value="scooter" data-i18n="vehicleScooter"></option>
+            <option value="bicycle" data-i18n="vehicleBicycle"></option>
           </select>
         </div>
         <div class="form-group">
-          <label for="issueNumber">Номер транспортного средства *</label>
-          <input type="text" id="issueNumber" name="vehicleNumber" required placeholder="Например: А 123 БВ">
+          <label for="issueNumber" id="labelIssueNumber"></label>
+          <input type="text" id="issueNumber" name="vehicleNumber" required>
         </div>
-        <button type="submit" class="btn-submit" id="issueSubmit">Отправить отчёт</button>
+        <button type="submit" class="btn-submit" id="issueSubmit"></button>
       </form>
     </div>
   </div>
@@ -285,6 +335,171 @@
   <script>
     (function () {
       var tg = window.Telegram && window.Telegram.WebApp;
+      var currentLang = 'pl';
+
+      var i18n = {
+        pl: {
+          titleRent: 'Wynajem',
+          titleTransport: 'transportu',
+          vehicleCar: 'Samochód',
+          vehicleCarSub: 'Wynajem samochodu',
+          vehicleScooter: 'Skuter',
+          vehicleScooterSub: 'Wynajem skutera',
+          vehicleBicycle: 'Rower',
+          vehicleBicycleSub: 'Wynajem roweru',
+          btnProblem: 'Zgłoś problem / wypadek',
+          rentalTitle: 'Zarezerwuj',
+          descCar: 'Wygodne auta do miasta i dalszych podróży. Ubezpieczenie w cenie.',
+          descScooter: 'Idealnie do omijania korków. Niski koszt i łatwe parkowanie.',
+          descBicycle: 'Ekologiczny wybór na przejażdżki i dostawy. Kask w zestawie.',
+          labelName: 'Imię i nazwisko *',
+          labelPhone: 'Numer telefonu *',
+          labelEmail: 'Email *',
+          labelPeriod: 'Okres wynajmu *',
+          placeholderName: 'Jan Kowalski',
+          placeholderPhone: '+48 XXX XXX XXX',
+          placeholderEmail: 'email@example.com',
+          periodChoose: 'Wybierz okres',
+          periodLessMonth: 'Mniej niż miesiąc',
+          period1_3: '1–3 miesiące',
+          period3Plus: 'Ponad 3 miesiące',
+          btnSubmitRental: 'Zarezerwuj',
+          issueTitle: 'Zgłoś problem',
+          labelIssueVehicle: 'Transport *',
+          labelIssueNumber: 'Numer pojazdu *',
+          issueChooseType: 'Wybierz typ',
+          placeholderVehicleNumber: 'Np. WA 12345',
+          btnSubmitIssue: 'Wyślij raport',
+          sending: 'Wysyłanie...',
+          successTitle: 'Sukces',
+          successMessage: 'Zgłoszenie wysłane! Sprawdź tabelę.'
+        },
+        ua: {
+          titleRent: 'Оренда',
+          titleTransport: 'транспорту',
+          vehicleCar: 'Авто',
+          vehicleCarSub: 'Оренда автомобіля',
+          vehicleScooter: 'Скутер',
+          vehicleScooterSub: 'Оренда скутера',
+          vehicleBicycle: 'Велосипед',
+          vehicleBicycleSub: 'Оренда велосипеда',
+          btnProblem: 'Повідомити про проблему / аварію',
+          rentalTitle: 'Забронювати',
+          descCar: 'Зручні авто для міста та далеких поїздок. Страховка включена.',
+          descScooter: 'Ідеально для об\'їзду пробок. Економічна витрата та легка парковка.',
+          descBicycle: 'Екологічний вибір для прогулянок та доставки. Шолом в комплекті.',
+          labelName: 'Ім\'я та прізвище *',
+          labelPhone: 'Номер телефону *',
+          labelEmail: 'Email *',
+          labelPeriod: 'Термін оренди *',
+          placeholderName: 'Іван Петренко',
+          placeholderPhone: '+380 XX XXX XX XX',
+          placeholderEmail: 'email@example.com',
+          periodChoose: 'Оберіть термін',
+          periodLessMonth: 'Менше місяця',
+          period1_3: '1–3 місяці',
+          period3Plus: 'Понад 3 місяці',
+          btnSubmitRental: 'Забронювати',
+          issueTitle: 'Повідомити про проблему',
+          labelIssueVehicle: 'Транспорт *',
+          labelIssueNumber: 'Номер транспортного засобу *',
+          issueChooseType: 'Оберіть тип',
+          placeholderVehicleNumber: 'Наприклад: А 123 БВ',
+          btnSubmitIssue: 'Надіслати звіт',
+          sending: 'Надсилання...',
+          successTitle: 'Успіх',
+          successMessage: 'Заявку надіслано! Перевірте таблицю.'
+        },
+        ru: {
+          titleRent: 'Аренда',
+          titleTransport: 'транспорта',
+          vehicleCar: 'Машина',
+          vehicleCarSub: 'Аренда автомобиля',
+          vehicleScooter: 'Скутер',
+          vehicleScooterSub: 'Аренда скутера',
+          vehicleBicycle: 'Велосипед',
+          vehicleBicycleSub: 'Аренда велосипеда',
+          btnProblem: 'Сообщить о проблеме / аварии',
+          rentalTitle: 'Забронировать',
+          descCar: 'Комфортные авто для города и дальних поездок. Страховка включена.',
+          descScooter: 'Идеально для объезда пробок. Экономичный расход и лёгкая парковка.',
+          descBicycle: 'Экологичный выбор для прогулок и курьерской доставки. Шлем в комплекте.',
+          labelName: 'Имя и фамилия *',
+          labelPhone: 'Номер телефона *',
+          labelEmail: 'Email *',
+          labelPeriod: 'Срок аренды *',
+          placeholderName: 'Иван Иванов',
+          placeholderPhone: '+7 XXX XXX-XX-XX',
+          placeholderEmail: 'email@example.com',
+          periodChoose: 'Выберите срок',
+          periodLessMonth: 'Менее месяца',
+          period1_3: '1–3 месяца',
+          period3Plus: '3+ месяцев',
+          btnSubmitRental: 'Забронировать',
+          issueTitle: 'Сообщить о проблеме',
+          labelIssueVehicle: 'Транспорт *',
+          labelIssueNumber: 'Номер транспортного средства *',
+          issueChooseType: 'Выберите тип',
+          placeholderVehicleNumber: 'Например: А 123 БВ',
+          btnSubmitIssue: 'Отправить отчёт',
+          sending: 'Отправка...',
+          successTitle: 'Успех',
+          successMessage: 'Заявка отправлена! Проверьте таблицу.'
+        }
+      };
+
+      function t(key) {
+        return (i18n[currentLang] && i18n[currentLang][key]) || key;
+      }
+
+      function getTelegramUsername() {
+        try {
+          var user = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
+          if (!user) return '';
+          if (user.username) return user.username;
+          var parts = [];
+          if (user.first_name) parts.push(user.first_name);
+          if (user.last_name) parts.push(user.last_name);
+          return parts.join(' ').trim();
+        } catch (err) {
+          return '';
+        }
+      }
+
+      function applyLang() {
+        document.documentElement.lang = currentLang === 'ua' ? 'uk' : (currentLang === 'ru' ? 'ru' : 'pl');
+        document.title = t('titleRent') + ' ' + t('titleTransport');
+
+        var titleRent = document.getElementById('mainTitleRent');
+        var titleTransport = document.getElementById('mainTitleTransport');
+        if (titleRent) titleRent.textContent = t('titleRent');
+        if (titleTransport) titleTransport.textContent = t('titleTransport');
+
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var key = el.getAttribute('data-i18n');
+          if (key) el.textContent = t(key);
+        });
+
+        document.getElementById('labelRentalName').textContent = t('labelName');
+        document.getElementById('labelRentalPhone').textContent = t('labelPhone');
+        document.getElementById('labelRentalEmail').textContent = t('labelEmail');
+        document.getElementById('labelRentalPeriod').textContent = t('labelPeriod');
+        document.getElementById('rentalName').placeholder = t('placeholderName');
+        document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
+        document.getElementById('rentalEmail').placeholder = t('placeholderEmail');
+        document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
+
+        document.getElementById('labelIssueVehicle').textContent = t('labelIssueVehicle');
+        document.getElementById('labelIssueNumber').textContent = t('labelIssueNumber');
+        document.getElementById('issueNumber').placeholder = t('placeholderVehicleNumber');
+        document.getElementById('issueTitle').textContent = t('issueTitle');
+        document.getElementById('issueSubmit').textContent = t('btnSubmitIssue');
+
+        document.querySelectorAll('.lang-btn').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === currentLang ? 'true' : 'false');
+        });
+      }
 
       function initTelegram() {
         if (typeof window.Telegram !== 'undefined' && window.Telegram.WebApp) {
@@ -306,7 +521,7 @@
         if (loading) {
           btn.disabled = true;
           btn.dataset.originalText = btn.textContent;
-          btn.innerHTML = '<span class="loader"></span>Отправка...';
+          btn.innerHTML = '<span class="loader"></span>' + t('sending');
         } else {
           btn.disabled = false;
           btn.textContent = btn.dataset.originalText || btn.textContent;
@@ -314,29 +529,23 @@
       }
 
       function sendData(data) {
-        console.log("Отправка данных через URLSearchParams:", data);
-
-        // ТВОЙ_ПОСЛЕДНИЙ_URL_ИЗ_ДЕПЛОЯ
-        var API_URL = 'https://script.google.com/macros/s/AKfycbw0DYE6OvFXa83qARhnUYZXaBtB2EH3ADQWKDXsM6IwVjyJPU3Iyk6XxQeEwplsmWBP/exec';
-
-        // Отправляем как простой текст — самый надежный способ для Google Apps Script
+        console.log("Отправка данных:", data);
+        var API_URL = 'https://script.google.com/macros/s/AKfycbyNLSMO73j7S_bzIGN6t5MUZA2LnUSvMIJUbglZOFeZyp6YefBueLKLzqMlOn6gOdDBRA/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain' // простой текст для обхода CORS
-          },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(data)
         })
         .then(function () {
           if (tg && tg.showPopup) {
             tg.showPopup({
-              title: 'Успех',
-              message: 'Заявка отправлена! Проверьте таблицу.',
+              title: t('successTitle'),
+              message: t('successMessage'),
               buttons: [{ type: 'ok' }]
             });
           } else {
-            showAlert('Заявка отправлена! Проверьте таблицу.');
+            showAlert(t('successMessage'));
           }
         })
         .catch(function (error) {
@@ -361,32 +570,50 @@
         }
       }
 
+      document.getElementById('langSwitcher').addEventListener('click', function (e) {
+        var btn = e.target.closest('.lang-btn');
+        if (!btn) return;
+        currentLang = btn.getAttribute('data-lang');
+        applyLang();
+      });
+
       document.querySelectorAll('.card').forEach(function (card) {
         card.addEventListener('click', function () {
           var type = this.getAttribute('data-type');
-          var label = this.getAttribute('data-label') || '';
           var input = document.getElementById('rentalVehicle');
-          var title = document.getElementById('rentalTitle');
-          if (input) input.value = label;
-          if (title) title.textContent = 'Забронировать: ' + label;
+          var titleEl = document.getElementById('rentalTitle');
+          var descEl = document.getElementById('rentalDescription');
+          var labelKey = type === 'car' ? 'vehicleCar' : (type === 'scooter' ? 'vehicleScooter' : 'vehicleBicycle');
+          var descKey = type === 'car' ? 'descCar' : (type === 'scooter' ? 'descScooter' : 'descBicycle');
+          if (input) input.value = type;
+          if (titleEl) titleEl.textContent = t('rentalTitle') + ': ' + t(labelKey);
+          if (descEl) descEl.textContent = t(descKey);
           openModal('rentalOverlay');
         });
       });
 
       document.getElementById('btnProblem').addEventListener('click', function () {
+        document.getElementById('issueTitle').textContent = t('issueTitle');
         openModal('issueOverlay');
       });
 
       document.getElementById('rentalForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = document.getElementById('rentalSubmit');
+        var rawPhone = document.getElementById('rentalPhone').value.trim();
+        var phoneForSheet = (rawPhone.charAt(0) === "'" ? rawPhone : "'" + rawPhone);
+        var periodSelect = document.getElementById('rentalPeriod');
+        var periodLabel = periodSelect.options[periodSelect.selectedIndex] ? periodSelect.options[periodSelect.selectedIndex].text : periodSelect.value;
+        var vehicleType = document.getElementById('rentalVehicle').value;
+        var vehicleLabel = vehicleType === 'car' ? t('vehicleCar') : (vehicleType === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
         var payload = {
           type: 'rental',
-          vehicle: document.getElementById('rentalVehicle').value.trim(),
+          vehicle: vehicleLabel,
           name: document.getElementById('rentalName').value.trim(),
-          phone: document.getElementById('rentalPhone').value.trim(),
+          phone: phoneForSheet,
           email: document.getElementById('rentalEmail').value.trim(),
-          period: document.getElementById('rentalPeriod').value.trim()
+          period: periodLabel,
+          username: getTelegramUsername()
         };
         setButtonLoading(btn, true);
         sendData(payload).then(function () {
@@ -402,10 +629,13 @@
       document.getElementById('issueForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = document.getElementById('issueSubmit');
+        var issueVehicleVal = document.getElementById('issueVehicle').value;
+        var vehicleLabel = issueVehicleVal === 'car' ? t('vehicleCar') : (issueVehicleVal === 'scooter' ? t('vehicleScooter') : (issueVehicleVal === 'bicycle' ? t('vehicleBicycle') : issueVehicleVal));
         var payload = {
           type: 'issue',
-          vehicle: document.getElementById('issueVehicle').value,
-          vehicleNumber: document.getElementById('issueNumber').value.trim()
+          vehicle: vehicleLabel,
+          vehicleNumber: document.getElementById('issueNumber').value.trim(),
+          username: getTelegramUsername()
         };
         setButtonLoading(btn, true);
         sendData(payload).then(function () {
@@ -425,8 +655,12 @@
       });
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTelegram);
+        document.addEventListener('DOMContentLoaded', function () {
+          applyLang();
+          initTelegram();
+        });
       } else {
+        applyLang();
         initTelegram();
       }
     })();
