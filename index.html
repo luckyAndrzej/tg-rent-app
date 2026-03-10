@@ -188,7 +188,8 @@
       margin-bottom: 6px;
     }
     .form-group input,
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
       width: 100%;
       padding: 12px 14px;
       font-family: var(--font);
@@ -200,10 +201,60 @@
       -webkit-appearance: none;
       appearance: none;
     }
+    .form-group textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
     .form-group input:focus,
-    .form-group select:focus {
+    .form-group select:focus,
+    .form-group textarea:focus {
       border-color: var(--accent);
       outline: none;
+    }
+    .file-upload-wrap {
+      margin-bottom: 16px;
+    }
+    .file-upload-wrap label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .btn-attach-photo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 20px;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1.5px dashed var(--accent);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-attach-photo:hover,
+    .btn-attach-photo:focus-visible {
+      background: rgba(16, 185, 129, 0.18);
+      outline: none;
+    }
+    .btn-attach-photo.has-file {
+      color: var(--accent-hover);
+      border-style: solid;
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .file-input-hidden {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
     }
     .form-group select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
@@ -327,6 +378,17 @@
           <label for="issueNumber" id="labelIssueNumber"></label>
           <input type="text" id="issueNumber" name="vehicleNumber" required>
         </div>
+        <div class="form-group">
+          <label for="issueDescription" id="labelIssueDescription"></label>
+          <textarea id="issueDescription" name="description" rows="4" placeholder=""></textarea>
+        </div>
+        <div class="file-upload-wrap">
+          <label id="labelIssuePhoto"></label>
+          <input type="file" id="issuePhoto" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+          <button type="button" class="btn-attach-photo" id="btnAttachPhoto" aria-describedby="labelIssuePhoto">
+            <span id="btnAttachPhotoText"></span>
+          </button>
+        </div>
         <button type="submit" class="btn-submit" id="issueSubmit"></button>
       </form>
     </div>
@@ -367,12 +429,17 @@
           issueTitle: 'Zgłoś problem',
           labelIssueVehicle: 'Transport *',
           labelIssueNumber: 'Numer pojazdu *',
+          labelIssueDescription: 'Opis problemu',
+          placeholderIssueDescription: 'Opisz problem lub uszkodzenie...',
+          labelIssuePhoto: 'Zdjęcie',
+          btnAttachPhoto: 'Dołącz zdjęcie',
+          btnPhotoAttached: 'Zdjęcie dołączone',
           issueChooseType: 'Wybierz typ',
           placeholderVehicleNumber: 'Np. WA 12345',
           btnSubmitIssue: 'Wyślij raport',
           sending: 'Wysyłanie...',
           successTitle: 'Sukces',
-          successMessage: 'Zgłoszenie wysłane! Sprawdź tabelę.'
+          successMessage: 'Twoje zgłoszenie zostało pomyślnie wysłane! Wkrótce się z Tobą skontaktujemy.'
         },
         ua: {
           titleRent: 'Оренда',
@@ -403,12 +470,17 @@
           issueTitle: 'Повідомити про проблему',
           labelIssueVehicle: 'Транспорт *',
           labelIssueNumber: 'Номер транспортного засобу *',
+          labelIssueDescription: 'Опис проблеми',
+          placeholderIssueDescription: 'Опишіть проблему або пошкодження...',
+          labelIssuePhoto: 'Фото',
+          btnAttachPhoto: 'Прикрепити фото',
+          btnPhotoAttached: 'Фото прикріплено',
           issueChooseType: 'Оберіть тип',
           placeholderVehicleNumber: 'Наприклад: А 123 БВ',
           btnSubmitIssue: 'Надіслати звіт',
           sending: 'Надсилання...',
           successTitle: 'Успіх',
-          successMessage: 'Заявку надіслано! Перевірте таблицю.'
+          successMessage: 'Вашу заявку успішно надіслано! Найближчим часом ми з вами зв\'яжемося.'
         },
         ru: {
           titleRent: 'Аренда',
@@ -439,12 +511,17 @@
           issueTitle: 'Сообщить о проблеме',
           labelIssueVehicle: 'Транспорт *',
           labelIssueNumber: 'Номер транспортного средства *',
+          labelIssueDescription: 'Описание проблемы',
+          placeholderIssueDescription: 'Опишите проблему или повреждение...',
+          labelIssuePhoto: 'Фото',
+          btnAttachPhoto: 'Прикрепить фото',
+          btnPhotoAttached: 'Фото прикреплено',
           issueChooseType: 'Выберите тип',
           placeholderVehicleNumber: 'Например: А 123 БВ',
           btnSubmitIssue: 'Отправить отчёт',
           sending: 'Отправка...',
           successTitle: 'Успех',
-          successMessage: 'Заявка отправлена! Проверьте таблицу.'
+          successMessage: 'Ваша заявка успешно отправлена! В скором времени мы с вами свяжемся.'
         }
       };
 
@@ -464,6 +541,52 @@
         } catch (err) {
           return '';
         }
+      }
+
+      function compressImageToBase64(file, maxSize, quality) {
+        maxSize = maxSize || 800;
+        quality = quality || 0.7;
+        return new Promise(function (resolve, reject) {
+          if (!file || !file.type.match(/^image\//)) {
+            resolve('');
+            return;
+          }
+          var img = new Image();
+          var url = URL.createObjectURL(file);
+          img.onload = function () {
+            URL.revokeObjectURL(url);
+            var w = img.naturalWidth;
+            var h = img.naturalHeight;
+            if (w <= maxSize && h <= maxSize) {
+              w = img.naturalWidth;
+              h = img.naturalHeight;
+            } else {
+              if (w > h) {
+                h = Math.round(h * maxSize / w);
+                w = maxSize;
+              } else {
+                w = Math.round(w * maxSize / h);
+                h = maxSize;
+              }
+            }
+            var canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            try {
+              var dataUrl = canvas.toDataURL('image/jpeg', quality);
+              resolve(dataUrl || '');
+            } catch (err) {
+              reject(err);
+            }
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(url);
+            reject(new Error('Image load failed'));
+          };
+          img.src = url;
+        });
       }
 
       function applyLang() {
@@ -491,6 +614,12 @@
 
         document.getElementById('labelIssueVehicle').textContent = t('labelIssueVehicle');
         document.getElementById('labelIssueNumber').textContent = t('labelIssueNumber');
+        document.getElementById('labelIssueDescription').textContent = t('labelIssueDescription');
+        document.getElementById('issueDescription').placeholder = t('placeholderIssueDescription');
+        document.getElementById('labelIssuePhoto').textContent = t('labelIssuePhoto');
+        var photoBtn = document.getElementById('btnAttachPhoto');
+        var photoBtnText = document.getElementById('btnAttachPhotoText');
+        if (photoBtnText) photoBtnText.textContent = photoBtn.classList.contains('has-file') ? t('btnPhotoAttached') : t('btnAttachPhoto');
         document.getElementById('issueNumber').placeholder = t('placeholderVehicleNumber');
         document.getElementById('issueTitle').textContent = t('issueTitle');
         document.getElementById('issueSubmit').textContent = t('btnSubmitIssue');
@@ -530,7 +659,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbz8eyoeRovrkr0BvOFO839b6OXfzyPbzRdUxhFykJeLmGIVwICDUaPJQr1BK2M-7z0R3w/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbzeqHaQrjbUdYAYDnj2JakBoes3i34Wk3Uzyq_m42csbnx09i8-BC2EI52-xNGoyqF3xQ/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -626,24 +755,50 @@
         });
       });
 
+      document.getElementById('btnAttachPhoto').addEventListener('click', function () {
+        document.getElementById('issuePhoto').click();
+      });
+      document.getElementById('issuePhoto').addEventListener('change', function () {
+        var btn = document.getElementById('btnAttachPhoto');
+        var textEl = document.getElementById('btnAttachPhotoText');
+        if (this.files && this.files.length > 0) {
+          btn.classList.add('has-file');
+          if (textEl) textEl.textContent = t('btnPhotoAttached');
+        } else {
+          btn.classList.remove('has-file');
+          if (textEl) textEl.textContent = t('btnAttachPhoto');
+        }
+      });
+
       document.getElementById('issueForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = document.getElementById('issueSubmit');
         var issueVehicleVal = document.getElementById('issueVehicle').value;
         var vehicleLabel = issueVehicleVal === 'car' ? t('vehicleCar') : (issueVehicleVal === 'scooter' ? t('vehicleScooter') : (issueVehicleVal === 'bicycle' ? t('vehicleBicycle') : issueVehicleVal));
-        var payload = {
-          type: 'issue',
-          vehicle: vehicleLabel,
-          vehicleNumber: document.getElementById('issueNumber').value.trim(),
-          username: getTelegramUsername()
-        };
+        var photoInput = document.getElementById('issuePhoto');
+        var file = photoInput.files && photoInput.files[0];
         setButtonLoading(btn, true);
-        sendData(payload).then(function () {
+        var photoPromise = file ? compressImageToBase64(file, 800, 0.7) : Promise.resolve('');
+        photoPromise.then(function (photoBase64) {
+          var payload = {
+            type: 'issue',
+            vehicle: vehicleLabel,
+            vehicleNumber: document.getElementById('issueNumber').value.trim(),
+            description: document.getElementById('issueDescription').value.trim(),
+            photo: photoBase64 || '',
+            username: getTelegramUsername()
+          };
+          return sendData(payload);
+        }).then(function () {
           setButtonLoading(btn, false);
           closeModal('issueOverlay');
           document.getElementById('issueForm').reset();
-        }).catch(function () {
+          document.getElementById('btnAttachPhoto').classList.remove('has-file');
+          document.getElementById('btnAttachPhotoText').textContent = t('btnAttachPhoto');
+          photoInput.value = '';
+        }).catch(function (err) {
           setButtonLoading(btn, false);
+          console.error(err);
         });
       });
 
