@@ -380,11 +380,11 @@
         </div>
         <div class="form-group">
           <label for="issueDescription" id="labelIssueDescription"></label>
-          <textarea id="issueDescription" name="description" rows="4" placeholder=""></textarea>
+          <textarea id="issueDescription" name="description" rows="4" required placeholder=""></textarea>
         </div>
         <div class="file-upload-wrap">
           <label id="labelIssuePhoto"></label>
-          <input type="file" id="issuePhoto" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+          <input type="file" id="issuePhoto" class="file-input-hidden" accept="image/*" capture="environment" multiple aria-hidden="true">
           <button type="button" class="btn-attach-photo" id="btnAttachPhoto" aria-describedby="labelIssuePhoto">
             <span id="btnAttachPhotoText"></span>
           </button>
@@ -434,6 +434,8 @@
           labelIssuePhoto: 'Zdjęcie',
           btnAttachPhoto: 'Dołącz zdjęcie',
           btnPhotoAttached: 'Zdjęcie dołączone',
+          photoAttachedCount: 'Dołączono: {{n}} zdjęć',
+          validationIssueRequired: 'Wypełnij wszystkie pola i dołącz co najmniej jedno zdjęcie.',
           issueChooseType: 'Wybierz typ',
           placeholderVehicleNumber: 'Np. WA 12345',
           btnSubmitIssue: 'Wyślij raport',
@@ -475,6 +477,8 @@
           labelIssuePhoto: 'Фото',
           btnAttachPhoto: 'Прикрепити фото',
           btnPhotoAttached: 'Фото прикріплено',
+          photoAttachedCount: 'Прикріплено: {{n}} фото',
+          validationIssueRequired: 'Заповніть усі поля та прикріпіть щонайменше одне фото.',
           issueChooseType: 'Оберіть тип',
           placeholderVehicleNumber: 'Наприклад: А 123 БВ',
           btnSubmitIssue: 'Надіслати звіт',
@@ -516,6 +520,8 @@
           labelIssuePhoto: 'Фото',
           btnAttachPhoto: 'Прикрепить фото',
           btnPhotoAttached: 'Фото прикреплено',
+          photoAttachedCount: 'Прикреплено: {{n}} фото',
+          validationIssueRequired: 'Заполните все поля и прикрепите хотя бы одно фото.',
           issueChooseType: 'Выберите тип',
           placeholderVehicleNumber: 'Например: А 123 БВ',
           btnSubmitIssue: 'Отправить отчёт',
@@ -619,7 +625,11 @@
         document.getElementById('labelIssuePhoto').textContent = t('labelIssuePhoto');
         var photoBtn = document.getElementById('btnAttachPhoto');
         var photoBtnText = document.getElementById('btnAttachPhotoText');
-        if (photoBtnText) photoBtnText.textContent = photoBtn.classList.contains('has-file') ? t('btnPhotoAttached') : t('btnAttachPhoto');
+        var photoInput = document.getElementById('issuePhoto');
+        var fileCount = photoInput.files ? photoInput.files.length : 0;
+        if (photoBtnText) {
+          photoBtnText.textContent = fileCount > 0 ? t('photoAttachedCount').replace('{{n}}', fileCount) : t('btnAttachPhoto');
+        }
         document.getElementById('issueNumber').placeholder = t('placeholderVehicleNumber');
         document.getElementById('issueTitle').textContent = t('issueTitle');
         document.getElementById('issueSubmit').textContent = t('btnSubmitIssue');
@@ -659,7 +669,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbzeqHaQrjbUdYAYDnj2JakBoes3i34Wk3Uzyq_m42csbnx09i8-BC2EI52-xNGoyqF3xQ/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbzwVRG73omrxO21jkKoJw4YfjxUruC7pomI-t0UCbvkviEBQ6E6bJEQ1A549BdGGDVdnw/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -761,9 +771,10 @@
       document.getElementById('issuePhoto').addEventListener('change', function () {
         var btn = document.getElementById('btnAttachPhoto');
         var textEl = document.getElementById('btnAttachPhotoText');
-        if (this.files && this.files.length > 0) {
+        var count = this.files ? this.files.length : 0;
+        if (count > 0) {
           btn.classList.add('has-file');
-          if (textEl) textEl.textContent = t('btnPhotoAttached');
+          if (textEl) textEl.textContent = t('photoAttachedCount').replace('{{n}}', count);
         } else {
           btn.classList.remove('has-file');
           if (textEl) textEl.textContent = t('btnAttachPhoto');
@@ -775,17 +786,37 @@
         var btn = document.getElementById('issueSubmit');
         var issueVehicleVal = document.getElementById('issueVehicle').value;
         var vehicleLabel = issueVehicleVal === 'car' ? t('vehicleCar') : (issueVehicleVal === 'scooter' ? t('vehicleScooter') : (issueVehicleVal === 'bicycle' ? t('vehicleBicycle') : issueVehicleVal));
+        var vehicleNumber = document.getElementById('issueNumber').value.trim();
+        var description = document.getElementById('issueDescription').value.trim();
         var photoInput = document.getElementById('issuePhoto');
-        var file = photoInput.files && photoInput.files[0];
+        var files = photoInput.files;
+        var fileCount = files ? files.length : 0;
+
+        if (!issueVehicleVal || !vehicleNumber || !description || fileCount === 0) {
+          var msg = t('validationIssueRequired');
+          if (tg && tg.showPopup) {
+            tg.showPopup({
+              title: t('issueTitle'),
+              message: msg,
+              buttons: [{ type: 'ok' }]
+            });
+          } else {
+            showAlert(msg);
+          }
+          return;
+        }
+
         setButtonLoading(btn, true);
-        var photoPromise = file ? compressImageToBase64(file, 800, 0.7) : Promise.resolve('');
-        photoPromise.then(function (photoBase64) {
+        var compressAll = Array.from(files).map(function (file) {
+          return compressImageToBase64(file, 800, 0.7);
+        });
+        Promise.all(compressAll).then(function (base64Array) {
           var payload = {
             type: 'issue',
             vehicle: vehicleLabel,
-            vehicleNumber: document.getElementById('issueNumber').value.trim(),
-            description: document.getElementById('issueDescription').value.trim(),
-            photo: photoBase64 || '',
+            vehicleNumber: vehicleNumber,
+            description: description,
+            photo: base64Array.filter(Boolean),
             username: getTelegramUsername()
           };
           return sendData(payload);
