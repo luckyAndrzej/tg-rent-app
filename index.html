@@ -187,6 +187,9 @@
       color: var(--text);
       margin-bottom: 6px;
     }
+    .required-star {
+      color: #dc2626;
+    }
     .form-group input,
     .form-group select,
     .form-group textarea {
@@ -428,7 +431,7 @@
           btnSubmitRental: 'Zarezerwuj',
           issueTitle: 'Zgłoś problem',
           labelIssueVehicle: 'Transport *',
-          labelIssueNumber: 'Numer pojazdu *',
+          labelIssueNumber: 'Numer pojazdu',
           labelIssueDescription: 'Opis problemu',
           placeholderIssueDescription: 'Opisz problem lub uszkodzenie...',
           labelIssuePhoto: 'Zdjęcie',
@@ -441,7 +444,8 @@
           btnSubmitIssue: 'Wyślij raport',
           sending: 'Wysyłanie...',
           successTitle: 'Sukces',
-          successMessage: 'Twoje zgłoszenie zostało pomyślnie wysłane! Wkrótce się z Tobą skontaktujemy.'
+          successMessage: 'Twoje zgłoszenie zostało pomyślnie wysłane! Wkrótce się z Tobą skontaktujemy.',
+          fill_all_fields: 'Proszę wypełnić wszystkie pola'
         },
         ua: {
           titleRent: 'Оренда',
@@ -471,7 +475,7 @@
           btnSubmitRental: 'Забронювати',
           issueTitle: 'Повідомити про проблему',
           labelIssueVehicle: 'Транспорт *',
-          labelIssueNumber: 'Номер транспортного засобу *',
+          labelIssueNumber: 'Номер транспортного засобу',
           labelIssueDescription: 'Опис проблеми',
           placeholderIssueDescription: 'Опишіть проблему або пошкодження...',
           labelIssuePhoto: 'Фото',
@@ -484,7 +488,8 @@
           btnSubmitIssue: 'Надіслати звіт',
           sending: 'Надсилання...',
           successTitle: 'Успіх',
-          successMessage: 'Вашу заявку успішно надіслано! Найближчим часом ми з вами зв\'яжемося.'
+          successMessage: 'Вашу заявку успішно надіслано! Найближчим часом ми з вами зв\'яжемося.',
+          fill_all_fields: 'Будь ласка, заповніть усі поля'
         },
         ru: {
           titleRent: 'Аренда',
@@ -514,7 +519,7 @@
           btnSubmitRental: 'Забронировать',
           issueTitle: 'Сообщить о проблеме',
           labelIssueVehicle: 'Транспорт *',
-          labelIssueNumber: 'Номер транспортного средства *',
+          labelIssueNumber: 'Номер транспортного средства',
           labelIssueDescription: 'Описание проблемы',
           placeholderIssueDescription: 'Опишите проблему или повреждение...',
           labelIssuePhoto: 'Фото',
@@ -527,7 +532,8 @@
           btnSubmitIssue: 'Отправить отчёт',
           sending: 'Отправка...',
           successTitle: 'Успех',
-          successMessage: 'Ваша заявка успешно отправлена! В скором времени мы с вами свяжемся.'
+          successMessage: 'Ваша заявка успешно отправлена! В скором времени мы с вами свяжемся.',
+          fill_all_fields: 'Пожалуйста, заполните все поля'
         }
       };
 
@@ -619,10 +625,10 @@
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
 
         document.getElementById('labelIssueVehicle').textContent = t('labelIssueVehicle');
-        document.getElementById('labelIssueNumber').textContent = t('labelIssueNumber');
-        document.getElementById('labelIssueDescription').textContent = t('labelIssueDescription');
+        document.getElementById('labelIssueNumber').innerHTML = t('labelIssueNumber') + ' <span class="required-star">*</span>';
+        document.getElementById('labelIssueDescription').innerHTML = t('labelIssueDescription') + ' <span class="required-star">*</span>';
         document.getElementById('issueDescription').placeholder = t('placeholderIssueDescription');
-        document.getElementById('labelIssuePhoto').textContent = t('labelIssuePhoto');
+        document.getElementById('labelIssuePhoto').innerHTML = t('labelIssuePhoto') + ' <span class="required-star">*</span>';
         var photoBtn = document.getElementById('btnAttachPhoto');
         var photoBtnText = document.getElementById('btnAttachPhotoText');
         var photoInput = document.getElementById('issuePhoto');
@@ -738,12 +744,25 @@
 
       document.getElementById('rentalForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        var btn = document.getElementById('rentalSubmit');
-        var rawPhone = document.getElementById('rentalPhone').value.trim();
-        var phoneForSheet = (rawPhone.charAt(0) === "'" ? rawPhone : "'" + rawPhone);
-        var periodSelect = document.getElementById('rentalPeriod');
-        var periodLabel = periodSelect.options[periodSelect.selectedIndex] ? periodSelect.options[periodSelect.selectedIndex].text : periodSelect.value;
         var vehicleType = document.getElementById('rentalVehicle').value;
+        var name = document.getElementById('rentalName').value.trim();
+        var phone = document.getElementById('rentalPhone').value.trim();
+        var email = document.getElementById('rentalEmail').value.trim();
+        var periodSelect = document.getElementById('rentalPeriod');
+        var periodVal = periodSelect.value;
+        if (!vehicleType || !name || !phone || !email || !periodVal) {
+          var msg = t('fill_all_fields');
+          if (tg && tg.showPopup) {
+            tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          } else {
+            showAlert(msg);
+          }
+          return;
+        }
+        var btn = document.getElementById('rentalSubmit');
+        var rawPhone = phone;
+        var phoneForSheet = (rawPhone.charAt(0) === "'" ? rawPhone : "'" + rawPhone);
+        var periodLabel = periodSelect.options[periodSelect.selectedIndex] ? periodSelect.options[periodSelect.selectedIndex].text : periodVal;
         var vehicleLabel = vehicleType === 'car' ? t('vehicleCar') : (vehicleType === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
         var payload = {
           type: 'rental',
@@ -793,7 +812,7 @@
         var fileCount = files ? files.length : 0;
 
         if (!issueVehicleVal || !vehicleNumber || !description || fileCount === 0) {
-          var msg = t('validationIssueRequired');
+          var msg = t('fill_all_fields');
           if (tg && tg.showPopup) {
             tg.showPopup({
               title: t('issueTitle'),
