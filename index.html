@@ -62,12 +62,6 @@
       background-position: right 12px center;
     }
     .lang-select:focus { border-color: var(--accent); outline: none; }
-    .frog-hero {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-      line-height: 1;
-    }
     .screen {
       display: none;
       padding: 0 20px 32px;
@@ -128,10 +122,6 @@
       outline: none;
     }
     .menu-item:active { transform: scale(0.98); }
-    .menu-item-icon {
-      font-size: 1.75rem;
-      flex-shrink: 0;
-    }
     .menu-item-text { flex: 1; }
     .rental-description {
       font-size: 0.9rem;
@@ -386,22 +376,17 @@
   </header>
 
   <div id="mainMenu" class="screen active">
-    <div class="frog-hero" aria-hidden="true">🐸</div>
     <nav class="menu-list">
       <button type="button" class="menu-item" data-screen="rental">
-        <span class="menu-item-icon">🐸</span>
         <span class="menu-item-text" id="menuRent"></span>
       </button>
       <button type="button" class="menu-item" data-screen="inspection">
-        <span class="menu-item-icon">🐸</span>
         <span class="menu-item-text" id="menuInspection"></span>
       </button>
       <button type="button" class="menu-item" data-screen="issue">
-        <span class="menu-item-icon">🐸</span>
         <span class="menu-item-text" id="menuIssue"></span>
       </button>
       <button type="button" class="menu-item" id="btnAccessory">
-        <span class="menu-item-icon">🐸</span>
         <span class="menu-item-text" id="menuAccessory"></span>
       </button>
     </nav>
@@ -426,7 +411,7 @@
       </div>
       <div class="form-group">
         <label for="rentalPhone" id="labelRentalPhone"></label>
-        <input type="tel" id="rentalPhone" name="phone" required placeholder="+48 123 456 789">
+        <input type="tel" id="rentalPhone" name="phone" required placeholder="+48 123 456 789" oninput="this.value=this.value.replace(/[^0-9+]/g,'')">
       </div>
       <div class="form-group">
         <label for="rentalPeriod" id="labelRentalPeriod"></label>
@@ -575,17 +560,17 @@
           successMessage: 'Twoje zgłoszenie zostało pomyślnie wysłane! Wkrótce się z Tobą skontaktujemy.',
           fill_all_fields: 'Proszę wypełnić wszystkie pola',
           menuRent: 'Chcę wynająć',
-          menuInspection: 'Przegląd pojazdu / Zdjęcia z 4 stron',
+          menuInspection: 'Chcę zakończyć wynajem',
           menuIssue: 'Zgłoś problem',
           menuAccessory: 'Kup akcesorium',
           back: 'Wstecz',
           inDevelopment: 'W przygotowaniu',
           labelRentalVehicle: 'Transport *',
           labelRentalShifts: 'Liczba przepracowanych shiftów w ostatnim tygodniu *',
-          rentalShiftsHint: 'Im więcej shiftów przepracowałeś w zeszłym tygodniu, tym niższa będzie cena wynajmu!',
+          rentalShiftsHint: 'Im więcej shiftów, tym niższa cena wynajmu.',
           labelRentalScreenshot: 'Zrzut ekranu przepracowanych shiftów *',
           btnRentalScreenshot: 'Dołącz zrzut ekranu',
-          inspectionTitle: 'Przegląd pojazdu / Zdjęcia z 4 stron',
+          inspectionTitle: 'Zakończenie wynajmu',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Numer pojazdu *',
           labelInspectionPhoto: 'Zrób zdjęcie pojazdu z 4 stron *',
@@ -595,7 +580,7 @@
           labelIssueOswiadczenie: 'Wypełnione i podpisane Oświadczenie *',
           btnIssueOswiadczenie: 'Dołącz Oświadczenie',
           labelIssueAccidentPhotos: 'Zdjęcia z miejsca wypadku *',
-          issueAccidentPhotosSub: 'Proszę dołączyć zdjęcie miejsca uderzenia i ogólny plan sytuacji.',
+          issueAccidentPhotosSub: 'Zdjęcie miejsca uderzenia i ogólnej sytuacji.',
           btnIssueAccidentPhotos: 'Dołącz zdjęcia',
           placeholderIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
           btnBackRental: 'Wstecz',
@@ -646,17 +631,17 @@
           successMessage: 'Вашу заявку успішно надіслано! Найближчим часом ми з вами зв\'яжемося.',
           fill_all_fields: 'Будь ласка, заповніть усі поля',
           menuRent: 'Хочу орендувати',
-          menuInspection: 'Огляд ТЗ / Фото з 4 сторін',
+          menuInspection: 'Хочу завершити оренду',
           menuIssue: 'Повідомити про проблему',
           menuAccessory: 'Купити аксесуар',
           back: 'Назад',
           inDevelopment: 'В розробці',
           labelRentalVehicle: 'Транспорт *',
           labelRentalShifts: 'Кількість відпрацьованих змін за останній тиждень *',
-          rentalShiftsHint: 'Чим більше змін ви відпрацювали за минулий тиждень, тим нижчою буде ціна оренди!',
+          rentalShiftsHint: 'Чим більше змін, тим нижча ціна оренди.',
           labelRentalScreenshot: 'Скріншот відпрацьованих змін *',
           btnRentalScreenshot: 'Прикрепити скріншот',
-          inspectionTitle: 'Огляд ТЗ / Фото з 4 сторін',
+          inspectionTitle: 'Завершення оренди',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТЗ *',
           labelInspectionPhoto: 'Зробіть фото транспорту з 4 сторін *',
@@ -666,7 +651,7 @@
           labelIssueOswiadczenie: 'Заповнене та підписане Заява *',
           btnIssueOswiadczenie: 'Прикрепити Заяву',
           labelIssueAccidentPhotos: 'Фотографії з місця аварії *',
-          issueAccidentPhotosSub: 'Будь ласка, прикріпіть фото місця удару та загальний план ситуації.',
+          issueAccidentPhotosSub: 'Фото місця удару та загальної ситуації.',
           btnIssueAccidentPhotos: 'Прикрепити фото',
           placeholderIssueDescription: 'Детально опишіть, як саме сталася аварія.',
           btnBackRental: 'Назад',
@@ -717,17 +702,17 @@
           successMessage: 'Ваша заявка успешно отправлена! В скором времени мы с вами свяжемся.',
           fill_all_fields: 'Пожалуйста, заполните все поля',
           menuRent: 'Хочу арендовать',
-          menuInspection: 'Осмотр ТС / Фото с 4 сторон',
+          menuInspection: 'Хочу завершить аренду',
           menuIssue: 'Сообщить о проблеме',
           menuAccessory: 'Купить аксессуар',
           back: 'Назад',
           inDevelopment: 'В разработке',
           labelRentalVehicle: 'Транспорт *',
           labelRentalShifts: 'Количество отработанных смен за последнюю неделю *',
-          rentalShiftsHint: 'Чем больше смен вы отработали за прошлую неделю, тем ниже будет цена аренды!',
+          rentalShiftsHint: 'Чем больше смен, тем ниже цена аренды.',
           labelRentalScreenshot: 'Скриншот отработанных смен *',
           btnRentalScreenshot: 'Прикрепить скриншот',
-          inspectionTitle: 'Осмотр ТС / Фото с 4 сторон',
+          inspectionTitle: 'Завершение аренды',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТС *',
           labelInspectionPhoto: 'Сделайте фото транспорта с 4 сторон *',
@@ -737,7 +722,7 @@
           labelIssueOswiadczenie: 'Заполненное и подписанное Oświadczenie *',
           btnIssueOswiadczenie: 'Прикрепить Oświadczenie',
           labelIssueAccidentPhotos: 'Фотографии с места аварии *',
-          issueAccidentPhotosSub: 'Пожалуйста, прикрепите фото места удара и общего плана ситуации.',
+          issueAccidentPhotosSub: 'Фото места удара и общей ситуации.',
           btnIssueAccidentPhotos: 'Прикрепить фото',
           placeholderIssueDescription: 'Подробно опишите, как именно произошла авария.',
           btnBackRental: 'Назад',
@@ -754,7 +739,7 @@
           vehicleBicycle: 'Bicycle',
           vehicleBicycleSub: 'Bicycle rental',
           menuRent: 'I want to rent',
-          menuInspection: 'Vehicle inspection / Photos from 4 sides',
+          menuInspection: 'I want to end the rental',
           menuIssue: 'Report a problem',
           menuAccessory: 'Buy accessory',
           rentalTitle: 'Book',
@@ -777,7 +762,7 @@
           labelIssueOswiadczenie: 'Filled and signed Statement *',
           btnIssueOswiadczenie: 'Attach Statement',
           labelIssueAccidentPhotos: 'Photos from the accident scene *',
-          issueAccidentPhotosSub: 'Please attach a photo of the impact point and an overall view of the situation.',
+          issueAccidentPhotosSub: 'Photo of impact point and overall situation.',
           btnIssueAccidentPhotos: 'Attach photos',
           issueChooseType: 'Choose type',
           placeholderVehicleNumber: 'e.g. WA 12345',
@@ -790,16 +775,15 @@
           inDevelopment: 'In development',
           labelRentalVehicle: 'Transport *',
           labelRentalShifts: 'Number of shifts worked in the last week *',
-          rentalShiftsHint: 'The more shifts you worked last week, the lower your rental price!',
+          rentalShiftsHint: 'The more shifts, the lower the rental price.',
           labelRentalScreenshot: 'Screenshot of shifts worked *',
           btnRentalScreenshot: 'Attach screenshot',
-          inspectionTitle: 'Vehicle inspection / Photos from 4 sides',
+          inspectionTitle: 'End rental',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Vehicle number *',
           labelInspectionPhoto: 'Take photos of the vehicle from 4 sides *',
           btnInspectionPhoto: 'Attach photos',
           inspectionSubmit: 'Submit',
-          inspectionTitle: 'Vehicle inspection / Photos from 4 sides',
           btnAttachPhoto: 'Attach photo',
           btnPhotoAttached: 'Photo attached',
           photoAttachedCount: '{{n}} photo(s) attached',
@@ -1107,7 +1091,7 @@
               phone: phoneForSheet,
               period: periodLabel,
               shiftsCount: parseInt(shifts, 10) || 0,
-              photo: photoArr.filter(Boolean),
+              photoShifts: photoArr.filter(Boolean),
               username: getTelegramUsername()
             });
           })
@@ -1154,7 +1138,7 @@
               type: 'inspection',
               vehicle: vehicleLabel,
               vehicleNumber: number,
-              photo: photoArr.filter(Boolean),
+              photo4Sides: photoArr.filter(Boolean),
               username: getTelegramUsername()
             });
           })
@@ -1214,8 +1198,8 @@
             vehicle: vehicleLabel,
             vehicleNumber: vehicleNumber,
             description: description,
-            oswiadczenie: results[0].filter(Boolean),
-            accidentPhotos: results[1].filter(Boolean),
+            photoOswiadczenie: results[0].filter(Boolean),
+            photoScene: results[1].filter(Boolean),
             username: getTelegramUsername()
           });
         }).then(function () {
