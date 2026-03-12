@@ -40,36 +40,99 @@
       line-height: 1.2;
     }
     .header h1 .accent { color: var(--accent); }
-    .lang-switcher {
+    .lang-dropdown-wrap {
       display: flex;
       justify-content: center;
-      gap: 6px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
-    .lang-btn {
-      padding: 6px 12px;
+    .lang-select {
+      padding: 8px 32px 8px 14px;
       font-family: var(--font);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
       background: var(--card-bg);
       border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .lang-select:focus { border-color: var(--accent); outline: none; }
+    .frog-hero {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+    .screen {
+      display: none;
+      padding: 0 20px 32px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .screen.active {
+      display: block;
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+      font-family: var(--font);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
       -webkit-tap-highlight-color: transparent;
     }
-    .lang-btn:hover, .lang-btn:focus-visible {
+    .btn-back:hover, .btn-back:focus-visible {
       border-color: var(--accent);
       color: var(--accent);
       outline: none;
     }
-    .lang-btn.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 18px 20px;
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      color: var(--text);
+      background: var(--card-bg);
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .menu-item:hover, .menu-item:focus-visible {
+      box-shadow: var(--shadow-hover);
+      outline: none;
+    }
+    .menu-item:active { transform: scale(0.98); }
+    .menu-item-icon {
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .menu-item-text { flex: 1; }
     .rental-description {
       font-size: 0.9rem;
       color: var(--text-muted);
@@ -187,6 +250,19 @@
       color: var(--text);
       margin-bottom: 6px;
     }
+    .form-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .file-upload-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
     .required-star {
       color: #dc2626;
     }
@@ -298,103 +374,155 @@
 </head>
 <body>
   <header class="header">
-    <div class="lang-switcher" id="langSwitcher">
-      <button type="button" class="lang-btn active" data-lang="pl" aria-pressed="true">PL</button>
-      <button type="button" class="lang-btn" data-lang="ua" aria-pressed="false">UA</button>
-      <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+    <div class="lang-dropdown-wrap">
+      <select id="langSelect" class="lang-select" aria-label="Language">
+        <option value="pl">PL</option>
+        <option value="ua">UA</option>
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+      </select>
     </div>
     <h1 id="mainTitle"><span id="mainTitleRent"></span> <span id="mainTitleTransport" class="accent"></span></h1>
   </header>
-  <main class="cards">
-    <button type="button" class="card" data-type="car">
-      <span class="card-icon">🚗</span>
-      <div>
-        <div class="card-title" data-i18n="vehicleCar"></div>
-        <div class="card-sub" data-i18n="vehicleCarSub"></div>
-      </div>
-    </button>
-    <button type="button" class="card" data-type="scooter">
-      <span class="card-icon">🛵</span>
-      <div>
-        <div class="card-title" data-i18n="vehicleScooter"></div>
-        <div class="card-sub" data-i18n="vehicleScooterSub"></div>
-      </div>
-    </button>
-    <button type="button" class="card" data-type="bicycle">
-      <span class="card-icon">🚲</span>
-      <div>
-        <div class="card-title" data-i18n="vehicleBicycle"></div>
-        <div class="card-sub" data-i18n="vehicleBicycleSub"></div>
-      </div>
-    </button>
-  </main>
-  <section class="problem-section">
-    <button type="button" class="btn-problem" id="btnProblem" data-i18n="btnProblem"></button>
-  </section>
 
-  <div class="overlay" id="rentalOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-labelledby="rentalTitle">
-      <h2 id="rentalTitle"></h2>
-      <p class="rental-description" id="rentalDescription" aria-live="polite"></p>
-      <form id="rentalForm">
-        <input type="hidden" name="vehicle" id="rentalVehicle" value="">
-        <div class="form-group">
-          <label for="rentalName" id="labelRentalName"></label>
-          <input type="text" id="rentalName" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="rentalPhone" id="labelRentalPhone"></label>
-          <input type="tel" id="rentalPhone" name="phone" required>
-        </div>
-        <div class="form-group">
-          <label for="rentalEmail" id="labelRentalEmail"></label>
-          <input type="email" id="rentalEmail" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="rentalPeriod" id="labelRentalPeriod"></label>
-          <select id="rentalPeriod" name="period" required>
-            <option value="" data-i18n="periodChoose"></option>
-            <option value="less_month" data-i18n="periodLessMonth"></option>
-            <option value="1_3_months" data-i18n="period1_3"></option>
-            <option value="3_plus_months" data-i18n="period3Plus"></option>
-          </select>
-        </div>
-        <button type="submit" class="btn-submit" id="rentalSubmit"></button>
-      </form>
-    </div>
+  <div id="mainMenu" class="screen active">
+    <div class="frog-hero" aria-hidden="true">🐸</div>
+    <nav class="menu-list">
+      <button type="button" class="menu-item" data-screen="rental">
+        <span class="menu-item-icon">🐸</span>
+        <span class="menu-item-text" id="menuRent"></span>
+      </button>
+      <button type="button" class="menu-item" data-screen="inspection">
+        <span class="menu-item-icon">🐸</span>
+        <span class="menu-item-text" id="menuInspection"></span>
+      </button>
+      <button type="button" class="menu-item" data-screen="issue">
+        <span class="menu-item-icon">🐸</span>
+        <span class="menu-item-text" id="menuIssue"></span>
+      </button>
+      <button type="button" class="menu-item" id="btnAccessory">
+        <span class="menu-item-icon">🐸</span>
+        <span class="menu-item-text" id="menuAccessory"></span>
+      </button>
+    </nav>
   </div>
 
-  <div class="overlay" id="issueOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-labelledby="issueTitle">
-      <h2 id="issueTitle"></h2>
-      <form id="issueForm">
-        <div class="form-group">
-          <label for="issueVehicle" id="labelIssueVehicle"></label>
-          <select id="issueVehicle" name="vehicle" required>
-            <option value="" data-i18n="issueChooseType"></option>
-            <option value="car" data-i18n="vehicleCar"></option>
-            <option value="scooter" data-i18n="vehicleScooter"></option>
-            <option value="bicycle" data-i18n="vehicleBicycle"></option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="issueNumber" id="labelIssueNumber"></label>
-          <input type="text" id="issueNumber" name="vehicleNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="issueDescription" id="labelIssueDescription"></label>
-          <textarea id="issueDescription" name="description" rows="4" required placeholder=""></textarea>
-        </div>
-        <div class="file-upload-wrap">
-          <label id="labelIssuePhoto"></label>
-          <input type="file" id="issuePhoto" class="file-input-hidden" accept="image/*" capture="environment" multiple aria-hidden="true">
-          <button type="button" class="btn-attach-photo" id="btnAttachPhoto" aria-describedby="labelIssuePhoto">
-            <span id="btnAttachPhotoText"></span>
-          </button>
-        </div>
-        <button type="submit" class="btn-submit" id="issueSubmit"></button>
-      </form>
-    </div>
+  <div id="rentalScreen" class="screen">
+    <button type="button" class="btn-back" data-back="mainMenu" id="rentalBack"><span aria-hidden="true">←</span> <span id="btnBackRental"></span></button>
+    <h2 id="rentalTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
+    <form id="rentalForm">
+      <div class="form-group">
+        <label for="rentalVehicle" id="labelRentalVehicle"></label>
+        <select id="rentalVehicle" name="vehicle" required>
+          <option value="" data-i18n="issueChooseType"></option>
+          <option value="car" data-i18n="vehicleCar"></option>
+          <option value="scooter" data-i18n="vehicleScooter"></option>
+          <option value="bicycle" data-i18n="vehicleBicycle"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="rentalName" id="labelRentalName"></label>
+        <input type="text" id="rentalName" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="rentalPhone" id="labelRentalPhone"></label>
+        <input type="tel" id="rentalPhone" name="phone" required placeholder="+48 123 456 789">
+      </div>
+      <div class="form-group">
+        <label for="rentalPeriod" id="labelRentalPeriod"></label>
+        <select id="rentalPeriod" name="period" required>
+          <option value="" data-i18n="periodChoose"></option>
+          <option value="less_month" data-i18n="periodLessMonth"></option>
+          <option value="1_3_months" data-i18n="period1_3"></option>
+          <option value="3_plus_months" data-i18n="period3Plus"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="rentalShifts" id="labelRentalShifts"></label>
+        <input type="number" id="rentalShifts" name="shifts" min="0" step="1" required>
+        <p class="form-hint" id="rentalShiftsHint"></p>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelRentalScreenshot"></label>
+        <input type="file" id="rentalScreenshot" class="file-input-hidden" accept="image/*" multiple aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnRentalScreenshot">
+          <span id="btnRentalScreenshotText"></span>
+        </button>
+      </div>
+      <button type="submit" class="btn-submit" id="rentalSubmit"></button>
+    </form>
+  </div>
+
+  <div id="inspectionScreen" class="screen">
+    <button type="button" class="btn-back" data-back="mainMenu" id="inspectionBack"><span aria-hidden="true">←</span> <span id="btnBackInspection"></span></button>
+    <h2 id="inspectionTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
+    <form id="inspectionForm">
+      <div class="form-group">
+        <label for="inspectionVehicle" id="labelInspectionVehicle"></label>
+        <select id="inspectionVehicle" name="vehicle" required>
+          <option value="" data-i18n="issueChooseType"></option>
+          <option value="car" data-i18n="vehicleCar"></option>
+          <option value="scooter" data-i18n="vehicleScooter"></option>
+          <option value="bicycle" data-i18n="vehicleBicycle"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="inspectionNumber" id="labelInspectionNumber"></label>
+        <input type="text" id="inspectionNumber" name="vehicleNumber" required>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelInspectionPhoto"></label>
+        <input type="file" id="inspectionPhoto" class="file-input-hidden" accept="image/*" capture="environment" multiple aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhoto">
+          <span id="btnInspectionPhotoText"></span>
+        </button>
+      </div>
+      <button type="submit" class="btn-submit" id="inspectionSubmit"></button>
+    </form>
+  </div>
+
+  <div id="issueScreen" class="screen">
+    <button type="button" class="btn-back" data-back="mainMenu" id="issueBack"><span aria-hidden="true">←</span> <span id="btnBackIssue"></span></button>
+    <h2 id="issueTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
+    <form id="issueForm">
+      <div class="form-group">
+        <label for="issueName" id="labelIssueName"></label>
+        <input type="text" id="issueName" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="issueVehicle" id="labelIssueVehicle"></label>
+        <select id="issueVehicle" name="vehicle" required>
+          <option value="" data-i18n="issueChooseType"></option>
+          <option value="car" data-i18n="vehicleCar"></option>
+          <option value="scooter" data-i18n="vehicleScooter"></option>
+          <option value="bicycle" data-i18n="vehicleBicycle"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="issueNumber" id="labelIssueNumber"></label>
+        <input type="text" id="issueNumber" name="vehicleNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="issueDescription" id="labelIssueDescription"></label>
+        <textarea id="issueDescription" name="description" rows="4" required placeholder=""></textarea>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelIssueOswiadczenie"></label>
+        <input type="file" id="issueOswiadczenie" class="file-input-hidden" accept="image/*" multiple aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnIssueOswiadczenie">
+          <span id="btnIssueOswiadczenieText"></span>
+        </button>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelIssueAccidentPhotos"></label>
+        <p class="file-upload-sub" id="issueAccidentPhotosSub"></p>
+        <input type="file" id="issueAccidentPhotos" class="file-input-hidden" accept="image/*" capture="environment" multiple aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnIssueAccidentPhotos">
+          <span id="btnIssueAccidentPhotosText"></span>
+        </button>
+      </div>
+      <button type="submit" class="btn-submit" id="issueSubmit"></button>
+    </form>
   </div>
 
   <script>
@@ -432,8 +560,8 @@
           issueTitle: 'Zgłoś problem',
           labelIssueVehicle: 'Transport *',
           labelIssueNumber: 'Numer pojazdu',
-          labelIssueDescription: 'Opis problemu',
-          placeholderIssueDescription: 'Opisz problem lub uszkodzenie...',
+          labelIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
+          placeholderIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
           labelIssuePhoto: 'Zdjęcie',
           btnAttachPhoto: 'Dołącz zdjęcie',
           btnPhotoAttached: 'Zdjęcie dołączone',
@@ -445,7 +573,34 @@
           sending: 'Wysyłanie...',
           successTitle: 'Sukces',
           successMessage: 'Twoje zgłoszenie zostało pomyślnie wysłane! Wkrótce się z Tobą skontaktujemy.',
-          fill_all_fields: 'Proszę wypełnić wszystkie pola'
+          fill_all_fields: 'Proszę wypełnić wszystkie pola',
+          menuRent: 'Chcę wynająć',
+          menuInspection: 'Przegląd pojazdu / Zdjęcia z 4 stron',
+          menuIssue: 'Zgłoś problem',
+          menuAccessory: 'Kup akcesorium',
+          back: 'Wstecz',
+          inDevelopment: 'W przygotowaniu',
+          labelRentalVehicle: 'Transport *',
+          labelRentalShifts: 'Liczba przepracowanych shiftów w ostatnim tygodniu *',
+          rentalShiftsHint: 'Im więcej shiftów przepracowałeś w zeszłym tygodniu, tym niższa będzie cena wynajmu!',
+          labelRentalScreenshot: 'Zrzut ekranu przepracowanych shiftów *',
+          btnRentalScreenshot: 'Dołącz zrzut ekranu',
+          inspectionTitle: 'Przegląd pojazdu / Zdjęcia z 4 stron',
+          labelInspectionVehicle: 'Transport *',
+          labelInspectionNumber: 'Numer pojazdu *',
+          labelInspectionPhoto: 'Zrób zdjęcie pojazdu z 4 stron *',
+          btnInspectionPhoto: 'Dołącz zdjęcia',
+          inspectionSubmit: 'Wyślij',
+          labelIssueName: 'Imię i nazwisko *',
+          labelIssueOswiadczenie: 'Wypełnione i podpisane Oświadczenie *',
+          btnIssueOswiadczenie: 'Dołącz Oświadczenie',
+          labelIssueAccidentPhotos: 'Zdjęcia z miejsca wypadku *',
+          issueAccidentPhotosSub: 'Proszę dołączyć zdjęcie miejsca uderzenia i ogólny plan sytuacji.',
+          btnIssueAccidentPhotos: 'Dołącz zdjęcia',
+          placeholderIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
+          btnBackRental: 'Wstecz',
+          btnBackInspection: 'Wstecz',
+          btnBackIssue: 'Wstecz'
         },
         ua: {
           titleRent: 'Оренда',
@@ -476,8 +631,8 @@
           issueTitle: 'Повідомити про проблему',
           labelIssueVehicle: 'Транспорт *',
           labelIssueNumber: 'Номер транспортного засобу',
-          labelIssueDescription: 'Опис проблеми',
-          placeholderIssueDescription: 'Опишіть проблему або пошкодження...',
+          labelIssueDescription: 'Детально опишіть, як саме сталася аварія.',
+          placeholderIssueDescription: 'Детально опишіть, як саме сталася аварія.',
           labelIssuePhoto: 'Фото',
           btnAttachPhoto: 'Прикрепити фото',
           btnPhotoAttached: 'Фото прикріплено',
@@ -489,7 +644,34 @@
           sending: 'Надсилання...',
           successTitle: 'Успіх',
           successMessage: 'Вашу заявку успішно надіслано! Найближчим часом ми з вами зв\'яжемося.',
-          fill_all_fields: 'Будь ласка, заповніть усі поля'
+          fill_all_fields: 'Будь ласка, заповніть усі поля',
+          menuRent: 'Хочу орендувати',
+          menuInspection: 'Огляд ТЗ / Фото з 4 сторін',
+          menuIssue: 'Повідомити про проблему',
+          menuAccessory: 'Купити аксесуар',
+          back: 'Назад',
+          inDevelopment: 'В розробці',
+          labelRentalVehicle: 'Транспорт *',
+          labelRentalShifts: 'Кількість відпрацьованих змін за останній тиждень *',
+          rentalShiftsHint: 'Чим більше змін ви відпрацювали за минулий тиждень, тим нижчою буде ціна оренди!',
+          labelRentalScreenshot: 'Скріншот відпрацьованих змін *',
+          btnRentalScreenshot: 'Прикрепити скріншот',
+          inspectionTitle: 'Огляд ТЗ / Фото з 4 сторін',
+          labelInspectionVehicle: 'Транспорт *',
+          labelInspectionNumber: 'Номер ТЗ *',
+          labelInspectionPhoto: 'Зробіть фото транспорту з 4 сторін *',
+          btnInspectionPhoto: 'Прикрепити фото',
+          inspectionSubmit: 'Надіслати',
+          labelIssueName: 'Ім\'я та прізвище *',
+          labelIssueOswiadczenie: 'Заповнене та підписане Заява *',
+          btnIssueOswiadczenie: 'Прикрепити Заяву',
+          labelIssueAccidentPhotos: 'Фотографії з місця аварії *',
+          issueAccidentPhotosSub: 'Будь ласка, прикріпіть фото місця удару та загальний план ситуації.',
+          btnIssueAccidentPhotos: 'Прикрепити фото',
+          placeholderIssueDescription: 'Детально опишіть, як саме сталася аварія.',
+          btnBackRental: 'Назад',
+          btnBackInspection: 'Назад',
+          btnBackIssue: 'Назад'
         },
         ru: {
           titleRent: 'Аренда',
@@ -520,8 +702,8 @@
           issueTitle: 'Сообщить о проблеме',
           labelIssueVehicle: 'Транспорт *',
           labelIssueNumber: 'Номер транспортного средства',
-          labelIssueDescription: 'Описание проблемы',
-          placeholderIssueDescription: 'Опишите проблему или повреждение...',
+          labelIssueDescription: 'Подробно опишите, как именно произошла авария.',
+          placeholderIssueDescription: 'Подробно опишите, как именно произошла авария.',
           labelIssuePhoto: 'Фото',
           btnAttachPhoto: 'Прикрепить фото',
           btnPhotoAttached: 'Фото прикреплено',
@@ -533,12 +715,106 @@
           sending: 'Отправка...',
           successTitle: 'Успех',
           successMessage: 'Ваша заявка успешно отправлена! В скором времени мы с вами свяжемся.',
-          fill_all_fields: 'Пожалуйста, заполните все поля'
+          fill_all_fields: 'Пожалуйста, заполните все поля',
+          menuRent: 'Хочу арендовать',
+          menuInspection: 'Осмотр ТС / Фото с 4 сторон',
+          menuIssue: 'Сообщить о проблеме',
+          menuAccessory: 'Купить аксессуар',
+          back: 'Назад',
+          inDevelopment: 'В разработке',
+          labelRentalVehicle: 'Транспорт *',
+          labelRentalShifts: 'Количество отработанных смен за последнюю неделю *',
+          rentalShiftsHint: 'Чем больше смен вы отработали за прошлую неделю, тем ниже будет цена аренды!',
+          labelRentalScreenshot: 'Скриншот отработанных смен *',
+          btnRentalScreenshot: 'Прикрепить скриншот',
+          inspectionTitle: 'Осмотр ТС / Фото с 4 сторон',
+          labelInspectionVehicle: 'Транспорт *',
+          labelInspectionNumber: 'Номер ТС *',
+          labelInspectionPhoto: 'Сделайте фото транспорта с 4 сторон *',
+          btnInspectionPhoto: 'Прикрепить фото',
+          inspectionSubmit: 'Отправить',
+          labelIssueName: 'Имя и фамилия *',
+          labelIssueOswiadczenie: 'Заполненное и подписанное Oświadczenie *',
+          btnIssueOswiadczenie: 'Прикрепить Oświadczenie',
+          labelIssueAccidentPhotos: 'Фотографии с места аварии *',
+          issueAccidentPhotosSub: 'Пожалуйста, прикрепите фото места удара и общего плана ситуации.',
+          btnIssueAccidentPhotos: 'Прикрепить фото',
+          placeholderIssueDescription: 'Подробно опишите, как именно произошла авария.',
+          btnBackRental: 'Назад',
+          btnBackInspection: 'Назад',
+          btnBackIssue: 'Назад'
+        },
+        en: {
+          titleRent: 'Rent',
+          titleTransport: 'transport',
+          vehicleCar: 'Car',
+          vehicleCarSub: 'Car rental',
+          vehicleScooter: 'Scooter',
+          vehicleScooterSub: 'Scooter rental',
+          vehicleBicycle: 'Bicycle',
+          vehicleBicycleSub: 'Bicycle rental',
+          menuRent: 'I want to rent',
+          menuInspection: 'Vehicle inspection / Photos from 4 sides',
+          menuIssue: 'Report a problem',
+          menuAccessory: 'Buy accessory',
+          rentalTitle: 'Book',
+          labelName: 'Full name *',
+          labelPhone: 'Phone number *',
+          labelPeriod: 'Rental period *',
+          placeholderName: 'John Doe',
+          placeholderPhone: '+48 XXX XXX XXX',
+          periodChoose: 'Choose period',
+          periodLessMonth: 'Less than a month',
+          period1_3: '1–3 months',
+          period3Plus: '3+ months',
+          btnSubmitRental: 'Book',
+          issueTitle: 'Report a problem',
+          labelIssueVehicle: 'Transport *',
+          labelIssueNumber: 'Vehicle number',
+          labelIssueDescription: 'Problem description',
+          placeholderIssueDescription: 'Describe in detail how the accident happened.',
+          labelIssueName: 'Full name *',
+          labelIssueOswiadczenie: 'Filled and signed Statement *',
+          btnIssueOswiadczenie: 'Attach Statement',
+          labelIssueAccidentPhotos: 'Photos from the accident scene *',
+          issueAccidentPhotosSub: 'Please attach a photo of the impact point and an overall view of the situation.',
+          btnIssueAccidentPhotos: 'Attach photos',
+          issueChooseType: 'Choose type',
+          placeholderVehicleNumber: 'e.g. WA 12345',
+          btnSubmitIssue: 'Submit report',
+          sending: 'Sending...',
+          successTitle: 'Success',
+          successMessage: 'Your request has been sent! We will contact you soon.',
+          fill_all_fields: 'Please fill in all fields',
+          back: 'Back',
+          inDevelopment: 'In development',
+          labelRentalVehicle: 'Transport *',
+          labelRentalShifts: 'Number of shifts worked in the last week *',
+          rentalShiftsHint: 'The more shifts you worked last week, the lower your rental price!',
+          labelRentalScreenshot: 'Screenshot of shifts worked *',
+          btnRentalScreenshot: 'Attach screenshot',
+          inspectionTitle: 'Vehicle inspection / Photos from 4 sides',
+          labelInspectionVehicle: 'Transport *',
+          labelInspectionNumber: 'Vehicle number *',
+          labelInspectionPhoto: 'Take photos of the vehicle from 4 sides *',
+          btnInspectionPhoto: 'Attach photos',
+          inspectionSubmit: 'Submit',
+          inspectionTitle: 'Vehicle inspection / Photos from 4 sides',
+          btnAttachPhoto: 'Attach photo',
+          btnPhotoAttached: 'Photo attached',
+          photoAttachedCount: '{{n}} photo(s) attached',
+          validationIssueRequired: 'Please fill all fields and attach at least one photo.',
+          btnBackRental: 'Back',
+          btnBackInspection: 'Back',
+          btnBackIssue: 'Back'
         }
       };
 
       function t(key) {
-        return (i18n[currentLang] && i18n[currentLang][key]) || key;
+        var L = i18n[currentLang];
+        if (L && L[key]) return L[key];
+        if (currentLang !== 'pl' && i18n.pl && i18n.pl[key]) return i18n.pl[key];
+        return key;
       }
 
       function getTelegramUsername() {
@@ -602,48 +878,95 @@
       }
 
       function applyLang() {
-        document.documentElement.lang = currentLang === 'ua' ? 'uk' : (currentLang === 'ru' ? 'ru' : 'pl');
+        var lang = currentLang === 'ua' ? 'uk' : (currentLang === 'ru' ? 'ru' : (currentLang === 'en' ? 'en' : 'pl'));
+        document.documentElement.lang = lang;
         document.title = t('titleRent') + ' ' + t('titleTransport');
+
+        var langSelect = document.getElementById('langSelect');
+        if (langSelect) langSelect.value = currentLang;
 
         var titleRent = document.getElementById('mainTitleRent');
         var titleTransport = document.getElementById('mainTitleTransport');
         if (titleRent) titleRent.textContent = t('titleRent');
         if (titleTransport) titleTransport.textContent = t('titleTransport');
 
+        document.getElementById('menuRent').textContent = t('menuRent');
+        document.getElementById('menuInspection').textContent = t('menuInspection');
+        document.getElementById('menuIssue').textContent = t('menuIssue');
+        document.getElementById('menuAccessory').textContent = t('menuAccessory');
+
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
           var key = el.getAttribute('data-i18n');
           if (key) el.textContent = t(key);
         });
 
+        document.getElementById('rentalTitle').textContent = t('rentalTitle');
+        document.getElementById('labelRentalVehicle').textContent = t('labelRentalVehicle');
         document.getElementById('labelRentalName').textContent = t('labelName');
         document.getElementById('labelRentalPhone').textContent = t('labelPhone');
-        document.getElementById('labelRentalEmail').textContent = t('labelEmail');
         document.getElementById('labelRentalPeriod').textContent = t('labelPeriod');
         document.getElementById('rentalName').placeholder = t('placeholderName');
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
-        document.getElementById('rentalEmail').placeholder = t('placeholderEmail');
+        document.getElementById('labelRentalShifts').innerHTML = (t('labelRentalShifts') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('rentalShiftsHint').textContent = t('rentalShiftsHint');
+        document.getElementById('labelRentalScreenshot').innerHTML = (t('labelRentalScreenshot') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        updateRentalScreenshotButtonText();
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
+        document.getElementById('btnBackRental').textContent = t('back');
 
+        document.getElementById('inspectionTitle').textContent = t('inspectionTitle');
+        document.getElementById('labelInspectionVehicle').textContent = t('labelInspectionVehicle');
+        document.getElementById('labelInspectionNumber').innerHTML = (t('labelInspectionNumber') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionPhoto').innerHTML = (t('labelInspectionPhoto') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        updateInspectionPhotoButtonText();
+        document.getElementById('inspectionSubmit').textContent = t('inspectionSubmit');
+        document.getElementById('btnBackInspection').textContent = t('back');
+
+        document.getElementById('issueTitle').textContent = t('issueTitle');
+        document.getElementById('labelIssueName').innerHTML = t('labelIssueName') + ' <span class="required-star">*</span>';
         document.getElementById('labelIssueVehicle').textContent = t('labelIssueVehicle');
         document.getElementById('labelIssueNumber').innerHTML = t('labelIssueNumber') + ' <span class="required-star">*</span>';
         document.getElementById('labelIssueDescription').innerHTML = t('labelIssueDescription') + ' <span class="required-star">*</span>';
         document.getElementById('issueDescription').placeholder = t('placeholderIssueDescription');
-        document.getElementById('labelIssuePhoto').innerHTML = t('labelIssuePhoto') + ' <span class="required-star">*</span>';
-        var photoBtn = document.getElementById('btnAttachPhoto');
-        var photoBtnText = document.getElementById('btnAttachPhotoText');
-        var photoInput = document.getElementById('issuePhoto');
-        var fileCount = photoInput.files ? photoInput.files.length : 0;
-        if (photoBtnText) {
-          photoBtnText.textContent = fileCount > 0 ? t('photoAttachedCount').replace('{{n}}', fileCount) : t('btnAttachPhoto');
-        }
+        document.getElementById('labelIssueOswiadczenie').innerHTML = t('labelIssueOswiadczenie').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelIssueAccidentPhotos').innerHTML = (t('labelIssueAccidentPhotos') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('issueAccidentPhotosSub').textContent = t('issueAccidentPhotosSub');
+        updateIssueOswiadczenieButtonText();
+        updateIssueAccidentPhotosButtonText();
         document.getElementById('issueNumber').placeholder = t('placeholderVehicleNumber');
-        document.getElementById('issueTitle').textContent = t('issueTitle');
         document.getElementById('issueSubmit').textContent = t('btnSubmitIssue');
+        document.getElementById('btnBackIssue').textContent = t('back');
+      }
 
-        document.querySelectorAll('.lang-btn').forEach(function (btn) {
-          btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
-          btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === currentLang ? 'true' : 'false');
-        });
+      function updateRentalScreenshotButtonText() {
+        var el = document.getElementById('btnRentalScreenshotText');
+        var input = document.getElementById('rentalScreenshot');
+        var n = input.files ? input.files.length : 0;
+        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnRentalScreenshot');
+      }
+      function updateInspectionPhotoButtonText() {
+        var el = document.getElementById('btnInspectionPhotoText');
+        var input = document.getElementById('inspectionPhoto');
+        var n = input.files ? input.files.length : 0;
+        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnInspectionPhoto');
+      }
+      function updateIssueOswiadczenieButtonText() {
+        var el = document.getElementById('btnIssueOswiadczenieText');
+        var input = document.getElementById('issueOswiadczenie');
+        var n = input.files ? input.files.length : 0;
+        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnIssueOswiadczenie');
+      }
+      function updateIssueAccidentPhotosButtonText() {
+        var el = document.getElementById('btnIssueAccidentPhotosText');
+        var input = document.getElementById('issueAccidentPhotos');
+        var n = input.files ? input.files.length : 0;
+        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnIssueAccidentPhotos');
+      }
+
+      function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+        var el = document.getElementById(screenId);
+        if (el) el.classList.add('active');
       }
 
       function initTelegram() {
@@ -675,7 +998,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbwJDAWAzxVmKqqpGkd6XtG8jMs699gl9OHEClYdaAl_qD7AElS0SLqcPK37YOrXma8-jg/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbws_FygXJBJQMzlp-U-5K2z2YCs0F-SowcEKfL3CK_f9oSAWx6IQ6olxwNIh1hKTWb9eg/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -715,31 +1038,43 @@
         }
       }
 
-      document.getElementById('langSwitcher').addEventListener('click', function (e) {
-        var btn = e.target.closest('.lang-btn');
-        if (!btn) return;
-        currentLang = btn.getAttribute('data-lang');
+      document.getElementById('langSelect').addEventListener('change', function () {
+        currentLang = this.value;
         applyLang();
       });
 
-      document.querySelectorAll('.card').forEach(function (card) {
-        card.addEventListener('click', function () {
-          var type = this.getAttribute('data-type');
-          var input = document.getElementById('rentalVehicle');
-          var titleEl = document.getElementById('rentalTitle');
-          var descEl = document.getElementById('rentalDescription');
-          var labelKey = type === 'car' ? 'vehicleCar' : (type === 'scooter' ? 'vehicleScooter' : 'vehicleBicycle');
-          var descKey = type === 'car' ? 'descCar' : (type === 'scooter' ? 'descScooter' : 'descBicycle');
-          if (input) input.value = type;
-          if (titleEl) titleEl.textContent = t('rentalTitle') + ': ' + t(labelKey);
-          if (descEl) descEl.textContent = t(descKey);
-          openModal('rentalOverlay');
+      document.querySelectorAll('.menu-item[data-screen]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showScreen(this.getAttribute('data-screen'));
+        });
+      });
+      document.getElementById('btnAccessory').addEventListener('click', function () {
+        var msg = t('inDevelopment');
+        if (tg && tg.showPopup) {
+          tg.showPopup({ title: '', message: msg, buttons: [{ type: 'ok' }] });
+        } else {
+          showAlert(msg);
+        }
+      });
+
+      document.querySelectorAll('.btn-back').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showScreen(this.getAttribute('data-back'));
         });
       });
 
-      document.getElementById('btnProblem').addEventListener('click', function () {
-        document.getElementById('issueTitle').textContent = t('issueTitle');
-        openModal('issueOverlay');
+      document.getElementById('rentalPhone').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9+]/g, '');
+      });
+
+      document.getElementById('btnRentalScreenshot').addEventListener('click', function () {
+        document.getElementById('rentalScreenshot').click();
+      });
+      document.getElementById('rentalScreenshot').addEventListener('change', function () {
+        var btn = document.getElementById('btnRentalScreenshot');
+        var n = this.files ? this.files.length : 0;
+        btn.classList.toggle('has-file', n > 0);
+        updateRentalScreenshotButtonText();
       });
 
       document.getElementById('rentalForm').addEventListener('submit', function (e) {
@@ -747,116 +1082,156 @@
         var vehicleType = document.getElementById('rentalVehicle').value;
         var name = document.getElementById('rentalName').value.trim();
         var phone = document.getElementById('rentalPhone').value.trim();
-        var email = document.getElementById('rentalEmail').value.trim();
-        var periodSelect = document.getElementById('rentalPeriod');
-        var periodVal = periodSelect.value;
-        if (!vehicleType || !name || !phone || !email || !periodVal) {
+        var periodVal = document.getElementById('rentalPeriod').value;
+        var shifts = document.getElementById('rentalShifts').value.trim();
+        var screenshotInput = document.getElementById('rentalScreenshot');
+        var screenshotCount = screenshotInput.files ? screenshotInput.files.length : 0;
+        if (!vehicleType || !name || !phone || !periodVal || shifts === '' || screenshotCount === 0) {
           var msg = t('fill_all_fields');
-          if (tg && tg.showPopup) {
-            tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
-          } else {
-            showAlert(msg);
-          }
+          if (tg && tg.showPopup) tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          else showAlert(msg);
           return;
         }
         var btn = document.getElementById('rentalSubmit');
-        var rawPhone = phone;
-        var phoneForSheet = (rawPhone.charAt(0) === "'" ? rawPhone : "'" + rawPhone);
+        var phoneForSheet = (phone.charAt(0) === "'" ? phone : "'" + phone);
+        var periodSelect = document.getElementById('rentalPeriod');
         var periodLabel = periodSelect.options[periodSelect.selectedIndex] ? periodSelect.options[periodSelect.selectedIndex].text : periodVal;
         var vehicleLabel = vehicleType === 'car' ? t('vehicleCar') : (vehicleType === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
-        var payload = {
-          type: 'rental',
-          vehicle: vehicleLabel,
-          name: document.getElementById('rentalName').value.trim(),
-          phone: phoneForSheet,
-          email: document.getElementById('rentalEmail').value.trim(),
-          period: periodLabel,
-          username: getTelegramUsername()
-        };
         setButtonLoading(btn, true);
-        sendData(payload).then(function () {
-          setButtonLoading(btn, false);
-          closeModal('rentalOverlay');
-          document.getElementById('rentalForm').reset();
-          document.getElementById('rentalVehicle').value = '';
-        }).catch(function () {
-          setButtonLoading(btn, false);
-        });
+        Promise.all(Array.from(screenshotInput.files).map(function (f) { return compressImageToBase64(f, 800, 0.7); }))
+          .then(function (photoArr) {
+            return sendData({
+              type: 'rental',
+              vehicle: vehicleLabel,
+              name: name,
+              phone: phoneForSheet,
+              period: periodLabel,
+              shiftsCount: parseInt(shifts, 10) || 0,
+              photo: photoArr.filter(Boolean),
+              username: getTelegramUsername()
+            });
+          })
+          .then(function () {
+            setButtonLoading(btn, false);
+            showScreen('mainMenu');
+            document.getElementById('rentalForm').reset();
+            document.getElementById('btnRentalScreenshot').classList.remove('has-file');
+            document.getElementById('rentalScreenshot').value = '';
+            updateRentalScreenshotButtonText();
+          })
+          .catch(function () {
+            setButtonLoading(btn, false);
+          });
       });
 
-      document.getElementById('btnAttachPhoto').addEventListener('click', function () {
-        document.getElementById('issuePhoto').click();
+      document.getElementById('btnInspectionPhoto').addEventListener('click', function () {
+        document.getElementById('inspectionPhoto').click();
       });
-      document.getElementById('issuePhoto').addEventListener('change', function () {
-        var btn = document.getElementById('btnAttachPhoto');
-        var textEl = document.getElementById('btnAttachPhotoText');
-        var count = this.files ? this.files.length : 0;
-        if (count > 0) {
-          btn.classList.add('has-file');
-          if (textEl) textEl.textContent = t('photoAttachedCount').replace('{{n}}', count);
-        } else {
-          btn.classList.remove('has-file');
-          if (textEl) textEl.textContent = t('btnAttachPhoto');
+      document.getElementById('inspectionPhoto').addEventListener('change', function () {
+        var btn = document.getElementById('btnInspectionPhoto');
+        btn.classList.toggle('has-file', this.files && this.files.length > 0);
+        updateInspectionPhotoButtonText();
+      });
+
+      document.getElementById('inspectionForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var vehicleVal = document.getElementById('inspectionVehicle').value;
+        var number = document.getElementById('inspectionNumber').value.trim();
+        var photoInput = document.getElementById('inspectionPhoto');
+        var fileCount = photoInput.files ? photoInput.files.length : 0;
+        if (!vehicleVal || !number || fileCount === 0) {
+          var msg = t('fill_all_fields');
+          if (tg && tg.showPopup) tg.showPopup({ title: t('inspectionTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          else showAlert(msg);
+          return;
         }
+        var btn = document.getElementById('inspectionSubmit');
+        var vehicleLabel = vehicleVal === 'car' ? t('vehicleCar') : (vehicleVal === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
+        setButtonLoading(btn, true);
+        Promise.all(Array.from(photoInput.files).map(function (f) { return compressImageToBase64(f, 800, 0.7); }))
+          .then(function (photoArr) {
+            return sendData({
+              type: 'inspection',
+              vehicle: vehicleLabel,
+              vehicleNumber: number,
+              photo: photoArr.filter(Boolean),
+              username: getTelegramUsername()
+            });
+          })
+          .then(function () {
+            setButtonLoading(btn, false);
+            showScreen('mainMenu');
+            document.getElementById('inspectionForm').reset();
+            document.getElementById('btnInspectionPhoto').classList.remove('has-file');
+            photoInput.value = '';
+            updateInspectionPhotoButtonText();
+          })
+          .catch(function () {
+            setButtonLoading(btn, false);
+          });
+      });
+
+      document.getElementById('btnIssueOswiadczenie').addEventListener('click', function () {
+        document.getElementById('issueOswiadczenie').click();
+      });
+      document.getElementById('issueOswiadczenie').addEventListener('change', function () {
+        document.getElementById('btnIssueOswiadczenie').classList.toggle('has-file', this.files && this.files.length > 0);
+        updateIssueOswiadczenieButtonText();
+      });
+      document.getElementById('btnIssueAccidentPhotos').addEventListener('click', function () {
+        document.getElementById('issueAccidentPhotos').click();
+      });
+      document.getElementById('issueAccidentPhotos').addEventListener('change', function () {
+        document.getElementById('btnIssueAccidentPhotos').classList.toggle('has-file', this.files && this.files.length > 0);
+        updateIssueAccidentPhotosButtonText();
       });
 
       document.getElementById('issueForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        var btn = document.getElementById('issueSubmit');
+        var name = document.getElementById('issueName').value.trim();
         var issueVehicleVal = document.getElementById('issueVehicle').value;
-        var vehicleLabel = issueVehicleVal === 'car' ? t('vehicleCar') : (issueVehicleVal === 'scooter' ? t('vehicleScooter') : (issueVehicleVal === 'bicycle' ? t('vehicleBicycle') : issueVehicleVal));
         var vehicleNumber = document.getElementById('issueNumber').value.trim();
         var description = document.getElementById('issueDescription').value.trim();
-        var photoInput = document.getElementById('issuePhoto');
-        var files = photoInput.files;
-        var fileCount = files ? files.length : 0;
-
-        if (!issueVehicleVal || !vehicleNumber || !description || fileCount === 0) {
+        var oswFiles = document.getElementById('issueOswiadczenie').files;
+        var accidentFiles = document.getElementById('issueAccidentPhotos').files;
+        var oswCount = oswFiles ? oswFiles.length : 0;
+        var accidentCount = accidentFiles ? accidentFiles.length : 0;
+        if (!name || !issueVehicleVal || !vehicleNumber || !description || oswCount === 0 || accidentCount === 0) {
           var msg = t('fill_all_fields');
-          if (tg && tg.showPopup) {
-            tg.showPopup({
-              title: t('issueTitle'),
-              message: msg,
-              buttons: [{ type: 'ok' }]
-            });
-          } else {
-            showAlert(msg);
-          }
+          if (tg && tg.showPopup) tg.showPopup({ title: t('issueTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          else showAlert(msg);
           return;
         }
-
+        var btn = document.getElementById('issueSubmit');
+        var vehicleLabel = issueVehicleVal === 'car' ? t('vehicleCar') : (issueVehicleVal === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
         setButtonLoading(btn, true);
-        var compressAll = Array.from(files).map(function (file) {
-          return compressImageToBase64(file, 800, 0.7);
-        });
-        Promise.all(compressAll).then(function (base64Array) {
-          var payload = {
+        var oswProm = Promise.all(Array.from(oswFiles).map(function (f) { return compressImageToBase64(f, 800, 0.7); }));
+        var accidentProm = Promise.all(Array.from(accidentFiles).map(function (f) { return compressImageToBase64(f, 800, 0.7); }));
+        Promise.all([oswProm, accidentProm]).then(function (results) {
+          return sendData({
             type: 'issue',
+            fullName: name,
             vehicle: vehicleLabel,
             vehicleNumber: vehicleNumber,
             description: description,
-            photo: base64Array.filter(Boolean),
+            oswiadczenie: results[0].filter(Boolean),
+            accidentPhotos: results[1].filter(Boolean),
             username: getTelegramUsername()
-          };
-          return sendData(payload);
+          });
         }).then(function () {
           setButtonLoading(btn, false);
-          closeModal('issueOverlay');
+          showScreen('mainMenu');
           document.getElementById('issueForm').reset();
-          document.getElementById('btnAttachPhoto').classList.remove('has-file');
-          document.getElementById('btnAttachPhotoText').textContent = t('btnAttachPhoto');
-          photoInput.value = '';
+          document.getElementById('btnIssueOswiadczenie').classList.remove('has-file');
+          document.getElementById('btnIssueAccidentPhotos').classList.remove('has-file');
+          document.getElementById('issueOswiadczenie').value = '';
+          document.getElementById('issueAccidentPhotos').value = '';
+          updateIssueOswiadczenieButtonText();
+          updateIssueAccidentPhotosButtonText();
         }).catch(function (err) {
           setButtonLoading(btn, false);
           console.error(err);
         });
-      });
-
-      document.getElementById('rentalOverlay').addEventListener('click', function (e) {
-        if (e.target === this) closeModal('rentalOverlay');
-      });
-      document.getElementById('issueOverlay').addEventListener('click', function (e) {
-        if (e.target === this) closeModal('issueOverlay');
       });
 
       if (document.readyState === 'loading') {
