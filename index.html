@@ -386,10 +386,57 @@
       <button type="button" class="menu-item" data-screen="issueScreen">
         <span class="menu-item-text" id="menuIssue"></span>
       </button>
-      <button type="button" class="menu-item" id="btnAccessory">
+      <button type="button" class="menu-item" data-screen="orderScreen">
         <span class="menu-item-text" id="menuAccessory"></span>
       </button>
     </nav>
+  </div>
+
+  <div id="orderScreen" class="screen">
+    <button type="button" class="btn-back" data-back="mainMenu" id="orderBack"><span aria-hidden="true">←</span> <span id="btnBackOrder"></span></button>
+    <h2 id="orderTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
+    <form id="orderForm">
+      <div class="form-group">
+        <label for="orderItem" id="labelOrderItem"></label>
+        <select id="orderItem" name="item" required>
+          <option value="" data-i18n="orderChooseItem"></option>
+          <optgroup id="orderGrpOther" data-i18n-label="orderGroupOther">
+            <option value="plecak_jush" data-i18n="orderItem_plecak_jush"></option>
+            <option value="rekawice_skuter" data-i18n="orderItem_rekawice_skuter"></option>
+            <option value="oslona_buty" data-i18n="orderItem_oslona_buty"></option>
+          </optgroup>
+          <optgroup id="orderGrpJackets" data-i18n-label="orderGroupJackets">
+            <option value="kurtka_przeciwdeszczowa" data-i18n="orderItem_kurtka_przeciwdeszczowa"></option>
+            <option value="kurtka_zimowa" data-i18n="orderItem_kurtka_zimowa"></option>
+          </optgroup>
+          <optgroup id="orderGrpTshirts" data-i18n-label="orderGroupTshirts">
+            <option value="tshirt_sportowy" data-i18n="orderItem_tshirt_sportowy"></option>
+            <option value="tshirt_bawelniany" data-i18n="orderItem_tshirt_bawelniany"></option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="orderWorkLocation" id="labelOrderWorkLocation"></label>
+        <input type="text" id="orderWorkLocation" name="workLocation" required placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="orderInpostCode" id="labelOrderInpostCode"></label>
+        <input type="text" id="orderInpostCode" name="inpostCode" required placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="orderFirstName" id="labelOrderFirstName"></label>
+        <input type="text" id="orderFirstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="orderLastName" id="labelOrderLastName"></label>
+        <input type="text" id="orderLastName" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="orderPhone" id="labelOrderPhone"></label>
+        <input type="tel" id="orderPhone" name="phone" required placeholder="+48 123 456 789" oninput="this.value=this.value.replace(/[^0-9+]/g,'')">
+      </div>
+      <button type="submit" class="btn-submit" id="orderSubmit"></button>
+    </form>
   </div>
 
   <div id="rentalScreen" class="screen">
@@ -585,7 +632,27 @@
           placeholderIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
           btnBackRental: 'Wstecz',
           btnBackInspection: 'Wstecz',
-          btnBackIssue: 'Wstecz'
+          btnBackIssue: 'Wstecz',
+          orderTitle: 'Co chciałbyś zamówić?',
+          labelOrderItem: 'Produkt *',
+          orderChooseItem: 'Wybierz produkt',
+          orderGroupOther: 'Inne akcesoria',
+          orderGroupJackets: 'Kurtki',
+          orderGroupTshirts: 'Koszulki / T-shirty',
+          orderItem_plecak_jush: 'Plecak JUSH (80 PLN)',
+          orderItem_rekawice_skuter: 'Ocieplane rękawice na skuter (35 PLN) PROMO!!!',
+          orderItem_oslona_buty: 'Osłona na buty (40 PLN) [42-43 EU lub 44-45 EU]',
+          orderItem_kurtka_przeciwdeszczowa: 'Kurtka przeciwdeszczowa (30 PLN)',
+          orderItem_kurtka_zimowa: 'Kurtka zimowa (S, M) (120 PLN)',
+          orderItem_tshirt_sportowy: 'T-shirt sportowy (M, L, XL, XXL) (30 PLN)',
+          orderItem_tshirt_bawelniany: 'T-shirt bawełniany (M, XL, XXL) (30 PLN)',
+          labelOrderWorkLocation: 'Gdzie najczęściej pracujesz? (Dostawa poza Krakowem i Wrocławiem) *',
+          labelOrderInpostCode: 'Kod paczkomatu InPost (Tylko Kraków i Wrocław) *',
+          labelOrderFirstName: 'Imię (w Bink) *',
+          labelOrderLastName: 'Nazwisko (w Bink) *',
+          labelOrderPhone: 'Numer telefonu (w Bink) *',
+          btnSubmitOrder: 'Zamówić',
+          btnBackOrder: 'Wstecz'
         },
         ua: {
           titleRent: 'Оренда',
@@ -656,7 +723,27 @@
           placeholderIssueDescription: 'Детально опишіть, як саме сталася аварія.',
           btnBackRental: 'Назад',
           btnBackInspection: 'Назад',
-          btnBackIssue: 'Назад'
+          btnBackIssue: 'Назад',
+          orderTitle: 'Що ви хочете замовити?',
+          labelOrderItem: 'Товар *',
+          orderChooseItem: 'Оберіть товар',
+          orderGroupOther: 'Інші аксесуари',
+          orderGroupJackets: 'Куртки',
+          orderGroupTshirts: 'Футболки / T-shirt',
+          orderItem_plecak_jush: 'Plecak JUSH (80 PLN)',
+          orderItem_rekawice_skuter: 'Ocieplane rękawice na skuter (35 PLN) PROMO!!!',
+          orderItem_oslona_buty: 'Osłona na buty (40 PLN) [42-43 EU lub 44-45 EU]',
+          orderItem_kurtka_przeciwdeszczowa: 'Kurtka przeciwdeszczowa (30 PLN)',
+          orderItem_kurtka_zimowa: 'Kurtka zimowa (S, M) (120 PLN)',
+          orderItem_tshirt_sportowy: 'T-shirt sportowy (M, L, XL, XXL) (30 PLN)',
+          orderItem_tshirt_bawelniany: 'T-shirt bawełniany (M, XL, XXL) (30 PLN)',
+          labelOrderWorkLocation: 'Де ви найчастіше працюєте? (Доставка поза Краковом і Вроцлавом) *',
+          labelOrderInpostCode: 'Код поштомату InPost (Тільки Краків і Вроцлав) *',
+          labelOrderFirstName: 'Ім\'я (у Bink) *',
+          labelOrderLastName: 'Прізвище (у Bink) *',
+          labelOrderPhone: 'Номер телефону (у Bink) *',
+          btnSubmitOrder: 'Замовити',
+          btnBackOrder: 'Назад'
         },
         ru: {
           titleRent: 'Аренда',
@@ -727,7 +814,27 @@
           placeholderIssueDescription: 'Подробно опишите, как именно произошла авария.',
           btnBackRental: 'Назад',
           btnBackInspection: 'Назад',
-          btnBackIssue: 'Назад'
+          btnBackIssue: 'Назад',
+          orderTitle: 'Что вы хотите заказать?',
+          labelOrderItem: 'Товар *',
+          orderChooseItem: 'Выберите товар',
+          orderGroupOther: 'Другие аксессуары',
+          orderGroupJackets: 'Куртки',
+          orderGroupTshirts: 'Футболки / T-shirt',
+          orderItem_plecak_jush: 'Plecak JUSH (80 PLN)',
+          orderItem_rekawice_skuter: 'Ocieplane rękawice na skuter (35 PLN) PROMO!!!',
+          orderItem_oslona_buty: 'Osłona na buty (40 PLN) [42-43 EU lub 44-45 EU]',
+          orderItem_kurtka_przeciwdeszczowa: 'Kurtka przeciwdeszczowa (30 PLN)',
+          orderItem_kurtka_zimowa: 'Kurtka zimowa (S, M) (120 PLN)',
+          orderItem_tshirt_sportowy: 'T-shirt sportowy (M, L, XL, XXL) (30 PLN)',
+          orderItem_tshirt_bawelniany: 'T-shirt bawełniany (M, XL, XXL) (30 PLN)',
+          labelOrderWorkLocation: 'Где вы чаще всего работаете? (Доставка вне Кракова и Вроцлава) *',
+          labelOrderInpostCode: 'Код пунктомата InPost (Только Краков и Вроцлав) *',
+          labelOrderFirstName: 'Имя (в Bink) *',
+          labelOrderLastName: 'Фамилия (в Bink) *',
+          labelOrderPhone: 'Номер телефона (в Bink) *',
+          btnSubmitOrder: 'Заказать',
+          btnBackOrder: 'Назад'
         },
         en: {
           titleRent: 'Rent',
@@ -790,7 +897,27 @@
           validationIssueRequired: 'Please fill all fields and attach at least one photo.',
           btnBackRental: 'Back',
           btnBackInspection: 'Back',
-          btnBackIssue: 'Back'
+          btnBackIssue: 'Back',
+          orderTitle: 'What would you like to order?',
+          labelOrderItem: 'Product *',
+          orderChooseItem: 'Choose product',
+          orderGroupOther: 'Other accessories',
+          orderGroupJackets: 'Jackets',
+          orderGroupTshirts: 'T-shirts',
+          orderItem_plecak_jush: 'Plecak JUSH (80 PLN)',
+          orderItem_rekawice_skuter: 'Ocieplane rękawice na skuter (35 PLN) PROMO!!!',
+          orderItem_oslona_buty: 'Osłona na buty (40 PLN) [42-43 EU or 44-45 EU]',
+          orderItem_kurtka_przeciwdeszczowa: 'Kurtka przeciwdeszczowa (30 PLN)',
+          orderItem_kurtka_zimowa: 'Kurtka zimowa (S, M) (120 PLN)',
+          orderItem_tshirt_sportowy: 'T-shirt sportowy (M, L, XL, XXL) (30 PLN)',
+          orderItem_tshirt_bawelniany: 'T-shirt bawełniany (M, XL, XXL) (30 PLN)',
+          labelOrderWorkLocation: 'Where do you usually work? (Delivery outside Krakow and Wroclaw) *',
+          labelOrderInpostCode: 'InPost parcel locker code (Krakow and Wroclaw only) *',
+          labelOrderFirstName: 'First name (in Bink) *',
+          labelOrderLastName: 'Last name (in Bink) *',
+          labelOrderPhone: 'Phone number (in Bink) *',
+          btnSubmitOrder: 'Order',
+          btnBackOrder: 'Back'
         }
       };
 
@@ -920,6 +1047,27 @@
         document.getElementById('issueNumber').placeholder = t('placeholderVehicleNumber');
         document.getElementById('issueSubmit').textContent = t('btnSubmitIssue');
         document.getElementById('btnBackIssue').textContent = t('back');
+
+        document.getElementById('orderTitle').textContent = t('orderTitle');
+        document.getElementById('labelOrderItem').innerHTML = (t('labelOrderItem') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        var orderSelect = document.getElementById('orderItem');
+        if (orderSelect) {
+          var firstOpt = orderSelect.querySelector('option[value=""]');
+          if (firstOpt) firstOpt.textContent = t('orderChooseItem');
+          orderSelect.querySelectorAll('optgroup').forEach(function (grp) {
+            if (grp.getAttribute('data-i18n-label')) grp.label = t(grp.getAttribute('data-i18n-label'));
+          });
+          orderSelect.querySelectorAll('option[data-i18n]').forEach(function (opt) {
+            opt.textContent = t(opt.getAttribute('data-i18n'));
+          });
+        }
+        document.getElementById('labelOrderWorkLocation').innerHTML = (t('labelOrderWorkLocation') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelOrderInpostCode').innerHTML = (t('labelOrderInpostCode') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelOrderFirstName').innerHTML = (t('labelOrderFirstName') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelOrderLastName').innerHTML = (t('labelOrderLastName') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelOrderPhone').innerHTML = (t('labelOrderPhone') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('orderSubmit').textContent = t('btnSubmitOrder');
+        document.getElementById('btnBackOrder').textContent = t('back');
       }
 
       function updateRentalScreenshotButtonText() {
@@ -982,7 +1130,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbws_FygXJBJQMzlp-U-5K2z2YCs0F-SowcEKfL3CK_f9oSAWx6IQ6olxwNIh1hKTWb9eg/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbxkrpTUZIUSFkuu-nPieawTJBaR7Jd64nx-Cb_htzk-6WmaUpQ83rKESJa1JXvlzu7Etg/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1032,15 +1180,6 @@
           showScreen(this.getAttribute('data-screen'));
         });
       });
-      document.getElementById('btnAccessory').addEventListener('click', function () {
-        var msg = t('inDevelopment');
-        if (tg && tg.showPopup) {
-          tg.showPopup({ title: '', message: msg, buttons: [{ type: 'ok' }] });
-        } else {
-          showAlert(msg);
-        }
-      });
-
       document.querySelectorAll('.btn-back').forEach(function (btn) {
         btn.addEventListener('click', function () {
           showScreen(this.getAttribute('data-back'));
@@ -1049,6 +1188,44 @@
 
       document.getElementById('rentalPhone').addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9+]/g, '');
+      });
+      document.getElementById('orderPhone').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9+]/g, '');
+      });
+
+      document.getElementById('orderForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var item = document.getElementById('orderItem').value;
+        var workLocation = document.getElementById('orderWorkLocation').value.trim();
+        var inpostCode = document.getElementById('orderInpostCode').value.trim();
+        var firstName = document.getElementById('orderFirstName').value.trim();
+        var lastName = document.getElementById('orderLastName').value.trim();
+        var phone = document.getElementById('orderPhone').value.trim();
+        if (!item || !workLocation || !inpostCode || !firstName || !lastName || !phone) {
+          var msg = t('fill_all_fields');
+          if (tg && tg.showPopup) tg.showPopup({ title: t('orderTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          else showAlert(msg);
+          return;
+        }
+        var phoneForSheet = (phone.charAt(0) === "'" ? phone : "'" + phone);
+        var btn = document.getElementById('orderSubmit');
+        setButtonLoading(btn, true);
+        sendData({
+          type: 'order',
+          item: item,
+          workLocation: workLocation,
+          inpostCode: inpostCode,
+          firstName: firstName,
+          lastName: lastName,
+          phone: phoneForSheet,
+          username: getTelegramUsername()
+        }).then(function () {
+          setButtonLoading(btn, false);
+          showScreen('mainMenu');
+          document.getElementById('orderForm').reset();
+        }).catch(function () {
+          setButtonLoading(btn, false);
+        });
       });
 
       document.getElementById('btnRentalScreenshot').addEventListener('click', function () {
