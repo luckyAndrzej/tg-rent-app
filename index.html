@@ -132,6 +132,34 @@
       background: var(--accent-light);
       border-radius: 12px;
     }
+    .vehicle-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .vehicle-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      text-align: left;
+      padding: 0;
+      width: 100%;
+      font-family: inherit;
+    }
+    .vehicle-card:hover, .vehicle-card:focus-visible { box-shadow: var(--shadow-hover); outline: none; }
+    .vehicle-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .vehicle-card-photo {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      background: #e2e8f0;
+    }
+    .vehicle-card-photo.placeholder { object-fit: none; background: var(--accent-light); }
+    .vehicle-card-body { padding: 14px 16px; }
+    .vehicle-card-desc { font-size: 0.9rem; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
+    .vehicle-card-price { font-size: 1rem; font-weight: 600; color: var(--accent); }
     .cards {
       display: grid;
       grid-template-columns: 1fr;
@@ -445,13 +473,31 @@
     <h2 id="rentalTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
     <form id="rentalForm">
       <div class="form-group">
-        <label for="rentalVehicle" id="labelRentalVehicle"></label>
-        <select id="rentalVehicle" name="vehicle" required>
-          <option value="" data-i18n="issueChooseType"></option>
-          <option value="car" data-i18n="vehicleCar"></option>
-          <option value="scooter" data-i18n="vehicleScooter"></option>
-          <option value="bicycle" data-i18n="vehicleBicycle"></option>
-        </select>
+        <label id="labelRentalVehicle" style="display:block;margin-bottom:10px;"></label>
+        <input type="hidden" id="rentalVehicle" name="vehicle" required>
+        <div class="vehicle-cards" id="rentalVehicleCards" role="listbox" aria-label="Wybierz pojazd">
+          <button type="button" class="vehicle-card" data-vehicle="car" role="option" aria-selected="false" id="rentalCardCar">
+            <img src="img/toyota-yaris.png" alt="Toyota Yaris" class="vehicle-card-photo" width="400" height="250">
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-desc" id="rentalCarDesc"></div>
+              <div class="vehicle-card-price" id="rentalCarPrice"></div>
+            </div>
+          </button>
+          <button type="button" class="vehicle-card" data-vehicle="scooter" role="option" aria-selected="false" id="rentalCardScooter">
+            <div class="vehicle-card-photo placeholder" aria-hidden="true" style="height:140px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--text-muted);" id="rentalScooterPhotoPlaceholder">—</div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-desc" id="rentalScooterDesc"></div>
+              <div class="vehicle-card-price" id="rentalScooterPrice"></div>
+            </div>
+          </button>
+          <button type="button" class="vehicle-card" data-vehicle="bicycle" role="option" aria-selected="false" id="rentalCardBicycle">
+            <div class="vehicle-card-photo placeholder" aria-hidden="true" style="height:140px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--text-muted);" id="rentalBicyclePhotoPlaceholder">—</div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-desc" id="rentalBicycleDesc"></div>
+              <div class="vehicle-card-price" id="rentalBicyclePrice"></div>
+            </div>
+          </button>
+        </div>
       </div>
       <div class="form-group">
         <label for="rentalName" id="labelRentalName"></label>
@@ -570,10 +616,16 @@
           titleTransport: 'Jush!',
           vehicleCar: 'Samochód',
           vehicleCarSub: 'Wynajem samochodu',
+          vehicleCarDescription: 'Toyota Yaris 2025, pojemność skokowa',
+          vehicleCarPrice: '300 zł tygodniowo',
           vehicleScooter: 'Skuter',
           vehicleScooterSub: 'Wynajem skutera',
+          vehicleScooterDescription: 'Skuter — wkrótce',
+          vehicleScooterPrice: 'Cena wkrótce',
           vehicleBicycle: 'Rower',
           vehicleBicycleSub: 'Wynajem roweru',
+          vehicleBicycleDescription: 'Rower — wkrótce',
+          vehicleBicyclePrice: 'Cena wkrótce',
           btnProblem: 'Zgłoś problem / wypadek',
           rentalTitle: 'Zarezerwuj',
           descCar: 'Wygodne auta do miasta i dalszych podróży. Ubezpieczenie w cenie.',
@@ -666,10 +718,16 @@
           titleTransport: 'Jush!',
           vehicleCar: 'Авто',
           vehicleCarSub: 'Оренда автомобіля',
+          vehicleCarDescription: 'Toyota Yaris 2025, pojemność skokowa',
+          vehicleCarPrice: '300 zł на тиждень',
           vehicleScooter: 'Скутер',
           vehicleScooterSub: 'Оренда скутера',
+          vehicleScooterDescription: 'Скутер — незабаром',
+          vehicleScooterPrice: 'Ціна незабаром',
           vehicleBicycle: 'Велосипед',
           vehicleBicycleSub: 'Оренда велосипеда',
+          vehicleBicycleDescription: 'Велосипед — незабаром',
+          vehicleBicyclePrice: 'Ціна незабаром',
           btnProblem: 'Повідомити про проблему / аварію',
           rentalTitle: 'Забронювати',
           descCar: 'Зручні авто для міста та далеких поїздок. Страховка включена.',
@@ -762,10 +820,16 @@
           titleTransport: 'Jush!',
           vehicleCar: 'Машина',
           vehicleCarSub: 'Аренда автомобиля',
+          vehicleCarDescription: 'Toyota Yaris 2025, pojemność skokowa',
+          vehicleCarPrice: '300 zł еженедельно',
           vehicleScooter: 'Скутер',
           vehicleScooterSub: 'Аренда скутера',
+          vehicleScooterDescription: 'Скутер — скоро',
+          vehicleScooterPrice: 'Цена скоро',
           vehicleBicycle: 'Велосипед',
           vehicleBicycleSub: 'Аренда велосипеда',
+          vehicleBicycleDescription: 'Велосипед — скоро',
+          vehicleBicyclePrice: 'Цена скоро',
           btnProblem: 'Сообщить о проблеме / аварии',
           rentalTitle: 'Забронировать',
           descCar: 'Комфортные авто для города и дальних поездок. Страховка включена.',
@@ -858,10 +922,16 @@
           titleTransport: 'Jush!',
           vehicleCar: 'Car',
           vehicleCarSub: 'Car rental',
+          vehicleCarDescription: 'Toyota Yaris 2025, pojemność skokowa',
+          vehicleCarPrice: '300 zł weekly',
           vehicleScooter: 'Scooter',
           vehicleScooterSub: 'Scooter rental',
+          vehicleScooterDescription: 'Scooter — coming soon',
+          vehicleScooterPrice: 'Price coming soon',
           vehicleBicycle: 'Bicycle',
           vehicleBicycleSub: 'Bicycle rental',
+          vehicleBicycleDescription: 'Bicycle — coming soon',
+          vehicleBicyclePrice: 'Price coming soon',
           menuRent: 'I want to rent',
           menuInspection: 'I want to end the rental',
           menuIssue: 'Accident',
@@ -1042,6 +1112,18 @@
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
         document.getElementById('btnBackRental').textContent = t('back');
+        var rentalCarDesc = document.getElementById('rentalCarDesc');
+        var rentalCarPrice = document.getElementById('rentalCarPrice');
+        var rentalScooterDesc = document.getElementById('rentalScooterDesc');
+        var rentalScooterPrice = document.getElementById('rentalScooterPrice');
+        var rentalBicycleDesc = document.getElementById('rentalBicycleDesc');
+        var rentalBicyclePrice = document.getElementById('rentalBicyclePrice');
+        if (rentalCarDesc) rentalCarDesc.textContent = t('vehicleCarDescription');
+        if (rentalCarPrice) rentalCarPrice.textContent = t('vehicleCarPrice');
+        if (rentalScooterDesc) rentalScooterDesc.textContent = t('vehicleScooterDescription');
+        if (rentalScooterPrice) rentalScooterPrice.textContent = t('vehicleScooterPrice');
+        if (rentalBicycleDesc) rentalBicycleDesc.textContent = t('vehicleBicycleDescription');
+        if (rentalBicyclePrice) rentalBicyclePrice.textContent = t('vehicleBicyclePrice');
 
         document.getElementById('inspectionTitle').textContent = t('inspectionTitle');
         document.getElementById('labelInspectionVehicle').textContent = t('labelInspectionVehicle');
@@ -1213,6 +1295,20 @@
       document.getElementById('rentalPhone').addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9+]/g, '');
       });
+
+      document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var value = this.getAttribute('data-vehicle');
+          document.getElementById('rentalVehicle').value = value;
+          document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (c) {
+            c.classList.remove('selected');
+            c.setAttribute('aria-selected', 'false');
+          });
+          this.classList.add('selected');
+          this.setAttribute('aria-selected', 'true');
+        });
+      });
+
       document.getElementById('orderPhone').addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9+]/g, '');
       });
@@ -1281,6 +1377,11 @@
           setButtonLoading(btn, false);
           showScreen('mainMenu');
           document.getElementById('rentalForm').reset();
+          document.getElementById('rentalVehicle').value = '';
+          document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (c) {
+            c.classList.remove('selected');
+            c.setAttribute('aria-selected', 'false');
+          });
         }).catch(function () {
           setButtonLoading(btn, false);
         });
