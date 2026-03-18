@@ -132,25 +132,7 @@
       background: var(--accent-light);
       border-radius: 12px;
     }
-    .vehicle-type-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-    .vehicle-type-btn {
-      display: block;
-      width: 100%;
-      padding: 14px 18px;
-      font-family: var(--font);
-      font-size: 1rem;
-      font-weight: 600;
-      text-align: left;
-      color: var(--text);
-      background: var(--card-bg);
-      border: 2px solid #e2e8f0;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .vehicle-type-btn:hover, .vehicle-type-btn:focus-visible { border-color: var(--accent); outline: none; }
-    .vehicle-type-btn.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); background: var(--accent-light); }
+    .vehicle-select-wrap { margin-bottom: 16px; }
     .vehicle-detail {
       display: none;
       margin-bottom: 20px;
@@ -491,14 +473,17 @@
       <div class="form-group">
         <label id="labelRentalVehicle" style="display:block;margin-bottom:10px;"></label>
         <input type="hidden" id="rentalVehicle" name="vehicle" required>
-        <div class="vehicle-type-buttons">
-          <button type="button" class="vehicle-type-btn" data-vehicle="car" id="rentalBtnCar"></button>
-          <button type="button" class="vehicle-type-btn" data-vehicle="scooter" id="rentalBtnScooter"></button>
-          <button type="button" class="vehicle-type-btn" data-vehicle="bicycle" id="rentalBtnBicycle"></button>
+        <div class="vehicle-select-wrap">
+          <select id="rentalVehicleSelect" class="form-select" aria-label="Wybierz pojazd">
+            <option value="" data-i18n="issueChooseType"></option>
+            <option value="car" data-i18n="vehicleCar"></option>
+            <option value="scooter" data-i18n="vehicleScooter"></option>
+            <option value="bicycle" data-i18n="vehicleBicycle"></option>
+          </select>
         </div>
         <div class="vehicle-detail" id="rentalVehicleDetail" aria-live="polite">
           <div class="vehicle-detail-photo" id="rentalDetailPhoto">
-            <img src="img/toyota-yaris.png" alt="" id="rentalDetailImg" style="display:none;">
+            <img src="" alt="" id="rentalDetailImg" style="display:none;">
             <span class="vehicle-detail-photo-placeholder" id="rentalDetailPhotoPlaceholder" style="display:none;">—</span>
           </div>
           <div class="vehicle-detail-body">
@@ -1120,12 +1105,6 @@
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
         document.getElementById('btnBackRental').textContent = t('back');
-        var rentalBtnCar = document.getElementById('rentalBtnCar');
-        var rentalBtnScooter = document.getElementById('rentalBtnScooter');
-        var rentalBtnBicycle = document.getElementById('rentalBtnBicycle');
-        if (rentalBtnCar) rentalBtnCar.textContent = t('vehicleCar');
-        if (rentalBtnScooter) rentalBtnScooter.textContent = t('vehicleScooter');
-        if (rentalBtnBicycle) rentalBtnBicycle.textContent = t('vehicleBicycle');
         var rentalVehicleVal = document.getElementById('rentalVehicle') && document.getElementById('rentalVehicle').value;
         if (rentalVehicleVal) {
           var descKey = rentalVehicleVal === 'car' ? 'vehicleCarDescription' : (rentalVehicleVal === 'scooter' ? 'vehicleScooterDescription' : 'vehicleBicycleDescription');
@@ -1320,7 +1299,8 @@
         }
         detail.classList.add('visible');
         if (vehicle === 'car') {
-          img.src = 'img/toyota-yaris.png';
+          var base = window.location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+          img.src = base + 'img/toyota-yaris.png';
           img.alt = t('vehicleCar');
           img.style.display = 'block';
           placeholder.style.display = 'none';
@@ -1335,14 +1315,10 @@
         descEl.textContent = t(descKey);
         priceEl.textContent = t(priceKey);
       }
-      document.querySelectorAll('.vehicle-type-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var value = this.getAttribute('data-vehicle');
-          document.getElementById('rentalVehicle').value = value;
-          document.querySelectorAll('.vehicle-type-btn').forEach(function (b) { b.classList.remove('selected'); });
-          this.classList.add('selected');
-          updateRentalVehicleDetail(value);
-        });
+      document.getElementById('rentalVehicleSelect').addEventListener('change', function () {
+        var value = this.value || '';
+        document.getElementById('rentalVehicle').value = value;
+        updateRentalVehicleDetail(value);
       });
 
       document.getElementById('orderPhone').addEventListener('input', function () {
@@ -1414,7 +1390,7 @@
           showScreen('mainMenu');
           document.getElementById('rentalForm').reset();
           document.getElementById('rentalVehicle').value = '';
-          document.querySelectorAll('.vehicle-type-btn').forEach(function (b) { b.classList.remove('selected'); });
+          document.getElementById('rentalVehicleSelect').value = '';
           document.getElementById('rentalVehicleDetail').classList.remove('visible');
         }).catch(function () {
           setButtonLoading(btn, false);
