@@ -470,11 +470,6 @@
           <option value="3_plus_months" data-i18n="period3Plus"></option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="rentalShifts" id="labelRentalShifts"></label>
-        <input type="number" id="rentalShifts" name="shifts" min="0" step="1" required>
-        <p class="form-hint" id="rentalShiftsHint"></p>
-      </div>
       <div class="file-upload-wrap">
         <label id="labelRentalScreenshot"></label>
         <input type="file" id="rentalScreenshot" class="file-input-hidden" accept="image/*" multiple aria-hidden="true">
@@ -565,8 +560,8 @@
 
       var i18n = {
         pl: {
-          titleRent: 'Wynajem',
-          titleTransport: 'transportu',
+          titleRent: 'Rent',
+          titleTransport: 'Jush!',
           vehicleCar: 'Samochód',
           vehicleCarSub: 'Wynajem samochodu',
           vehicleScooter: 'Skuter',
@@ -578,7 +573,7 @@
           descCar: 'Wygodne auta do miasta i dalszych podróży. Ubezpieczenie w cenie.',
           descScooter: 'Idealnie do omijania korków. Niski koszt i łatwe parkowanie.',
           descBicycle: 'Ekologiczny wybór na przejażdżki i dostawy. Kask w zestawie.',
-          labelName: 'Imię i nazwisko *',
+          labelName: 'Imię i nazwisko jak w Bink *',
           labelPhone: 'Numer telefonu *',
           labelEmail: 'Email *',
           labelPeriod: 'Okres wynajmu *',
@@ -590,7 +585,7 @@
           period1_3: '1–3 miesiące',
           period3Plus: 'Ponad 3 miesiące',
           btnSubmitRental: 'Zarezerwuj',
-          issueTitle: 'Awaria',
+          issueTitle: 'Wypadek drogowy',
           labelIssueVehicle: 'Transport *',
           labelIssueNumber: 'Numer pojazdu',
           labelIssueDescription: 'Opisz szczegółowo, jak doszło do wypadku.',
@@ -609,13 +604,11 @@
           fill_all_fields: 'Proszę wypełnić wszystkie pola',
           menuRent: 'Chcę wynająć',
           menuInspection: 'Chcę zakończyć wynajem',
-          menuIssue: 'Awaria',
+          menuIssue: 'Wypadek drogowy',
           menuAccessory: 'Kup akcesorium',
           back: 'Wstecz',
           inDevelopment: 'W przygotowaniu',
           labelRentalVehicle: 'Transport *',
-          labelRentalShifts: 'Liczba przepracowanych shiftów w ostatnim tygodniu *',
-          rentalShiftsHint: 'Im więcej shiftów, tym niższa cena wynajmu.',
           labelRentalScreenshot: 'Zrzut ekranu przepracowanych shiftów *',
           btnRentalScreenshot: 'Dołącz zrzut ekranu',
           inspectionTitle: 'Zakończenie wynajmu',
@@ -624,7 +617,7 @@
           labelInspectionPhoto: 'Zrób zdjęcie pojazdu z 4 stron *',
           btnInspectionPhoto: 'Dołącz zdjęcia',
           inspectionSubmit: 'Wyślij',
-          labelIssueName: 'Imię i nazwisko *',
+          labelIssueName: 'Imię i nazwisko jak w Bink *',
           labelIssueOswiadczenie: 'Wypełnione i podpisane Oświadczenie *',
           btnIssueOswiadczenie: 'Dołącz Oświadczenie',
           labelIssueAccidentPhotos: 'Zdjęcia z miejsca wypadku *',
@@ -660,8 +653,8 @@
           btnBackOrder: 'Wstecz'
         },
         ua: {
-          titleRent: 'Оренда',
-          titleTransport: 'транспорту',
+          titleRent: 'Rent',
+          titleTransport: 'Jush!',
           vehicleCar: 'Авто',
           vehicleCarSub: 'Оренда автомобіля',
           vehicleScooter: 'Скутер',
@@ -673,7 +666,7 @@
           descCar: 'Зручні авто для міста та далеких поїздок. Страховка включена.',
           descScooter: 'Ідеально для об\'їзду пробок. Економічна витрата та легка парковка.',
           descBicycle: 'Екологічний вибір для прогулянок та доставки. Шолом в комплекті.',
-          labelName: 'Ім\'я та прізвище *',
+          labelName: 'Ім\'я та прізвище як у Bink *',
           labelPhone: 'Номер телефону *',
           labelEmail: 'Email *',
           labelPeriod: 'Термін оренди *',
@@ -685,7 +678,7 @@
           period1_3: '1–3 місяці',
           period3Plus: 'Понад 3 місяці',
           btnSubmitRental: 'Забронювати',
-          issueTitle: 'Аварія',
+          issueTitle: 'Дорожня аварія',
           labelIssueVehicle: 'Транспорт *',
           labelIssueNumber: 'Номер транспортного засобу',
           labelIssueDescription: 'Детально опишіть, як саме сталася аварія.',
@@ -704,13 +697,11 @@
           fill_all_fields: 'Будь ласка, заповніть усі поля',
           menuRent: 'Хочу орендувати',
           menuInspection: 'Хочу завершити оренду',
-          menuIssue: 'Аварія',
+          menuIssue: 'Дорожня аварія',
           menuAccessory: 'Купити аксесуар',
           back: 'Назад',
           inDevelopment: 'В розробці',
           labelRentalVehicle: 'Транспорт *',
-          labelRentalShifts: 'Кількість відпрацьованих змін за останній тиждень *',
-          rentalShiftsHint: 'Чим більше змін, тим нижча ціна оренди.',
           labelRentalScreenshot: 'Скріншот відпрацьованих змін *',
           btnRentalScreenshot: 'Прикрепити скріншот',
           inspectionTitle: 'Завершення оренди',
@@ -719,7 +710,7 @@
           labelInspectionPhoto: 'Зробіть фото транспорту з 4 сторін *',
           btnInspectionPhoto: 'Прикрепити фото',
           inspectionSubmit: 'Надіслати',
-          labelIssueName: 'Ім\'я та прізвище *',
+          labelIssueName: 'Ім\'я та прізвище як у Bink *',
           labelIssueOswiadczenie: 'Заповнене та підписане Заява *',
           btnIssueOswiadczenie: 'Прикрепити Заяву',
           labelIssueAccidentPhotos: 'Фотографії з місця аварії *',
@@ -755,8 +746,8 @@
           btnBackOrder: 'Назад'
         },
         ru: {
-          titleRent: 'Аренда',
-          titleTransport: 'транспорта',
+          titleRent: 'Rent',
+          titleTransport: 'Jush!',
           vehicleCar: 'Машина',
           vehicleCarSub: 'Аренда автомобиля',
           vehicleScooter: 'Скутер',
@@ -768,7 +759,7 @@
           descCar: 'Комфортные авто для города и дальних поездок. Страховка включена.',
           descScooter: 'Идеально для объезда пробок. Экономичный расход и лёгкая парковка.',
           descBicycle: 'Экологичный выбор для прогулок и курьерской доставки. Шлем в комплекте.',
-          labelName: 'Имя и фамилия *',
+          labelName: 'Имя и фамилия как в Bink *',
           labelPhone: 'Номер телефона *',
           labelEmail: 'Email *',
           labelPeriod: 'Срок аренды *',
@@ -804,8 +795,6 @@
           back: 'Назад',
           inDevelopment: 'В разработке',
           labelRentalVehicle: 'Транспорт *',
-          labelRentalShifts: 'Количество отработанных смен за последнюю неделю *',
-          rentalShiftsHint: 'Чем больше смен, тем ниже цена аренды.',
           labelRentalScreenshot: 'Скриншот отработанных смен *',
           btnRentalScreenshot: 'Прикрепить скриншот',
           inspectionTitle: 'Завершение аренды',
@@ -814,7 +803,7 @@
           labelInspectionPhoto: 'Сделайте фото транспорта с 4 сторон *',
           btnInspectionPhoto: 'Прикрепить фото',
           inspectionSubmit: 'Отправить',
-          labelIssueName: 'Имя и фамилия *',
+          labelIssueName: 'Имя и фамилия как в Bink *',
           labelIssueOswiadczenie: 'Заполненное и подписанное Oświadczenie *',
           btnIssueOswiadczenie: 'Прикрепить Oświadczenie',
           labelIssueAccidentPhotos: 'Фотографии с места аварии *',
@@ -851,7 +840,7 @@
         },
         en: {
           titleRent: 'Rent',
-          titleTransport: 'transport',
+          titleTransport: 'Jush!',
           vehicleCar: 'Car',
           vehicleCarSub: 'Car rental',
           vehicleScooter: 'Scooter',
@@ -863,7 +852,7 @@
           menuIssue: 'Accident',
           menuAccessory: 'Buy accessory',
           rentalTitle: 'Book',
-          labelName: 'Full name *',
+          labelName: 'First and last name as in Bink *',
           labelPhone: 'Phone number *',
           labelPeriod: 'Rental period *',
           placeholderName: 'John Doe',
@@ -878,7 +867,7 @@
           labelIssueNumber: 'Vehicle number',
           labelIssueDescription: 'Problem description',
           placeholderIssueDescription: 'Describe in detail how the accident happened.',
-          labelIssueName: 'Full name *',
+          labelIssueName: 'First and last name as in Bink *',
           labelIssueOswiadczenie: 'Filled and signed Statement *',
           btnIssueOswiadczenie: 'Attach Statement',
           labelIssueAccidentPhotos: 'Photos from the accident scene *',
@@ -894,8 +883,6 @@
           back: 'Back',
           inDevelopment: 'In development',
           labelRentalVehicle: 'Transport *',
-          labelRentalShifts: 'Number of shifts worked in the last week *',
-          rentalShiftsHint: 'The more shifts, the lower the rental price.',
           labelRentalScreenshot: 'Screenshot of shifts worked *',
           btnRentalScreenshot: 'Attach screenshot',
           inspectionTitle: 'End rental',
@@ -1035,8 +1022,6 @@
         document.getElementById('labelRentalPeriod').textContent = t('labelPeriod');
         document.getElementById('rentalName').placeholder = t('placeholderName');
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
-        document.getElementById('labelRentalShifts').innerHTML = (t('labelRentalShifts') || '').replace(' *', '') + ' <span class="required-star">*</span>';
-        document.getElementById('rentalShiftsHint').textContent = t('rentalShiftsHint');
         document.getElementById('labelRentalScreenshot').innerHTML = (t('labelRentalScreenshot') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         updateRentalScreenshotButtonText();
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
@@ -1258,10 +1243,9 @@
         var name = document.getElementById('rentalName').value.trim();
         var phone = document.getElementById('rentalPhone').value.trim();
         var periodVal = document.getElementById('rentalPeriod').value;
-        var shifts = document.getElementById('rentalShifts').value.trim();
         var screenshotInput = document.getElementById('rentalScreenshot');
         var screenshotCount = screenshotInput.files ? screenshotInput.files.length : 0;
-        if (!vehicleType || !name || !phone || !periodVal || shifts === '' || screenshotCount === 0) {
+        if (!vehicleType || !name || !phone || !periodVal || screenshotCount === 0) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
           else showAlert(msg);
@@ -1281,7 +1265,6 @@
               name: name,
               phone: phoneForSheet,
               period: periodLabel,
-              shiftsCount: parseInt(shifts, 10) || 0,
               photoShifts: photoArr.filter(Boolean),
               username: getTelegramUsername()
             });
