@@ -132,34 +132,50 @@
       background: var(--accent-light);
       border-radius: 12px;
     }
-    .vehicle-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
-    .vehicle-card {
+    .vehicle-type-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .vehicle-type-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 18px;
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      color: var(--text);
+      background: var(--card-bg);
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .vehicle-type-btn:hover, .vehicle-type-btn:focus-visible { border-color: var(--accent); outline: none; }
+    .vehicle-type-btn.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); background: var(--accent-light); }
+    .vehicle-detail {
+      display: none;
+      margin-bottom: 20px;
       background: var(--card-bg);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-tap-highlight-color: transparent;
-      text-align: left;
-      padding: 0;
-      width: 100%;
-      font-family: inherit;
     }
-    .vehicle-card:hover, .vehicle-card:focus-visible { box-shadow: var(--shadow-hover); outline: none; }
-    .vehicle-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-    .vehicle-card-photo {
+    .vehicle-detail.visible { display: block; }
+    .vehicle-detail-photo {
       width: 100%;
       aspect-ratio: 16/10;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+    .vehicle-detail-photo img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
-      background: #e2e8f0;
     }
-    .vehicle-card-photo.placeholder { object-fit: none; background: var(--accent-light); }
-    .vehicle-card-body { padding: 14px 16px; }
-    .vehicle-card-desc { font-size: 0.9rem; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
-    .vehicle-card-price { font-size: 1rem; font-weight: 600; color: var(--accent); }
+    .vehicle-detail-photo.placeholder { display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--text-muted); }
+    .vehicle-detail-body { padding: 14px 16px; }
+    .vehicle-detail-desc { font-size: 0.9rem; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
+    .vehicle-detail-price { font-size: 1rem; font-weight: 600; color: var(--accent); }
     .cards {
       display: grid;
       grid-template-columns: 1fr;
@@ -475,28 +491,20 @@
       <div class="form-group">
         <label id="labelRentalVehicle" style="display:block;margin-bottom:10px;"></label>
         <input type="hidden" id="rentalVehicle" name="vehicle" required>
-        <div class="vehicle-cards" id="rentalVehicleCards" role="listbox" aria-label="Wybierz pojazd">
-          <button type="button" class="vehicle-card" data-vehicle="car" role="option" aria-selected="false" id="rentalCardCar">
-            <img src="img/toyota-yaris.png" alt="Toyota Yaris" class="vehicle-card-photo" width="400" height="250">
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-desc" id="rentalCarDesc"></div>
-              <div class="vehicle-card-price" id="rentalCarPrice"></div>
-            </div>
-          </button>
-          <button type="button" class="vehicle-card" data-vehicle="scooter" role="option" aria-selected="false" id="rentalCardScooter">
-            <div class="vehicle-card-photo placeholder" aria-hidden="true" style="height:140px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--text-muted);" id="rentalScooterPhotoPlaceholder">—</div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-desc" id="rentalScooterDesc"></div>
-              <div class="vehicle-card-price" id="rentalScooterPrice"></div>
-            </div>
-          </button>
-          <button type="button" class="vehicle-card" data-vehicle="bicycle" role="option" aria-selected="false" id="rentalCardBicycle">
-            <div class="vehicle-card-photo placeholder" aria-hidden="true" style="height:140px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--text-muted);" id="rentalBicyclePhotoPlaceholder">—</div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-desc" id="rentalBicycleDesc"></div>
-              <div class="vehicle-card-price" id="rentalBicyclePrice"></div>
-            </div>
-          </button>
+        <div class="vehicle-type-buttons">
+          <button type="button" class="vehicle-type-btn" data-vehicle="car" id="rentalBtnCar"></button>
+          <button type="button" class="vehicle-type-btn" data-vehicle="scooter" id="rentalBtnScooter"></button>
+          <button type="button" class="vehicle-type-btn" data-vehicle="bicycle" id="rentalBtnBicycle"></button>
+        </div>
+        <div class="vehicle-detail" id="rentalVehicleDetail" aria-live="polite">
+          <div class="vehicle-detail-photo" id="rentalDetailPhoto">
+            <img src="img/toyota-yaris.png" alt="" id="rentalDetailImg" style="display:none;">
+            <span class="vehicle-detail-photo-placeholder" id="rentalDetailPhotoPlaceholder" style="display:none;">—</span>
+          </div>
+          <div class="vehicle-detail-body">
+            <div class="vehicle-detail-desc" id="rentalDetailDesc"></div>
+            <div class="vehicle-detail-price" id="rentalDetailPrice"></div>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -1112,18 +1120,21 @@
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
         document.getElementById('btnBackRental').textContent = t('back');
-        var rentalCarDesc = document.getElementById('rentalCarDesc');
-        var rentalCarPrice = document.getElementById('rentalCarPrice');
-        var rentalScooterDesc = document.getElementById('rentalScooterDesc');
-        var rentalScooterPrice = document.getElementById('rentalScooterPrice');
-        var rentalBicycleDesc = document.getElementById('rentalBicycleDesc');
-        var rentalBicyclePrice = document.getElementById('rentalBicyclePrice');
-        if (rentalCarDesc) rentalCarDesc.textContent = t('vehicleCarDescription');
-        if (rentalCarPrice) rentalCarPrice.textContent = t('vehicleCarPrice');
-        if (rentalScooterDesc) rentalScooterDesc.textContent = t('vehicleScooterDescription');
-        if (rentalScooterPrice) rentalScooterPrice.textContent = t('vehicleScooterPrice');
-        if (rentalBicycleDesc) rentalBicycleDesc.textContent = t('vehicleBicycleDescription');
-        if (rentalBicyclePrice) rentalBicyclePrice.textContent = t('vehicleBicyclePrice');
+        var rentalBtnCar = document.getElementById('rentalBtnCar');
+        var rentalBtnScooter = document.getElementById('rentalBtnScooter');
+        var rentalBtnBicycle = document.getElementById('rentalBtnBicycle');
+        if (rentalBtnCar) rentalBtnCar.textContent = t('vehicleCar');
+        if (rentalBtnScooter) rentalBtnScooter.textContent = t('vehicleScooter');
+        if (rentalBtnBicycle) rentalBtnBicycle.textContent = t('vehicleBicycle');
+        var rentalVehicleVal = document.getElementById('rentalVehicle') && document.getElementById('rentalVehicle').value;
+        if (rentalVehicleVal) {
+          var descKey = rentalVehicleVal === 'car' ? 'vehicleCarDescription' : (rentalVehicleVal === 'scooter' ? 'vehicleScooterDescription' : 'vehicleBicycleDescription');
+          var priceKey = rentalVehicleVal === 'car' ? 'vehicleCarPrice' : (rentalVehicleVal === 'scooter' ? 'vehicleScooterPrice' : 'vehicleBicyclePrice');
+          var d = document.getElementById('rentalDetailDesc');
+          var p = document.getElementById('rentalDetailPrice');
+          if (d) d.textContent = t(descKey);
+          if (p) p.textContent = t(priceKey);
+        }
 
         document.getElementById('inspectionTitle').textContent = t('inspectionTitle');
         document.getElementById('labelInspectionVehicle').textContent = t('labelInspectionVehicle');
@@ -1296,16 +1307,41 @@
         this.value = this.value.replace(/[^0-9+]/g, '');
       });
 
-      document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (card) {
-        card.addEventListener('click', function () {
+      function updateRentalVehicleDetail(vehicle) {
+        var detail = document.getElementById('rentalVehicleDetail');
+        var img = document.getElementById('rentalDetailImg');
+        var placeholder = document.getElementById('rentalDetailPhotoPlaceholder');
+        var photoWrap = document.getElementById('rentalDetailPhoto');
+        var descEl = document.getElementById('rentalDetailDesc');
+        var priceEl = document.getElementById('rentalDetailPrice');
+        if (!vehicle) {
+          detail.classList.remove('visible');
+          return;
+        }
+        detail.classList.add('visible');
+        if (vehicle === 'car') {
+          img.src = 'img/toyota-yaris.png';
+          img.alt = t('vehicleCar');
+          img.style.display = 'block';
+          placeholder.style.display = 'none';
+          photoWrap.classList.remove('placeholder');
+        } else {
+          img.style.display = 'none';
+          placeholder.style.display = 'block';
+          photoWrap.classList.add('placeholder');
+        }
+        var descKey = vehicle === 'car' ? 'vehicleCarDescription' : (vehicle === 'scooter' ? 'vehicleScooterDescription' : 'vehicleBicycleDescription');
+        var priceKey = vehicle === 'car' ? 'vehicleCarPrice' : (vehicle === 'scooter' ? 'vehicleScooterPrice' : 'vehicleBicyclePrice');
+        descEl.textContent = t(descKey);
+        priceEl.textContent = t(priceKey);
+      }
+      document.querySelectorAll('.vehicle-type-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
           var value = this.getAttribute('data-vehicle');
           document.getElementById('rentalVehicle').value = value;
-          document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (c) {
-            c.classList.remove('selected');
-            c.setAttribute('aria-selected', 'false');
-          });
+          document.querySelectorAll('.vehicle-type-btn').forEach(function (b) { b.classList.remove('selected'); });
           this.classList.add('selected');
-          this.setAttribute('aria-selected', 'true');
+          updateRentalVehicleDetail(value);
         });
       });
 
@@ -1378,10 +1414,8 @@
           showScreen('mainMenu');
           document.getElementById('rentalForm').reset();
           document.getElementById('rentalVehicle').value = '';
-          document.querySelectorAll('#rentalVehicleCards .vehicle-card').forEach(function (c) {
-            c.classList.remove('selected');
-            c.setAttribute('aria-selected', 'false');
-          });
+          document.querySelectorAll('.vehicle-type-btn').forEach(function (b) { b.classList.remove('selected'); });
+          document.getElementById('rentalVehicleDetail').classList.remove('visible');
         }).catch(function () {
           setButtonLoading(btn, false);
         });
