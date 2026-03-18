@@ -465,17 +465,10 @@
         <label for="rentalPeriod" id="labelRentalPeriod"></label>
         <select id="rentalPeriod" name="period" required>
           <option value="" data-i18n="periodChoose"></option>
-          <option value="less_month" data-i18n="periodLessMonth"></option>
-          <option value="1_3_months" data-i18n="period1_3"></option>
-          <option value="3_plus_months" data-i18n="period3Plus"></option>
+          <option value="3_5_months" data-i18n="period_3_5"></option>
+          <option value="6_8_months" data-i18n="period_6_8"></option>
+          <option value="8_plus_months" data-i18n="period_8_plus"></option>
         </select>
-      </div>
-      <div class="file-upload-wrap">
-        <label id="labelRentalScreenshot"></label>
-        <input type="file" id="rentalScreenshot" class="file-input-hidden" accept="image/*" multiple aria-hidden="true">
-        <button type="button" class="btn-attach-photo" id="btnRentalScreenshot">
-          <span id="btnRentalScreenshotText"></span>
-        </button>
       </div>
       <button type="submit" class="btn-submit" id="rentalSubmit"></button>
     </form>
@@ -499,11 +492,24 @@
         <input type="text" id="inspectionNumber" name="vehicleNumber" required>
       </div>
       <div class="file-upload-wrap">
-        <label id="labelInspectionPhoto"></label>
-        <input type="file" id="inspectionPhoto" class="file-input-hidden" accept="image/*" capture="environment" multiple aria-hidden="true">
-        <button type="button" class="btn-attach-photo" id="btnInspectionPhoto">
-          <span id="btnInspectionPhotoText"></span>
-        </button>
+        <label id="labelInspectionPhotoFront"></label>
+        <input type="file" id="inspectionPhotoFront" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhotoFront"><span id="btnInspectionPhotoFrontText"></span></button>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelInspectionPhotoRight"></label>
+        <input type="file" id="inspectionPhotoRight" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhotoRight"><span id="btnInspectionPhotoRightText"></span></button>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelInspectionPhotoRear"></label>
+        <input type="file" id="inspectionPhotoRear" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhotoRear"><span id="btnInspectionPhotoRearText"></span></button>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelInspectionPhotoLeft"></label>
+        <input type="file" id="inspectionPhotoLeft" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhotoLeft"><span id="btnInspectionPhotoLeftText"></span></button>
       </div>
       <button type="submit" class="btn-submit" id="inspectionSubmit"></button>
     </form>
@@ -581,9 +587,9 @@
           placeholderPhone: '+48 XXX XXX XXX',
           placeholderEmail: 'email@example.com',
           periodChoose: 'Wybierz okres',
-          periodLessMonth: 'Mniej niż miesiąc',
-          period1_3: '1–3 miesiące',
-          period3Plus: 'Ponad 3 miesiące',
+          period_3_5: '3–5 miesięcy',
+          period_6_8: '6–8 miesięcy',
+          period_8_plus: 'Ponad 8 miesięcy',
           btnSubmitRental: 'Zarezerwuj',
           issueTitle: 'Wypadek drogowy',
           labelIssueVehicle: 'Transport *',
@@ -605,18 +611,21 @@
           menuRent: 'Chcę wynająć',
           menuInspection: 'Chcę zakończyć wynajem',
           menuIssue: 'Wypadek drogowy',
+          issueInfoPopup: 'Tu zgłaszaj wyłącznie wypadki drogowe i awarie pojazdu. W innych sprawach skontaktuj się z nami bezpośrednio.',
           menuAccessory: 'Kup akcesorium',
           back: 'Wstecz',
           inDevelopment: 'W przygotowaniu',
           labelRentalVehicle: 'Transport *',
-          labelRentalScreenshot: 'Zrzut ekranu przepracowanych shiftów *',
-          btnRentalScreenshot: 'Dołącz zrzut ekranu',
           inspectionTitle: 'Zakończenie wynajmu',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Numer pojazdu *',
-          labelInspectionPhoto: 'Zrób zdjęcie pojazdu z 4 stron *',
-          btnInspectionPhoto: 'Dołącz zdjęcia',
+          labelInspectionPhotoFront: 'Zrób zdjęcie z przodu *',
+          labelInspectionPhotoRight: 'Zrób zdjęcie z prawej strony *',
+          labelInspectionPhotoRear: 'Zrób zdjęcie z tyłu *',
+          labelInspectionPhotoLeft: 'Zrób zdjęcie z lewej strony *',
+          btnInspectionPhoto: 'Wybierz zdjęcie',
           inspectionSubmit: 'Wyślij',
+          inspectionSuccessInfo: 'Dziękujemy! Oczekuj na kontakt pracownika Lite.',
           labelIssueName: 'Imię i nazwisko jak w Bink *',
           labelIssueOswiadczenie: 'Wypełnione i podpisane Oświadczenie *',
           btnIssueOswiadczenie: 'Dołącz Oświadczenie',
@@ -674,9 +683,9 @@
           placeholderPhone: '+380 XX XXX XX XX',
           placeholderEmail: 'email@example.com',
           periodChoose: 'Оберіть термін',
-          periodLessMonth: 'Менше місяця',
-          period1_3: '1–3 місяці',
-          period3Plus: 'Понад 3 місяці',
+          period_3_5: '3–5 місяців',
+          period_6_8: '6–8 місяців',
+          period_8_plus: 'Понад 8 місяців',
           btnSubmitRental: 'Забронювати',
           issueTitle: 'Дорожня аварія',
           labelIssueVehicle: 'Транспорт *',
@@ -698,18 +707,21 @@
           menuRent: 'Хочу орендувати',
           menuInspection: 'Хочу завершити оренду',
           menuIssue: 'Дорожня аварія',
+          issueInfoPopup: 'Тут приймаються лише повідомлення про дорожні аварії та поломки авто. З інших питань звертайтесь до нас безпосередньо.',
           menuAccessory: 'Купити аксесуар',
           back: 'Назад',
           inDevelopment: 'В розробці',
           labelRentalVehicle: 'Транспорт *',
-          labelRentalScreenshot: 'Скріншот відпрацьованих змін *',
-          btnRentalScreenshot: 'Прикрепити скріншот',
           inspectionTitle: 'Завершення оренди',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТЗ *',
-          labelInspectionPhoto: 'Зробіть фото транспорту з 4 сторін *',
-          btnInspectionPhoto: 'Прикрепити фото',
+          labelInspectionPhotoFront: 'Зробіть фото спереду *',
+          labelInspectionPhotoRight: 'Зробіть фото з правого боку *',
+          labelInspectionPhotoRear: 'Зробіть фото ззаду *',
+          labelInspectionPhotoLeft: 'Зробіть фото з лівого боку *',
+          btnInspectionPhoto: 'Обрати фото',
           inspectionSubmit: 'Надіслати',
+          inspectionSuccessInfo: 'Дякуємо! Очікуйте на зв\'язок від співробітника Lite.',
           labelIssueName: 'Ім\'я та прізвище як у Bink *',
           labelIssueOswiadczenie: 'Заповнене та підписане Заява *',
           btnIssueOswiadczenie: 'Прикрепити Заяву',
@@ -767,9 +779,9 @@
           placeholderPhone: '+7 XXX XXX-XX-XX',
           placeholderEmail: 'email@example.com',
           periodChoose: 'Выберите срок',
-          periodLessMonth: 'Менее месяца',
-          period1_3: '1–3 месяца',
-          period3Plus: '3+ месяцев',
+          period_3_5: '3–5 месяцев',
+          period_6_8: '6–8 месяцев',
+          period_8_plus: '8+ месяцев',
           btnSubmitRental: 'Забронировать',
           issueTitle: 'Авария',
           labelIssueVehicle: 'Транспорт *',
@@ -791,18 +803,21 @@
           menuRent: 'Хочу арендовать',
           menuInspection: 'Хочу завершить аренду',
           menuIssue: 'Авария',
+          issueInfoPopup: 'Здесь принимаются только сообщения об авариях и поломках транспорта. По остальным вопросам обращайтесь к нам напрямую.',
           menuAccessory: 'Купить аксессуар',
           back: 'Назад',
           inDevelopment: 'В разработке',
           labelRentalVehicle: 'Транспорт *',
-          labelRentalScreenshot: 'Скриншот отработанных смен *',
-          btnRentalScreenshot: 'Прикрепить скриншот',
           inspectionTitle: 'Завершение аренды',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТС *',
-          labelInspectionPhoto: 'Сделайте фото транспорта с 4 сторон *',
-          btnInspectionPhoto: 'Прикрепить фото',
+          labelInspectionPhotoFront: 'Сфотографируйте спереди *',
+          labelInspectionPhotoRight: 'Сфотографируйте с правой стороны *',
+          labelInspectionPhotoRear: 'Сфотографируйте сзади *',
+          labelInspectionPhotoLeft: 'Сфотографируйте слева *',
+          btnInspectionPhoto: 'Выбрать фото',
           inspectionSubmit: 'Отправить',
+          inspectionSuccessInfo: 'Спасибо! Ожидайте связь от сотрудника Lite.',
           labelIssueName: 'Имя и фамилия как в Bink *',
           labelIssueOswiadczenie: 'Заполненное и подписанное Oświadczenie *',
           btnIssueOswiadczenie: 'Прикрепить Oświadczenie',
@@ -850,6 +865,7 @@
           menuRent: 'I want to rent',
           menuInspection: 'I want to end the rental',
           menuIssue: 'Accident',
+          issueInfoPopup: 'Report here only road accidents and vehicle breakdowns. For other matters, please contact us directly.',
           menuAccessory: 'Buy accessory',
           rentalTitle: 'Book',
           labelName: 'First and last name as in Bink *',
@@ -858,9 +874,9 @@
           placeholderName: 'John Doe',
           placeholderPhone: '+48 XXX XXX XXX',
           periodChoose: 'Choose period',
-          periodLessMonth: 'Less than a month',
-          period1_3: '1–3 months',
-          period3Plus: '3+ months',
+          period_3_5: '3–5 months',
+          period_6_8: '6–8 months',
+          period_8_plus: '8+ months',
           btnSubmitRental: 'Book',
           issueTitle: 'Accident',
           labelIssueVehicle: 'Transport *',
@@ -883,14 +899,16 @@
           back: 'Back',
           inDevelopment: 'In development',
           labelRentalVehicle: 'Transport *',
-          labelRentalScreenshot: 'Screenshot of shifts worked *',
-          btnRentalScreenshot: 'Attach screenshot',
           inspectionTitle: 'End rental',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Vehicle number *',
-          labelInspectionPhoto: 'Take photos of the vehicle from 4 sides *',
-          btnInspectionPhoto: 'Attach photos',
+          labelInspectionPhotoFront: 'Photo of front *',
+          labelInspectionPhotoRight: 'Photo of right side *',
+          labelInspectionPhotoRear: 'Photo of rear *',
+          labelInspectionPhotoLeft: 'Photo of left side *',
+          btnInspectionPhoto: 'Choose photo',
           inspectionSubmit: 'Submit',
+          inspectionSuccessInfo: 'Thank you! Please wait for a Lite employee to contact you.',
           btnAttachPhoto: 'Attach photo',
           btnPhotoAttached: 'Photo attached',
           photoAttachedCount: '{{n}} photo(s) attached',
@@ -1022,16 +1040,17 @@
         document.getElementById('labelRentalPeriod').textContent = t('labelPeriod');
         document.getElementById('rentalName').placeholder = t('placeholderName');
         document.getElementById('rentalPhone').placeholder = t('placeholderPhone');
-        document.getElementById('labelRentalScreenshot').innerHTML = (t('labelRentalScreenshot') || '').replace(' *', '') + ' <span class="required-star">*</span>';
-        updateRentalScreenshotButtonText();
         document.getElementById('rentalSubmit').textContent = t('btnSubmitRental');
         document.getElementById('btnBackRental').textContent = t('back');
 
         document.getElementById('inspectionTitle').textContent = t('inspectionTitle');
         document.getElementById('labelInspectionVehicle').textContent = t('labelInspectionVehicle');
         document.getElementById('labelInspectionNumber').innerHTML = (t('labelInspectionNumber') || '').replace(' *', '') + ' <span class="required-star">*</span>';
-        document.getElementById('labelInspectionPhoto').innerHTML = (t('labelInspectionPhoto') || '').replace(' *', '') + ' <span class="required-star">*</span>';
-        updateInspectionPhotoButtonText();
+        document.getElementById('labelInspectionPhotoFront').innerHTML = (t('labelInspectionPhotoFront') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionPhotoRight').innerHTML = (t('labelInspectionPhotoRight') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionPhotoRear').innerHTML = (t('labelInspectionPhotoRear') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionPhotoLeft').innerHTML = (t('labelInspectionPhotoLeft') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        updateInspectionPhotoButtonTexts();
         document.getElementById('inspectionSubmit').textContent = t('inspectionSubmit');
         document.getElementById('btnBackInspection').textContent = t('back');
 
@@ -1069,17 +1088,14 @@
         document.getElementById('btnBackOrder').textContent = t('back');
       }
 
-      function updateRentalScreenshotButtonText() {
-        var el = document.getElementById('btnRentalScreenshotText');
-        var input = document.getElementById('rentalScreenshot');
-        var n = input.files ? input.files.length : 0;
-        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnRentalScreenshot');
-      }
-      function updateInspectionPhotoButtonText() {
-        var el = document.getElementById('btnInspectionPhotoText');
-        var input = document.getElementById('inspectionPhoto');
-        var n = input.files ? input.files.length : 0;
-        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnInspectionPhoto');
+      function updateInspectionPhotoButtonTexts() {
+        var ids = ['Front', 'Right', 'Rear', 'Left'];
+        ids.forEach(function (side) {
+          var el = document.getElementById('btnInspectionPhoto' + side + 'Text');
+          var input = document.getElementById('inspectionPhoto' + side);
+          var hasFile = input.files && input.files.length > 0;
+          if (el) el.textContent = hasFile ? t('btnPhotoAttached') : t('btnInspectionPhoto');
+        });
       }
       function updateIssueOswiadczenieButtonText() {
         var el = document.getElementById('btnIssueOswiadczenieText');
@@ -1129,7 +1145,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbxkrpTUZIUSFkuu-nPieawTJBaR7Jd64nx-Cb_htzk-6WmaUpQ83rKESJa1JXvlzu7Etg/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbwyKVcMC0ZkCbJa5wTCyg4pKlvCKwp7HVLDBENOV2vkG0gFqKg59n2gfA7YevdZbtJhtg/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1176,7 +1192,16 @@
 
       document.querySelectorAll('.menu-item[data-screen]').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          showScreen(this.getAttribute('data-screen'));
+          var screenId = this.getAttribute('data-screen');
+          if (screenId === 'issueScreen') {
+            var msg = t('issueInfoPopup');
+            if (tg && tg.showPopup) {
+              tg.showPopup({ title: t('issueTitle'), message: msg, buttons: [{ type: 'ok' }] });
+            } else {
+              showAlert(msg);
+            }
+          }
+          showScreen(screenId);
         });
       });
       document.querySelectorAll('.btn-back').forEach(function (btn) {
@@ -1227,25 +1252,13 @@
         });
       });
 
-      document.getElementById('btnRentalScreenshot').addEventListener('click', function () {
-        document.getElementById('rentalScreenshot').click();
-      });
-      document.getElementById('rentalScreenshot').addEventListener('change', function () {
-        var btn = document.getElementById('btnRentalScreenshot');
-        var n = this.files ? this.files.length : 0;
-        btn.classList.toggle('has-file', n > 0);
-        updateRentalScreenshotButtonText();
-      });
-
       document.getElementById('rentalForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var vehicleType = document.getElementById('rentalVehicle').value;
         var name = document.getElementById('rentalName').value.trim();
         var phone = document.getElementById('rentalPhone').value.trim();
         var periodVal = document.getElementById('rentalPeriod').value;
-        var screenshotInput = document.getElementById('rentalScreenshot');
-        var screenshotCount = screenshotInput.files ? screenshotInput.files.length : 0;
-        if (!vehicleType || !name || !phone || !periodVal || screenshotCount === 0) {
+        if (!vehicleType || !name || !phone || !periodVal) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
           else showAlert(msg);
@@ -1257,47 +1270,41 @@
         var periodLabel = periodSelect.options[periodSelect.selectedIndex] ? periodSelect.options[periodSelect.selectedIndex].text : periodVal;
         var vehicleLabel = vehicleType === 'car' ? t('vehicleCar') : (vehicleType === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
         setButtonLoading(btn, true);
-        Promise.all(Array.from(screenshotInput.files).map(function (f) { return compressImageToBase64(f, 800, 0.7); }))
-          .then(function (photoArr) {
-            return sendData({
-              type: 'rental',
-              vehicle: vehicleLabel,
-              name: name,
-              phone: phoneForSheet,
-              period: periodLabel,
-              photoShifts: photoArr.filter(Boolean),
-              username: getTelegramUsername()
-            });
-          })
-          .then(function () {
-            setButtonLoading(btn, false);
-            showScreen('mainMenu');
-            document.getElementById('rentalForm').reset();
-            document.getElementById('btnRentalScreenshot').classList.remove('has-file');
-            document.getElementById('rentalScreenshot').value = '';
-            updateRentalScreenshotButtonText();
-          })
-          .catch(function () {
-            setButtonLoading(btn, false);
-          });
+        sendData({
+          type: 'rental',
+          vehicle: vehicleLabel,
+          name: name,
+          phone: phoneForSheet,
+          period: periodLabel,
+          username: getTelegramUsername()
+        }).then(function () {
+          setButtonLoading(btn, false);
+          showScreen('mainMenu');
+          document.getElementById('rentalForm').reset();
+        }).catch(function () {
+          setButtonLoading(btn, false);
+        });
       });
 
-      document.getElementById('btnInspectionPhoto').addEventListener('click', function () {
-        document.getElementById('inspectionPhoto').click();
-      });
-      document.getElementById('inspectionPhoto').addEventListener('change', function () {
-        var btn = document.getElementById('btnInspectionPhoto');
-        btn.classList.toggle('has-file', this.files && this.files.length > 0);
-        updateInspectionPhotoButtonText();
+      ['Front', 'Right', 'Rear', 'Left'].forEach(function (side) {
+        document.getElementById('btnInspectionPhoto' + side).addEventListener('click', function () {
+          document.getElementById('inspectionPhoto' + side).click();
+        });
+        document.getElementById('inspectionPhoto' + side).addEventListener('change', function () {
+          document.getElementById('btnInspectionPhoto' + side).classList.toggle('has-file', this.files && this.files.length > 0);
+          updateInspectionPhotoButtonTexts();
+        });
       });
 
       document.getElementById('inspectionForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var vehicleVal = document.getElementById('inspectionVehicle').value;
         var number = document.getElementById('inspectionNumber').value.trim();
-        var photoInput = document.getElementById('inspectionPhoto');
-        var fileCount = photoInput.files ? photoInput.files.length : 0;
-        if (!vehicleVal || !number || fileCount === 0) {
+        var front = document.getElementById('inspectionPhotoFront').files && document.getElementById('inspectionPhotoFront').files[0];
+        var right = document.getElementById('inspectionPhotoRight').files && document.getElementById('inspectionPhotoRight').files[0];
+        var rear = document.getElementById('inspectionPhotoRear').files && document.getElementById('inspectionPhotoRear').files[0];
+        var left = document.getElementById('inspectionPhotoLeft').files && document.getElementById('inspectionPhotoLeft').files[0];
+        if (!vehicleVal || !number || !front || !right || !rear || !left) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('inspectionTitle'), message: msg, buttons: [{ type: 'ok' }] });
           else showAlert(msg);
@@ -1306,27 +1313,40 @@
         var btn = document.getElementById('inspectionSubmit');
         var vehicleLabel = vehicleVal === 'car' ? t('vehicleCar') : (vehicleVal === 'scooter' ? t('vehicleScooter') : t('vehicleBicycle'));
         setButtonLoading(btn, true);
-        Promise.all(Array.from(photoInput.files).map(function (f) { return compressImageToBase64(f, 800, 0.7); }))
-          .then(function (photoArr) {
-            return sendData({
-              type: 'inspection',
-              vehicle: vehicleLabel,
-              vehicleNumber: number,
-              photo4Sides: photoArr.filter(Boolean),
-              username: getTelegramUsername()
-            });
-          })
-          .then(function () {
-            setButtonLoading(btn, false);
-            showScreen('mainMenu');
-            document.getElementById('inspectionForm').reset();
-            document.getElementById('btnInspectionPhoto').classList.remove('has-file');
-            photoInput.value = '';
-            updateInspectionPhotoButtonText();
-          })
-          .catch(function () {
-            setButtonLoading(btn, false);
+        Promise.all([
+          compressImageToBase64(front, 800, 0.7),
+          compressImageToBase64(right, 800, 0.7),
+          compressImageToBase64(rear, 800, 0.7),
+          compressImageToBase64(left, 800, 0.7)
+        ]).then(function (arr) {
+          return sendData({
+            type: 'inspection',
+            vehicle: vehicleLabel,
+            vehicleNumber: number,
+            photoFront: arr[0] || '',
+            photoRight: arr[1] || '',
+            photoRear: arr[2] || '',
+            photoLeft: arr[3] || '',
+            username: getTelegramUsername()
           });
+        }).then(function () {
+          setButtonLoading(btn, false);
+          var infoMsg = t('inspectionSuccessInfo');
+          if (tg && tg.showPopup) {
+            tg.showPopup({ title: '', message: infoMsg, buttons: [{ type: 'ok' }] });
+          } else {
+            showAlert(infoMsg);
+          }
+          showScreen('mainMenu');
+          document.getElementById('inspectionForm').reset();
+          ['Front', 'Right', 'Rear', 'Left'].forEach(function (side) {
+            document.getElementById('btnInspectionPhoto' + side).classList.remove('has-file');
+            document.getElementById('inspectionPhoto' + side).value = '';
+          });
+          updateInspectionPhotoButtonTexts();
+        }).catch(function () {
+          setButtonLoading(btn, false);
+        });
       });
 
       document.getElementById('btnIssueOswiadczenie').addEventListener('click', function () {
