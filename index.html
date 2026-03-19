@@ -415,6 +415,9 @@
       <button type="button" class="menu-item" data-screen="orderScreen">
         <span class="menu-item-text" id="menuAccessory">Kup akcesorium</span>
       </button>
+      <button type="button" class="menu-item" data-screen="serviceScreen">
+        <span class="menu-item-text" id="menuService">Serwis</span>
+      </button>
     </nav>
   </div>
 
@@ -518,6 +521,10 @@
     <h2 id="inspectionTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
     <form id="inspectionForm">
       <div class="form-group">
+        <label for="inspectionName" id="labelInspectionName"></label>
+        <input type="text" id="inspectionName" name="fullName" required>
+      </div>
+      <div class="form-group">
         <label for="inspectionVehicle" id="labelInspectionVehicle"></label>
         <select id="inspectionVehicle" name="vehicle" required>
           <option value="" data-i18n="issueChooseType"></option>
@@ -529,6 +536,10 @@
       <div class="form-group">
         <label for="inspectionNumber" id="labelInspectionNumber"></label>
         <input type="text" id="inspectionNumber" name="vehicleNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="inspectionMileage" id="labelInspectionMileage"></label>
+        <input type="text" id="inspectionMileage" name="mileage" required>
       </div>
       <div class="file-upload-wrap">
         <label id="labelInspectionPhotoFront"></label>
@@ -550,7 +561,40 @@
         <input type="file" id="inspectionPhotoLeft" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
         <button type="button" class="btn-attach-photo" id="btnInspectionPhotoLeft"><span id="btnInspectionPhotoLeftText"></span></button>
       </div>
+      <div class="file-upload-wrap" id="inspectionInteriorWrap">
+        <label id="labelInspectionPhotoInterior"></label>
+        <p class="file-upload-sub" id="inspectionInteriorHint"></p>
+        <input type="file" id="inspectionPhotoInterior" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnInspectionPhotoInterior"><span id="btnInspectionPhotoInteriorText"></span></button>
+      </div>
       <button type="submit" class="btn-submit" id="inspectionSubmit"></button>
+    </form>
+  </div>
+
+  <div id="serviceScreen" class="screen">
+    <button type="button" class="btn-back" data-back="mainMenu" id="serviceBack"><span aria-hidden="true">←</span> <span id="btnBackService"></span></button>
+    <h2 id="serviceTitle" style="font-size:1.25rem;font-weight:600;margin-bottom:20px;color:var(--text);"></h2>
+    <form id="serviceForm">
+      <div class="form-group">
+        <label for="serviceName" id="labelServiceName"></label>
+        <input type="text" id="serviceName" name="fullName" required>
+      </div>
+      <div class="form-group">
+        <label for="serviceNumber" id="labelServiceNumber"></label>
+        <input type="text" id="serviceNumber" name="vehicleNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="serviceDescription" id="labelServiceDescription"></label>
+        <textarea id="serviceDescription" name="description" rows="4" required placeholder=""></textarea>
+      </div>
+      <div class="file-upload-wrap">
+        <label id="labelServicePhoto"></label>
+        <input type="file" id="servicePhoto" class="file-input-hidden" accept="image/*" capture="environment" aria-hidden="true">
+        <button type="button" class="btn-attach-photo" id="btnServicePhoto">
+          <span id="btnServicePhotoText"></span>
+        </button>
+      </div>
+      <button type="submit" class="btn-submit" id="serviceSubmit"></button>
     </form>
   </div>
 
@@ -662,16 +706,22 @@
           menuIssue: 'Wypadek drogowy',
           issueInfoPopup: 'Tu zgłaszaj wyłącznie wypadki drogowe, serwisy HopCity zgłaszaj w aplikacji HopCity.',
           menuAccessory: 'Kup akcesorium',
+          menuService: 'Serwis',
+          serviceInfoPopup: 'Tutaj zgłaszaj wyłącznie serwisy samochodów. Serwisy skuterów i rowerów zgłaszaj w aplikacji HopCity.',
           back: 'Wstecz',
           inDevelopment: 'W przygotowaniu',
           labelRentalVehicle: 'Transport *',
           inspectionTitle: 'Zakończenie wynajmu',
+          labelInspectionName: 'Imię i nazwisko jak w Bink *',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Numer pojazdu *',
+          labelInspectionMileage: 'Przebieg (km) *',
           labelInspectionPhotoFront: 'Zrób zdjęcie z przodu *',
           labelInspectionPhotoRight: 'Zrób zdjęcie z prawej strony *',
           labelInspectionPhotoRear: 'Zrób zdjęcie z tyłu *',
           labelInspectionPhotoLeft: 'Zrób zdjęcie z lewej strony *',
+          labelInspectionPhotoInterior: 'Zdjęcie salonu *',
+          inspectionInteriorHint: 'Zrób jasne zdjęcie całego wnętrza: kierownicy, deski rozdzielczej, foteli i podłogi. Upewnij się, że wszystko jest dobrze widoczne.',
           btnInspectionPhoto: 'Wybierz zdjęcie',
           inspectionSubmit: 'Wyślij',
           inspectionSuccessInfo: 'Dziękujemy! Oczekuj na kontakt pracownika Lite.',
@@ -708,7 +758,16 @@
           labelOrderLastName: 'Nazwisko (w Bink) *',
           labelOrderPhone: 'Numer telefonu (w Bink) *',
           btnSubmitOrder: 'Zamówić',
-          btnBackOrder: 'Wstecz'
+          btnBackOrder: 'Wstecz',
+          serviceTitle: 'Serwis',
+          labelServiceName: 'Imię i nazwisko jak w Bink *',
+          labelServiceNumber: 'Numer rejestracyjny *',
+          labelServiceDescription: 'Opis problemu *',
+          placeholderServiceDescription: 'Opisz krótko i konkretnie, co się dzieje z samochodem.',
+          labelServicePhoto: 'Zdjęcie problemu *',
+          btnServicePhoto: 'Dołącz zdjęcie',
+          serviceSubmit: 'Wyślij',
+          serviceSuccessInfo: 'Dziękujemy! Zgłoszenie serwisowe zostało wysłane.'
         },
         ua: {
           titleRent: 'Rent',
@@ -764,16 +823,22 @@
           menuIssue: 'Дорожня аварія',
           issueInfoPopup: 'Тут приймаються лише дорожні аварії, сервіси HopCity — у додатку HopCity.',
           menuAccessory: 'Купити аксесуар',
+          menuService: 'Сервіс',
+          serviceInfoPopup: 'Тут можна повідомляти лише про сервіси авто. Сервіси скутерів і велосипедів надсилайте в додатку HopCity.',
           back: 'Назад',
           inDevelopment: 'В розробці',
           labelRentalVehicle: 'Транспорт *',
           inspectionTitle: 'Завершення оренди',
+          labelInspectionName: 'Ім\'я та прізвище як у Bink *',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТЗ *',
+          labelInspectionMileage: 'Пробіг (км) *',
           labelInspectionPhotoFront: 'Зробіть фото спереду *',
           labelInspectionPhotoRight: 'Зробіть фото з правого боку *',
           labelInspectionPhotoRear: 'Зробіть фото ззаду *',
           labelInspectionPhotoLeft: 'Зробіть фото з лівого боку *',
+          labelInspectionPhotoInterior: 'Фото салону *',
+          inspectionInteriorHint: 'Зробіть світле фото всього салону: кермо, панель приладів, сидіння та підлога мають бути добре видимі.',
           btnInspectionPhoto: 'Обрати фото',
           inspectionSubmit: 'Надіслати',
           inspectionSuccessInfo: 'Дякуємо! Очікуйте на зв\'язок від співробітника Lite.',
@@ -810,7 +875,16 @@
           labelOrderLastName: 'Прізвище (у Bink) *',
           labelOrderPhone: 'Номер телефону (у Bink) *',
           btnSubmitOrder: 'Замовити',
-          btnBackOrder: 'Назад'
+          btnBackOrder: 'Назад',
+          serviceTitle: 'Сервіс',
+          labelServiceName: 'Ім\'я та прізвище як у Bink *',
+          labelServiceNumber: 'Реєстраційний номер *',
+          labelServiceDescription: 'Опис проблеми *',
+          placeholderServiceDescription: 'Коротко та чітко опишіть, що не працює в авто.',
+          labelServicePhoto: 'Фото проблеми *',
+          btnServicePhoto: 'Додати фото',
+          serviceSubmit: 'Надіслати',
+          serviceSuccessInfo: 'Дякуємо! Сервісну заявку надіслано.'
         },
         ru: {
           titleRent: 'Rent',
@@ -866,16 +940,22 @@
           menuIssue: 'Авария',
           issueInfoPopup: 'Здесь только дорожные аварии, сервисы HopCity — в приложении HopCity.',
           menuAccessory: 'Купить аксессуар',
+          menuService: 'Сервис',
+          serviceInfoPopup: 'Здесь можно оставлять только сервисы машин. Сервисы скутеров и велосипедов оставляйте в приложении HopCity.',
           back: 'Назад',
           inDevelopment: 'В разработке',
           labelRentalVehicle: 'Транспорт *',
           inspectionTitle: 'Завершение аренды',
+          labelInspectionName: 'Имя и фамилия как в Bink *',
           labelInspectionVehicle: 'Транспорт *',
           labelInspectionNumber: 'Номер ТС *',
+          labelInspectionMileage: 'Пробег (км) *',
           labelInspectionPhotoFront: 'Сфотографируйте спереди *',
           labelInspectionPhotoRight: 'Сфотографируйте с правой стороны *',
           labelInspectionPhotoRear: 'Сфотографируйте сзади *',
           labelInspectionPhotoLeft: 'Сфотографируйте слева *',
+          labelInspectionPhotoInterior: 'Фото салона *',
+          inspectionInteriorHint: 'Сделайте светлое фото всего салона: руль, панель, сиденья и пол должны быть хорошо видны.',
           btnInspectionPhoto: 'Выбрать фото',
           inspectionSubmit: 'Отправить',
           inspectionSuccessInfo: 'Спасибо! Ожидайте связь от сотрудника Lite.',
@@ -912,7 +992,16 @@
           labelOrderLastName: 'Фамилия (в Bink) *',
           labelOrderPhone: 'Номер телефона (в Bink) *',
           btnSubmitOrder: 'Заказать',
-          btnBackOrder: 'Назад'
+          btnBackOrder: 'Назад',
+          serviceTitle: 'Сервис',
+          labelServiceName: 'Имя и фамилия как в Bink *',
+          labelServiceNumber: 'Регистрационный номер *',
+          labelServiceDescription: 'Описание проблемы *',
+          placeholderServiceDescription: 'Кратко и понятно опишите проблему автомобиля.',
+          labelServicePhoto: 'Фото проблемы *',
+          btnServicePhoto: 'Прикрепить фото',
+          serviceSubmit: 'Отправить',
+          serviceSuccessInfo: 'Спасибо! Сервисная заявка отправлена.'
         },
         en: {
           titleRent: 'Rent',
@@ -934,6 +1023,8 @@
           menuIssue: 'Accident',
           issueInfoPopup: 'Report here only road accidents; HopCity services — report in the HopCity app.',
           menuAccessory: 'Buy accessory',
+          menuService: 'Service',
+          serviceInfoPopup: 'Report here only car service issues. Scooter and bicycle services should be reported in the HopCity app.',
           rentalTitle: 'Book',
           labelName: 'First and last name as in Bink *',
           labelPhone: 'Phone number *',
@@ -967,12 +1058,16 @@
           inDevelopment: 'In development',
           labelRentalVehicle: 'Transport *',
           inspectionTitle: 'End rental',
+          labelInspectionName: 'First and last name as in Bink *',
           labelInspectionVehicle: 'Transport *',
           labelInspectionNumber: 'Vehicle number *',
+          labelInspectionMileage: 'Mileage (km) *',
           labelInspectionPhotoFront: 'Photo of front *',
           labelInspectionPhotoRight: 'Photo of right side *',
           labelInspectionPhotoRear: 'Photo of rear *',
           labelInspectionPhotoLeft: 'Photo of left side *',
+          labelInspectionPhotoInterior: 'Interior photo *',
+          inspectionInteriorHint: 'Take a clear photo of the full cabin: steering wheel, dashboard, seats, and floor should be visible.',
           btnInspectionPhoto: 'Choose photo',
           inspectionSubmit: 'Submit',
           inspectionSuccessInfo: 'Thank you! Please wait for a Lite employee to contact you.',
@@ -1006,7 +1101,16 @@
           labelOrderLastName: 'Last name (in Bink) *',
           labelOrderPhone: 'Phone number (in Bink) *',
           btnSubmitOrder: 'Order',
-          btnBackOrder: 'Back'
+          btnBackOrder: 'Back',
+          serviceTitle: 'Service',
+          labelServiceName: 'First and last name as in Bink *',
+          labelServiceNumber: 'Registration number *',
+          labelServiceDescription: 'Problem description *',
+          placeholderServiceDescription: 'Briefly describe what is wrong with the car.',
+          labelServicePhoto: 'Problem photo *',
+          btnServicePhoto: 'Attach photo',
+          serviceSubmit: 'Submit',
+          serviceSuccessInfo: 'Thank you! Your service request has been sent.'
         }
       };
 
@@ -1094,10 +1198,12 @@
         var menuInspection = document.getElementById('menuInspection');
         var menuIssue = document.getElementById('menuIssue');
         var menuAccessory = document.getElementById('menuAccessory');
+        var menuService = document.getElementById('menuService');
         if (menuRent) menuRent.textContent = t('menuRent');
         if (menuInspection) menuInspection.textContent = t('menuInspection');
         if (menuIssue) menuIssue.textContent = t('menuIssue');
         if (menuAccessory) menuAccessory.textContent = t('menuAccessory');
+        if (menuService) menuService.textContent = t('menuService');
 
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
           var key = el.getAttribute('data-i18n');
@@ -1124,12 +1230,16 @@
         }
 
         document.getElementById('inspectionTitle').textContent = t('inspectionTitle');
+        document.getElementById('labelInspectionName').innerHTML = (t('labelInspectionName') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelInspectionVehicle').textContent = t('labelInspectionVehicle');
         document.getElementById('labelInspectionNumber').innerHTML = (t('labelInspectionNumber') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionMileage').innerHTML = (t('labelInspectionMileage') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelInspectionPhotoFront').innerHTML = (t('labelInspectionPhotoFront') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelInspectionPhotoRight').innerHTML = (t('labelInspectionPhotoRight') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelInspectionPhotoRear').innerHTML = (t('labelInspectionPhotoRear') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelInspectionPhotoLeft').innerHTML = (t('labelInspectionPhotoLeft') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelInspectionPhotoInterior').innerHTML = (t('labelInspectionPhotoInterior') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('inspectionInteriorHint').textContent = t('inspectionInteriorHint');
         updateInspectionPhotoButtonTexts();
         document.getElementById('inspectionSubmit').textContent = t('inspectionSubmit');
         document.getElementById('btnBackInspection').textContent = t('back');
@@ -1166,16 +1276,32 @@
         document.getElementById('labelOrderPhone').innerHTML = (t('labelOrderPhone') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('orderSubmit').textContent = t('btnSubmitOrder');
         document.getElementById('btnBackOrder').textContent = t('back');
+
+        document.getElementById('serviceTitle').textContent = t('serviceTitle');
+        document.getElementById('labelServiceName').innerHTML = (t('labelServiceName') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelServiceNumber').innerHTML = (t('labelServiceNumber') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelServiceDescription').innerHTML = (t('labelServiceDescription') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('serviceDescription').placeholder = t('placeholderServiceDescription');
+        document.getElementById('labelServicePhoto').innerHTML = (t('labelServicePhoto') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('serviceSubmit').textContent = t('serviceSubmit');
+        document.getElementById('btnBackService').textContent = t('back');
+        updateServicePhotoButtonText();
       }
 
       function updateInspectionPhotoButtonTexts() {
-        var ids = ['Front', 'Right', 'Rear', 'Left'];
+        var ids = ['Front', 'Right', 'Rear', 'Left', 'Interior'];
         ids.forEach(function (side) {
           var el = document.getElementById('btnInspectionPhoto' + side + 'Text');
           var input = document.getElementById('inspectionPhoto' + side);
           var hasFile = input.files && input.files.length > 0;
           if (el) el.textContent = hasFile ? t('btnPhotoAttached') : t('btnInspectionPhoto');
         });
+      }
+      function updateServicePhotoButtonText() {
+        var el = document.getElementById('btnServicePhotoText');
+        var input = document.getElementById('servicePhoto');
+        var n = input.files ? input.files.length : 0;
+        if (el) el.textContent = n > 0 ? t('photoAttachedCount').replace('{{n}}', n) : t('btnServicePhoto');
       }
       function updateIssueOswiadczenieButtonText() {
         var el = document.getElementById('btnIssueOswiadczenieText');
@@ -1200,6 +1326,24 @@
             updateRentalVehicleDetail(sel.value || '');
           }
         }
+        if (screenId === 'inspectionScreen') {
+          updateInspectionInteriorVisibility();
+        }
+      }
+
+      function updateInspectionInteriorVisibility() {
+        var wrap = document.getElementById('inspectionInteriorWrap');
+        var vehicle = document.getElementById('inspectionVehicle');
+        var input = document.getElementById('inspectionPhotoInterior');
+        if (!wrap || !vehicle || !input) return;
+        var isCar = vehicle.value === 'car';
+        wrap.style.display = isCar ? '' : 'none';
+        if (!isCar) {
+          input.value = '';
+          var btn = document.getElementById('btnInspectionPhotoInterior');
+          if (btn) btn.classList.remove('has-file');
+        }
+        updateInspectionPhotoButtonTexts();
       }
 
       function initTelegram() {
@@ -1231,7 +1375,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbwyKVcMC0ZkCbJa5wTCyg4pKlvCKwp7HVLDBENOV2vkG0gFqKg59n2gfA7YevdZbtJhtg/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbxzVyvw_1x7m4epuT5BcEc_MuZcbFwSvM_Vy6dUm5Mg5JSt7zwP2raAzguPS0BZsPdafg/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1287,6 +1431,14 @@
                 tg.showPopup({ title: t('issueTitle'), message: msg, buttons: [{ type: 'ok' }] });
               } else {
                 showAlert(msg);
+              }
+            }
+            if (screenId === 'serviceScreen') {
+              var serviceMsg = t('serviceInfoPopup');
+              if (tg && tg.showPopup) {
+                tg.showPopup({ title: t('serviceTitle'), message: serviceMsg, buttons: [{ type: 'ok' }] });
+              } else {
+                showAlert(serviceMsg);
               }
             }
             showScreen(screenId);
@@ -1425,7 +1577,7 @@
         });
       });
 
-      ['Front', 'Right', 'Rear', 'Left'].forEach(function (side) {
+      ['Front', 'Right', 'Rear', 'Left', 'Interior'].forEach(function (side) {
         document.getElementById('btnInspectionPhoto' + side).addEventListener('click', function () {
           document.getElementById('inspectionPhoto' + side).click();
         });
@@ -1434,16 +1586,26 @@
           updateInspectionPhotoButtonTexts();
         });
       });
+      document.getElementById('inspectionVehicle').addEventListener('change', function () {
+        updateInspectionInteriorVisibility();
+      });
+      document.getElementById('inspectionMileage').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
 
       document.getElementById('inspectionForm').addEventListener('submit', function (e) {
         e.preventDefault();
+        var fullName = document.getElementById('inspectionName').value.trim();
         var vehicleVal = document.getElementById('inspectionVehicle').value;
         var number = document.getElementById('inspectionNumber').value.trim();
+        var mileage = document.getElementById('inspectionMileage').value.trim();
         var front = document.getElementById('inspectionPhotoFront').files && document.getElementById('inspectionPhotoFront').files[0];
         var right = document.getElementById('inspectionPhotoRight').files && document.getElementById('inspectionPhotoRight').files[0];
         var rear = document.getElementById('inspectionPhotoRear').files && document.getElementById('inspectionPhotoRear').files[0];
         var left = document.getElementById('inspectionPhotoLeft').files && document.getElementById('inspectionPhotoLeft').files[0];
-        if (!vehicleVal || !number || !front || !right || !rear || !left) {
+        var interior = document.getElementById('inspectionPhotoInterior').files && document.getElementById('inspectionPhotoInterior').files[0];
+        var interiorRequired = vehicleVal === 'car';
+        if (!fullName || !vehicleVal || !number || !mileage || !front || !right || !rear || !left || (interiorRequired && !interior)) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('inspectionTitle'), message: msg, buttons: [{ type: 'ok' }] });
           else showAlert(msg);
@@ -1456,16 +1618,20 @@
           compressImageToBase64(front, 800, 0.7),
           compressImageToBase64(right, 800, 0.7),
           compressImageToBase64(rear, 800, 0.7),
-          compressImageToBase64(left, 800, 0.7)
+          compressImageToBase64(left, 800, 0.7),
+          interior ? compressImageToBase64(interior, 800, 0.7) : Promise.resolve('')
         ]).then(function (arr) {
           return sendData({
             type: 'inspection',
+            fullName: fullName,
             vehicle: vehicleLabel,
             vehicleNumber: number,
+            mileage: mileage,
             photoFront: arr[0] || '',
             photoRight: arr[1] || '',
             photoRear: arr[2] || '',
             photoLeft: arr[3] || '',
+            photoInterior: arr[4] || '',
             username: getTelegramUsername()
           });
         }).then(function () {
@@ -1478,10 +1644,11 @@
           }
           showScreen('mainMenu');
           document.getElementById('inspectionForm').reset();
-          ['Front', 'Right', 'Rear', 'Left'].forEach(function (side) {
+          ['Front', 'Right', 'Rear', 'Left', 'Interior'].forEach(function (side) {
             document.getElementById('btnInspectionPhoto' + side).classList.remove('has-file');
             document.getElementById('inspectionPhoto' + side).value = '';
           });
+          updateInspectionInteriorVisibility();
           updateInspectionPhotoButtonTexts();
         }).catch(function () {
           setButtonLoading(btn, false);
@@ -1551,15 +1718,66 @@
         });
       });
 
+      document.getElementById('btnServicePhoto').addEventListener('click', function () {
+        document.getElementById('servicePhoto').click();
+      });
+      document.getElementById('servicePhoto').addEventListener('change', function () {
+        document.getElementById('btnServicePhoto').classList.toggle('has-file', this.files && this.files.length > 0);
+        updateServicePhotoButtonText();
+      });
+      document.getElementById('serviceForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('serviceName').value.trim();
+        var vehicleNumber = document.getElementById('serviceNumber').value.trim();
+        var description = document.getElementById('serviceDescription').value.trim();
+        var photo = document.getElementById('servicePhoto').files && document.getElementById('servicePhoto').files[0];
+        if (!name || !vehicleNumber || !description || !photo) {
+          var msg = t('fill_all_fields');
+          if (tg && tg.showPopup) tg.showPopup({ title: t('serviceTitle'), message: msg, buttons: [{ type: 'ok' }] });
+          else showAlert(msg);
+          return;
+        }
+        var btn = document.getElementById('serviceSubmit');
+        setButtonLoading(btn, true);
+        compressImageToBase64(photo, 800, 0.7).then(function (photoBase64) {
+          return sendData({
+            type: 'service',
+            fullName: name,
+            vehicleNumber: vehicleNumber,
+            description: description,
+            photoProblem: photoBase64 || '',
+            username: getTelegramUsername()
+          });
+        }).then(function () {
+          setButtonLoading(btn, false);
+          var infoMsg = t('serviceSuccessInfo');
+          if (tg && tg.showPopup) {
+            tg.showPopup({ title: '', message: infoMsg, buttons: [{ type: 'ok' }] });
+          } else {
+            showAlert(infoMsg);
+          }
+          showScreen('mainMenu');
+          document.getElementById('serviceForm').reset();
+          document.getElementById('btnServicePhoto').classList.remove('has-file');
+          document.getElementById('servicePhoto').value = '';
+          updateServicePhotoButtonText();
+        }).catch(function (err) {
+          setButtonLoading(btn, false);
+          console.error(err);
+        });
+      });
+
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
           initNavigation();
           applyLang();
+          updateInspectionInteriorVisibility();
           initTelegram();
         });
       } else {
         initNavigation();
         applyLang();
+        updateInspectionInteriorVisibility();
         initTelegram();
       }
     })();
