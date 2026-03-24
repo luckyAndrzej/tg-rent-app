@@ -586,6 +586,10 @@
         <input type="tel" id="servicePhone" name="phone" required placeholder="+48 123 456 789" oninput="this.value=this.value.replace(/[^0-9+]/g,'')">
       </div>
       <div class="form-group">
+        <label for="serviceDarkStoreAddress" id="labelServiceDarkStoreAddress"></label>
+        <input type="text" id="serviceDarkStoreAddress" name="darkStoreAddress" required>
+      </div>
+      <div class="form-group">
         <label for="serviceNumber" id="labelServiceNumber"></label>
         <input type="text" id="serviceNumber" name="vehicleNumber" required>
       </div>
@@ -774,6 +778,7 @@
           serviceTitle: 'Serwis',
           labelServiceName: 'Imię i nazwisko jak w Bink *',
           labelServicePhone: 'Numer telefonu *',
+          labelServiceDarkStoreAddress: 'Adres Twojego Dark Store *',
           labelServiceNumber: 'Numer rejestracyjny / id roweru *',
           labelServiceDescription: 'Opis problemu *',
           placeholderServiceDescription: 'Opisz szczegółowo i możliwie precyzyjnie, co dzieje się z samochodem.',
@@ -895,6 +900,7 @@
           serviceTitle: 'Сервіс',
           labelServiceName: 'Ім\'я та прізвище як у Bink *',
           labelServicePhone: 'Номер телефону *',
+          labelServiceDarkStoreAddress: 'Адреса твого Dark Store *',
           labelServiceNumber: 'Реєстраційний номер / id велосипеда *',
           labelServiceDescription: 'Опис проблеми *',
           placeholderServiceDescription: 'Опишіть проблему детально та максимально зрозуміло.',
@@ -1016,6 +1022,7 @@
           serviceTitle: 'Сервис',
           labelServiceName: 'Имя и фамилия как в Bink *',
           labelServicePhone: 'Номер телефона *',
+          labelServiceDarkStoreAddress: 'Адрес твоего Dark Store *',
           labelServiceNumber: 'Регистрационный номер / id велосипеда *',
           labelServiceDescription: 'Описание проблемы *',
           placeholderServiceDescription: 'Опишите проблему подробно и по возможности максимально точно.',
@@ -1129,6 +1136,7 @@
           serviceTitle: 'Service',
           labelServiceName: 'First and last name as in Bink *',
           labelServicePhone: 'Phone number *',
+          labelServiceDarkStoreAddress: 'Your Dark Store address *',
           labelServiceNumber: 'Registration number / bike ID *',
           labelServiceDescription: 'Problem description *',
           placeholderServiceDescription: 'Please describe the issue in detail, with as much useful context as possible.',
@@ -1310,6 +1318,7 @@
         document.getElementById('serviceTitle').textContent = t('serviceTitle');
         document.getElementById('labelServiceName').innerHTML = (t('labelServiceName') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelServicePhone').innerHTML = (t('labelServicePhone') || '').replace(' *', '') + ' <span class="required-star">*</span>';
+        document.getElementById('labelServiceDarkStoreAddress').innerHTML = (t('labelServiceDarkStoreAddress') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelServiceNumber').innerHTML = (t('labelServiceNumber') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('labelServiceDescription').innerHTML = (t('labelServiceDescription') || '').replace(' *', '') + ' <span class="required-star">*</span>';
         document.getElementById('serviceDescription').placeholder = t('placeholderServiceDescription');
@@ -1407,7 +1416,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbwK2eaAwu6bJ76d6A5I5oOXFvlLZazDg8tAYO_JabsRxOZ_TzOxM4ufC8BMbWnxDSWXCQ/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbzXy3cjiERYgLOZBUVip7UhbKT3BZAEhgSZOB3BJQ-fGw4h_a_RVsXwEquIpkNfXtYzeQ/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1767,10 +1776,11 @@
         e.preventDefault();
         var name = document.getElementById('serviceName').value.trim();
         var phone = document.getElementById('servicePhone').value.trim();
+        var darkStoreAddress = document.getElementById('serviceDarkStoreAddress').value.trim();
         var vehicleNumber = document.getElementById('serviceNumber').value.trim();
         var description = document.getElementById('serviceDescription').value.trim();
         var photo = document.getElementById('servicePhoto').files && document.getElementById('servicePhoto').files[0];
-        if (!name || !phone || !vehicleNumber || !description || !photo) {
+        if (!name || !phone || !darkStoreAddress || !vehicleNumber || !description || !photo) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('serviceTitle'), message: msg, buttons: [{ type: 'ok' }] });
           else showAlert(msg);
@@ -1784,6 +1794,7 @@
             type: 'service',
             fullName: name,
             phone: phoneForSheet,
+            darkStoreAddress: darkStoreAddress,
             vehicleNumber: vehicleNumber,
             description: description,
             photoProblem: photoBase64 || '',
