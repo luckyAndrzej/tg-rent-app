@@ -1416,7 +1416,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbyLiIl8yyedWK4oGpiNGm96ylTJQqJl07Wq6xXivc7GUPBeT6_ggkuFBQDhMW2AFhh0rw/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbznY899Z3F_SwuNEiCGVUrL5nZCNad-lZnc_O_siALA5gdJlWp4PMiyyjWbgIlfQp_UBg/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1802,12 +1802,6 @@
           });
         }).then(function () {
           setButtonLoading(btn, false);
-          var infoMsg = t('serviceSuccessInfo');
-          if (tg && tg.showPopup) {
-            tg.showPopup({ title: '', message: infoMsg, buttons: [{ type: 'ok' }] });
-          } else {
-            showAlert(infoMsg);
-          }
           showScreen('mainMenu');
           document.getElementById('serviceForm').reset();
           document.getElementById('btnServicePhoto').classList.remove('has-file');
