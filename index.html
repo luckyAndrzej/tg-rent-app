@@ -1627,6 +1627,7 @@
         var name = document.getElementById('rentalName').value.trim();
         var phone = document.getElementById('rentalPhone').value.trim();
         var periodVal = document.getElementById('rentalPeriod').value;
+        var telegramUserInfo = getTelegramUserInfo();
         if (!vehicleType || !name || !phone || !periodVal) {
           var msg = t('fill_all_fields');
           if (tg && tg.showPopup) tg.showPopup({ title: t('rentalTitle'), message: msg, buttons: [{ type: 'ok' }] });
@@ -1645,7 +1646,8 @@
           name: name,
           phone: phoneForSheet,
           period: periodLabel,
-          username: getTelegramUsername()
+          username: getTelegramUsername(),
+          userId: telegramUserInfo && telegramUserInfo.userId ? telegramUserInfo.userId : ''
         }).then(function () {
           setButtonLoading(btn, false);
           showScreen('mainMenu');
