@@ -1429,7 +1429,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbxuO8M-Tm4H6vT3MsG-82Xf0f9VaHKlIpB4d7m3LSkY3aWtEMj5AcL5gzZratKFn4I9HQ/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbyPLJaxcFRBxnczrOUhHoxEIyH_94dq-2zZRgQumCaP-u2ht9306oyZLtnHGB7a86R9eA/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1462,7 +1462,7 @@
           if (window.localStorage && localStorage.getItem(storageKey) === '1') return;
         } catch (err) {}
 
-        fetch(' https://script.google.com/macros/s/AKfycbxuO8M-Tm4H6vT3MsG-82Xf0f9VaHKlIpB4d7m3LSkY3aWtEMj5AcL5gzZratKFn4I9HQ/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbyPLJaxcFRBxnczrOUhHoxEIyH_94dq-2zZRgQumCaP-u2ht9306oyZLtnHGB7a86R9eA/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },

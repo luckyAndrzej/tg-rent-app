@@ -96,9 +96,9 @@ function doPost(e) {
     else if (data.type === 'rental') {
       var sheet = ss.getSheetByName('Rentals') || ss.insertSheet('Rentals');
       if (sheet.getLastRow() === 0) {
-        sheet.appendRow(['Дата', 'TG Nick', 'Pojazd', 'Imię i Nazwisko', 'Telefon', 'Okres']);
+        sheet.appendRow(['Дата', 'TG Nick', 'TG ID', 'Pojazd', 'Imię i Nazwisko', 'Telefon', 'Okres']);
       }
-      sheet.appendRow([new Date(), username, data.vehicle || '', data.name || '', safePhone, data.period || '']);
+      sheet.appendRow([new Date(), username, visitorUserId, data.vehicle || '', data.name || '', safePhone, data.period || '']);
     }
 
     // ==========================================
