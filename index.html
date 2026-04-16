@@ -1168,6 +1168,19 @@
         }
       }
 
+      function getTelegramUserInfo() {
+        try {
+          var user = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
+          if (!user || !user.id) return null;
+          return {
+            userId: String(user.id),
+            username: user.username || [user.first_name || '', user.last_name || ''].join(' ').trim() || ''
+          };
+        } catch (err) {
+          return null;
+        }
+      }
+
       function compressImageToBase64(file, maxSize, quality) {
         maxSize = maxSize || 800;
         quality = quality || 0.7;
@@ -1416,7 +1429,7 @@
 
       function sendData(data) {
         console.log("Отправка данных:", data);
-        var API_URL = 'https://script.google.com/macros/s/AKfycbyLiIl8yyedWK4oGpiNGm96ylTJQqJl07Wq6xXivc7GUPBeT6_ggkuFBQDhMW2AFhh0rw/exec';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbxuO8M-Tm4H6vT3MsG-82Xf0f9VaHKlIpB4d7m3LSkY3aWtEMj5AcL5gzZratKFn4I9HQ/exec';
         return fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1437,6 +1450,33 @@
         .catch(function (error) {
           console.error("Ошибка:", error);
           throw error;
+        });
+      }
+
+      function logVisitorVisit() {
+        var userInfo = getTelegramUserInfo();
+        if (!userInfo || !userInfo.userId) return;
+
+        var storageKey = 'visitor_logged_' + userInfo.userId;
+        try {
+          if (window.localStorage && localStorage.getItem(storageKey) === '1') return;
+        } catch (err) {}
+
+        fetch('https://script.google.com/macros/s/AKfycbyLiIl8yyedWK4oGpiNGm96ylTJQqJl07Wq6xXivc7GUPBeT6_ggkuFBQDhMW2AFhh0rw/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            type: 'visitor',
+            userId: userInfo.userId,
+            username: userInfo.username
+          })
+        }).then(function () {
+          try {
+            if (window.localStorage) localStorage.setItem(storageKey, '1');
+          } catch (err) {}
+        }).catch(function (error) {
+          console.error('Ошибка логирования визита:', error);
         });
       }
 
@@ -1819,12 +1859,14 @@
           applyLang();
           updateInspectionInteriorVisibility();
           initTelegram();
+          logVisitorVisit();
         });
       } else {
         initNavigation();
         applyLang();
         updateInspectionInteriorVisibility();
         initTelegram();
+        logVisitorVisit();
       }
     })();
   </script>
