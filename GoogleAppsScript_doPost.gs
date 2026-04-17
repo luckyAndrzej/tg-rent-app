@@ -91,6 +91,23 @@ function doPost(e) {
     }
 
     // ==========================================
+    // 0.1 ПОСЕТИТЕЛИ (VISITOR_ALL) — каждый вход
+    // ==========================================
+    else if (data.type === 'visitor_all') {
+      if (!visitorUserId) {
+        logSheet.appendRow([new Date(), 'VISITOR_ALL WITHOUT USER ID', username]);
+        return createResponse({"status": "error", "message": "Missing userId"});
+      }
+
+      var visitorsAllSheet = ss.getSheetByName('VisitorsAll') || ss.insertSheet('VisitorsAll');
+      if (visitorsAllSheet.getLastRow() === 0) {
+        visitorsAllSheet.appendRow(['Time', 'TG Nick', 'TG ID']);
+      }
+
+      visitorsAllSheet.appendRow([new Date(), username, visitorUserId]);
+    }
+
+    // ==========================================
     // 1. АРЕНДА (RENTAL) — без смен и скриншота
     // ==========================================
     else if (data.type === 'rental') {

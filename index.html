@@ -1457,24 +1457,15 @@
         var userInfo = getTelegramUserInfo();
         if (!userInfo || !userInfo.userId) return;
 
-        var storageKey = 'visitor_logged_' + userInfo.userId;
-        try {
-          if (window.localStorage && localStorage.getItem(storageKey) === '1') return;
-        } catch (err) {}
-
         fetch('https://script.google.com/macros/s/AKfycbyPLJaxcFRBxnczrOUhHoxEIyH_94dq-2zZRgQumCaP-u2ht9306oyZLtnHGB7a86R9eA/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
-            type: 'visitor',
+            type: 'visitor_all',
             userId: userInfo.userId,
             username: userInfo.username
           })
-        }).then(function () {
-          try {
-            if (window.localStorage) localStorage.setItem(storageKey, '1');
-          } catch (err) {}
         }).catch(function (error) {
           console.error('Ошибка логирования визита:', error);
         });
